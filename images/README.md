@@ -7,7 +7,7 @@ da unidade de Lisboa, mantendo os mesmos nomes:
 | Ficheiro | Onde é usado |
 |---|---|
 | `logobranca.png` | cabeçalho e rodapé |
-| `hero.webp` | fundo do hero (`assets/css/style.css`, regra `.hero`) |
+| `fundo.webp` | fundo fixo da página (`assets/css/style.css`, regra `.bg-fixed`) |
 | `limpezasofa.webp` | card "Limpeza de Sofás" |
 | `limpezacolchao.webp` | card "Limpeza de Colchões" |
 | `impermeabilizacao.webp` | card "Impermeabilização" |
@@ -15,7 +15,11 @@ da unidade de Lisboa, mantendo os mesmos nomes:
 
 `favicon.svg` já está incluído (placeholder — trocar pelo ícone oficial).
 
-Nota: a página do Porto não expõe o URL da imagem de fundo do hero na lista de
-`document.images` (é aplicada por CSS). Para a obter: F12 → Elements →
-seleccionar a secção do hero → ver a propriedade `background-image` no painel
-Styles.
+Nota sobre o fundo: a página do Porto não usa `background-attachment: fixed`.
+Tem dois elementos próprios logo a abrir o `<body>` — `.bg-fixed` (a fotografia)
+e `.bg-overlay` (o véu escuro por cima) — que cobrem a página toda, não só o
+hero. Para obter o URL da fotografia, no Console da página do Porto:
+
+```js
+copy(getComputedStyle(document.querySelector('.bg-fixed')).backgroundImage)
+```
