@@ -2,33 +2,16 @@
 (function () {
   'use strict';
 
-  /* Número de WhatsApp da unidade, no formato internacional sem "+". */
+  /* Número de WhatsApp da unidade, formato internacional sem "+".
+     Os links .js-wa no HTML já apontam para este número; alterar aqui
+     mantém o formulário e os botões coerentes. */
   var WHATSAPP = '351000000000';
 
-  /* ---------------------------------------------------- menu mobile ---- */
-  var toggle = document.querySelector('.nav__toggle');
-  var menu   = document.getElementById('nav-menu');
-
-  if (toggle && menu) {
-    toggle.addEventListener('click', function () {
-      var open = menu.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-    });
-
-    menu.addEventListener('click', function (e) {
-      if (e.target.closest('a')) {
-        menu.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  /* ---------------------------------------------------- ano no rodapé -- */
+  /* Ano corrente no rodapé. */
   var ano = document.getElementById('ano');
   if (ano) { ano.textContent = String(new Date().getFullYear()); }
 
-  /* ---------------------------------------------------- formulário ----- */
+  /* Formulário: valida e abre o WhatsApp com a mensagem preenchida. */
   var form = document.getElementById('form-orcamento');
   if (!form) { return; }
 
@@ -45,16 +28,15 @@
 
     var d = new FormData(form);
     var linhas = [
-      'Olá! Gostaria de um orçamento — Doutor Sofá Lisboa.',
+      'Olá, preciso de um orçamento — Doutor Sofá Lisboa.',
       '',
       'Nome: ' + d.get('nome'),
-      'Telemóvel: ' + d.get('telefone'),
-      'Zona: ' + d.get('zona'),
+      'Telemóvel: ' + d.get('telemovel'),
       'Serviço: ' + d.get('servico')
     ];
 
-    var detalhes = (d.get('detalhes') || '').toString().trim();
-    if (detalhes) { linhas.push('Detalhes: ' + detalhes); }
+    var descricao = (d.get('descricao') || '').toString().trim();
+    if (descricao) { linhas.push('Descrição: ' + descricao); }
 
     window.open(
       'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(linhas.join('\n')),
