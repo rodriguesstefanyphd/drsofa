@@ -12,7 +12,7 @@
 <meta property="og:description" content="Limpeza e higienização de sofás, colchões e estofos ao domicílio em Lisboa. Orçamento gratuito por WhatsApp.">
 <meta property="og:url" content="https://lisboa.doutorsofa.pt/">
 <meta property="og:image" content="https://lisboa.doutorsofa.pt/images/capa.jpg">
-<meta name="theme-color" content="#0B4A44">
+<meta name="theme-color" content="#1A1A1A">
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="images/favicon.png" sizes="96x96">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -84,14 +84,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <style>
 :root{
-  --tinta:#14252E;
-  --tinta-suave:#4C5F69;
-  --banda:#EFF3F2;
-  --teal:#0B4A44;
+  /* Cores da marca: amarelo Doutor Sofá sobre preto */
+  --amarelo:#FFD100;
+  --amarelo-escuro:#E6BC00;
+  --carvao:#1A1A1A;      /* fundos escuros: cabeçalho, herói, CTA final */
+  --preto:#101010;       /* rodapé */
+  --tinta:#1C1C1C;       /* texto corrente */
+  --tinta-suave:#5C5C5C;
+  --banda:#F5F5F3;
+  --borda:#E3E3DF;
+  /* Verde reservado ao WhatsApp — é a cor que as pessoas associam à app */
   --acao:#128C42;
   --acao-escuro:#0D6E33;
-  --areia:#D9C7A7;
-  --borda:#DDE4E3;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -119,11 +123,11 @@ img{max-width:100%;display:block}
 .env{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
 section{padding:56px 0}
 .banda{background:var(--banda)}
-.escura{background:var(--teal);color:#fff}
+.escura{background:var(--carvao);color:#fff}
 .escura h2{color:#fff}
 
 /* Barra superior */
-.topo{background:var(--teal);color:#fff;padding:12px 0}
+.topo{background:var(--carvao);color:#fff;padding:12px 0}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
 .topo .marca img{height:34px;width:auto;flex:0 0 auto}
@@ -137,14 +141,14 @@ section{padding:56px 0}
 
 /* Herói */
 .heroi{
-  background:linear-gradient(180deg,rgba(11,74,68,.88),rgba(11,74,68,.94)),
-             url('images/capa.jpg') center/cover no-repeat #0B4A44;
+  background:linear-gradient(180deg,rgba(26,26,26,.86),rgba(26,26,26,.93)),
+             url('images/capa.jpg') center/cover no-repeat var(--carvao);
   color:#fff;padding:52px 0 46px;
 }
 .heroi h1{color:#fff;max-width:16ch}
-.heroi .sub{font-size:1.08rem;margin-top:14px;max-width:46ch;color:#DCEAE7}
+.heroi .sub{font-size:1.08rem;margin-top:14px;max-width:46ch;color:#DBDBDB}
 .selo{
-  display:inline-block;border:1px solid rgba(217,199,167,.55);color:var(--areia);
+  display:inline-block;border:1px solid rgba(255,209,0,.5);color:var(--amarelo);
   padding:5px 12px;border-radius:2px;font-size:.82rem;margin-bottom:18px;
 }
 .btn{
@@ -154,12 +158,14 @@ section{padding:56px 0}
   transition:background .15s ease;
 }
 .btn:hover,.btn:focus-visible{background:var(--acao-escuro)}
+.btn-marca{background:var(--amarelo);color:var(--carvao)}
+.btn-marca:hover,.btn-marca:focus-visible{background:var(--amarelo-escuro)}
 .btn-linha{background:transparent;border:1.5px solid rgba(255,255,255,.5);color:#fff}
 .btn-linha:hover{background:rgba(255,255,255,.12)}
 .acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .pontos{list-style:none;margin-top:28px;display:grid;gap:9px}
-.pontos li{padding-left:26px;position:relative;color:#DCEAE7;font-size:.97rem}
-.pontos li::before{content:"✓";position:absolute;left:0;color:var(--areia);font-weight:700}
+.pontos li{padding-left:26px;position:relative;color:#DBDBDB;font-size:.97rem}
+.pontos li::before{content:"✓";position:absolute;left:0;color:var(--amarelo);font-weight:700}
 
 /* Faixa de confiança */
 .confianca{background:#fff;border-bottom:1px solid var(--borda);padding:22px 0}
@@ -173,14 +179,16 @@ section{padding:56px 0}
 .cartao img{width:100%;height:180px;object-fit:cover;background:var(--banda)}
 .cartao .corpo{padding:20px}
 .cartao p{font-size:.96rem;color:var(--tinta-suave);margin-bottom:.5rem}
-.preco{font-weight:700;color:var(--teal);font-size:.95rem}
+.preco{font-weight:700;color:var(--tinta);font-size:.95rem}
+.preco::before{content:"";display:inline-block;width:14px;height:3px;background:var(--amarelo);
+  vertical-align:middle;margin-right:8px;border-radius:2px}
 
 /* Passos */
 .passos{list-style:none;counter-reset:p;display:grid;gap:26px;margin-top:8px}
 .passos li{counter-increment:p;padding-left:52px;position:relative}
 .passos li::before{
   content:counter(p);position:absolute;left:0;top:-2px;
-  width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;
+  width:36px;height:36px;border-radius:50%;background:var(--carvao);color:var(--amarelo);
   display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;
 }
 .passos h3{margin-bottom:5px}
@@ -188,7 +196,7 @@ section{padding:56px 0}
 
 /* Avaliações */
 .avaliacao{background:#fff;border:1px solid var(--borda);border-radius:8px;padding:20px}
-.estrelas{color:#E8A33D;letter-spacing:2px;font-size:.95rem}
+.estrelas{color:#E8B400;letter-spacing:2px;font-size:.95rem}
 .avaliacao p{font-size:.97rem;margin:10px 0}
 .avaliacao cite{font-style:normal;font-weight:650;font-size:.92rem}
 .avaliacao time{display:block;color:var(--tinta-suave);font-size:.82rem}
@@ -205,7 +213,7 @@ input,select,textarea{
   width:100%;padding:13px 14px;border:1px solid #C6D1D0;border-radius:6px;
   font:inherit;font-size:1rem;background:#fff;color:var(--tinta);
 }
-input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--carvao);outline-offset:1px;border-color:var(--carvao)}
 textarea{min-height:92px;resize:vertical}
 .consentimento{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;color:var(--tinta-suave);margin-bottom:18px}
 .consentimento input{width:18px;height:18px;flex:0 0 18px;margin-top:3px}
@@ -216,12 +224,12 @@ textarea{min-height:92px;resize:vertical}
 details{border-bottom:1px solid var(--borda);padding:16px 0}
 summary{font-weight:650;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:14px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";color:var(--teal);font-size:1.35rem;line-height:1;flex:0 0 auto}
+summary::after{content:"+";color:var(--tinta);font-size:1.35rem;line-height:1;flex:0 0 auto}
 details[open] summary::after{content:"–"}
 details p{margin:12px 0 0;color:var(--tinta-suave);font-size:.97rem}
 
 /* Rodapé */
-footer{background:var(--tinta);color:#C7D2D6;padding:44px 0 32px;font-size:.9rem}
+footer{background:var(--preto);color:#C9C9C9;padding:44px 0 32px;font-size:.9rem}
 footer a{color:#fff}
 footer h3{color:#fff;margin-bottom:10px;font-size:1rem}
 footer .marca-rodape{display:block;height:46px;width:auto;margin-bottom:16px}
@@ -237,19 +245,19 @@ footer .marca-rodape{display:block;height:46px;width:auto;margin-bottom:16px}
 .barra-fixa a{flex:1;padding:14px 8px;font-size:1rem;border-radius:6px;text-decoration:none;
   display:flex;align-items:center;justify-content:center;font-weight:700}
 .barra-fixa .zap{background:var(--acao);color:#fff}
-.barra-fixa .tel{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+.barra-fixa .tel{background:#fff;color:var(--carvao);border:1.5px solid var(--carvao)}
 
 /* Cookies */
 .cookies{
   position:fixed;bottom:0;left:0;right:0;z-index:90;background:#fff;
-  border-top:2px solid var(--teal);padding:18px 20px 20px;
+  border-top:3px solid var(--amarelo);padding:18px 20px 20px;
   box-shadow:0 -8px 26px rgba(0,0,0,.16);display:none;
 }
 .cookies.visivel{display:block}
 .cookies p{font-size:.88rem;margin-bottom:14px;color:var(--tinta-suave)}
 .cookies .botoes{display:flex;gap:10px;flex-wrap:wrap}
 .cookies button{flex:1;min-width:130px;padding:13px;border-radius:6px;font:inherit;font-weight:700;cursor:pointer}
-.cookies .aceitar{background:var(--acao);color:#fff;border:none}
+.cookies .aceitar{background:var(--amarelo);color:var(--carvao);border:none}
 .cookies .recusar{background:#fff;color:var(--tinta);border:1.5px solid #C6D1D0}
 /* Enquanto o aviso de cookies estiver visível, a barra fixa fica escondida
    para não ficarem os dois sobrepostos no fundo do ecrã */
@@ -267,7 +275,7 @@ body.aviso-aberto .barra-fixa{display:none}
   .passos{grid-template-columns:repeat(2,1fr);gap:34px}
   .form{max-width:620px;margin:0 auto}
   .barra-fixa{display:none}
-  .cookies{left:auto;right:24px;bottom:24px;max-width:400px;border:1px solid var(--borda);border-top:2px solid var(--teal);border-radius:10px}
+  .cookies{left:auto;right:24px;bottom:24px;max-width:400px;border:1px solid var(--borda);border-top:3px solid var(--amarelo);border-radius:10px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -401,7 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <cite>NOME_CLIENTE_3</cite><time>DATA_3</time>
       </blockquote>
     </div>
-    <p style="margin-top:20px"><a href="LINK_PERFIL_GOOGLE" target="_blank" rel="noopener" style="color:var(--teal);font-weight:650">Ver todas as avaliações no Google</a></p>
+    <p style="margin-top:20px"><a href="LINK_PERFIL_GOOGLE" target="_blank" rel="noopener" style="color:var(--tinta);font-weight:650;text-decoration:underline">Ver todas as avaliações no Google</a></p>
   </div>
 </section>
 
@@ -456,10 +464,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="consentimento">
         <input type="checkbox" id="rgpd" name="consentimento" required value="sim">
-        <label for="rgpd" style="font-weight:400">Autorizo o contacto para resposta a este pedido de orçamento e li a <a href="privacidade.html" style="color:var(--teal)">política de privacidade</a>.</label>
+        <label for="rgpd" style="font-weight:400">Autorizo o contacto para resposta a este pedido de orçamento e li a <a href="privacidade.html" style="color:var(--tinta);text-decoration:underline">política de privacidade</a>.</label>
       </div>
 
-      <button type="submit" class="btn">Enviar pedido</button>
+      <button type="submit" class="btn btn-marca">Enviar pedido</button>
       <p class="nota-form">Prefere falar já? <a href="https://wa.me/351928313797?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20Lisboa." data-local="form" style="color:var(--acao);font-weight:700">Fale connosco no WhatsApp</a></p>
     </form>
   </div>
@@ -480,7 +488,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="escura">
   <div class="env" style="text-align:center">
     <h2>Volte a ter um sofá que dá gosto usar</h2>
-    <p style="max-width:44ch;margin:0 auto 24px;color:#DCEAE7">Envie uma foto e receba o preço hoje mesmo.</p>
+    <p style="max-width:44ch;margin:0 auto 24px;color:#DBDBDB">Envie uma foto e receba o preço hoje mesmo.</p>
     <a class="btn" href="https://wa.me/351928313797?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20Lisboa." data-local="final">Pedir orçamento no WhatsApp</a>
   </div>
 </section>
@@ -508,7 +516,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <div class="cookies" id="bannerCookies" role="dialog" aria-live="polite" aria-label="Consentimento de cookies">
-  <p>Usamos cookies para perceber como o site é utilizado e para medir a eficácia da nossa publicidade. Pode recusar sem perder qualquer funcionalidade. <a href="privacidade.html" style="color:var(--teal)">Saber mais</a>.</p>
+  <p>Usamos cookies para perceber como o site é utilizado e para medir a eficácia da nossa publicidade. Pode recusar sem perder qualquer funcionalidade. <a href="privacidade.html" style="color:var(--tinta);text-decoration:underline">Saber mais</a>.</p>
   <div class="botoes">
     <button class="recusar" id="recusarCookies">Recusar</button>
     <button class="aceitar" id="aceitarCookies">Aceitar</button>

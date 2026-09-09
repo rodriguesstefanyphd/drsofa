@@ -15,6 +15,22 @@ Publica-se como está em qualquer alojamento estático.
   do logótipo, mas os ficheiros ainda não estão no repositório** — sem eles
   aparece apenas o texto alternativo.
 
+## Marca
+
+As cores estão em variáveis CSS no topo do `<style>` de cada página:
+
+| Variável | Valor | Uso |
+|---|---|---|
+| `--amarelo` | `#FFD100` | amarelo do logótipo: selo, ✓, números dos passos, botão «Enviar pedido», aviso de cookies |
+| `--carvao` | `#1A1A1A` | cabeçalho, herói e secção final |
+| `--preto` | `#101010` | rodapé |
+| `--tinta` / `--tinta-suave` | `#1C1C1C` / `#5C5C5C` | texto |
+| `--acao` / `--acao-escuro` | `#128C42` / `#0D6E33` | **só** para os botões de WhatsApp |
+
+O verde está reservado ao WhatsApp de propósito: é a cor que as pessoas
+associam à app e ajuda o botão a ser reconhecido. As restantes acções usam o
+amarelo da marca com texto preto.
+
 ## Medição e consentimento
 
 - **Consent Mode v2** está declarado no `<head>`, **antes** do Google Tag Manager.
