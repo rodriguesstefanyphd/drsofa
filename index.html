@@ -132,12 +132,19 @@ section{padding:56px 0}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
 .topo .marca img{height:34px;width:auto;flex:0 0 auto}
-.topo .marca span{font-size:.72rem;font-weight:400;opacity:.85;letter-spacing:.04em;
+/* Alternativa em texto enquanto o ficheiro do logótipo não existir.
+   O onerror do <img> troca um pelo outro; quando o SVG for adicionado
+   à pasta images/, o texto deixa de aparecer sozinho. */
+[hidden]{display:none!important}
+.marca-texto{font-family:"Iowan Old Style",Georgia,serif;font-weight:700;
+  font-size:1.2rem;letter-spacing:-0.01em;line-height:1.1;white-space:nowrap}
+.marca-texto i{font-style:normal;color:var(--amarelo)}
+.topo .marca .unidade{font-size:.72rem;font-weight:400;opacity:.85;letter-spacing:.04em;
   border-left:1px solid rgba(255,255,255,.3);padding-left:12px;line-height:1.25}
 .topo a{color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
 @media (max-width:400px){
   .topo .marca img{height:28px}
-  .topo .marca span{display:none}
+  .topo .marca .unidade{display:none}
 }
 
 /* Herói */
@@ -234,6 +241,7 @@ footer{background:var(--preto);color:#C9C9C9;padding:44px 0 32px;font-size:.9rem
 footer a{color:#fff}
 footer h3{color:#fff;margin-bottom:10px;font-size:1rem}
 footer .marca-rodape{display:block;height:46px;width:auto;margin-bottom:16px}
+footer .marca-texto{margin-bottom:14px;font-size:1.45rem;color:#fff}
 .legal{border-top:1px solid rgba(255,255,255,.16);margin-top:26px;padding-top:18px;font-size:.82rem;line-height:1.65}
 
 /* Barra fixa mobile */
@@ -289,8 +297,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="topo">
   <div class="env">
     <a class="marca" href="index.html" aria-label="Doutor Sofá — página inicial">
-      <img src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98">
-      <span>Unidade<br>de Lisboa</span>
+      <img src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
+           onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+      <span class="marca-texto" hidden>doutor <i>sofá</i></span>
+      <span class="unidade">Unidade<br>de Lisboa</span>
     </a>
     <a href="tel:+351928313797" data-local="topo">928 313 797</a>
   </div>
@@ -496,7 +506,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer>
   <div class="env">
-    <img class="marca-rodape" src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98" loading="lazy">
+    <img class="marca-rodape" src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
+         onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+    <div class="marca-texto" hidden>doutor <i>sofá</i></div>
     <h3>Unidade de Lisboa</h3>
     <p>
       <a href="tel:+351928313797" data-local="rodape">+351 928 313 797</a><br>
