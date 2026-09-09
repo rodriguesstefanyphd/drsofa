@@ -30,8 +30,8 @@ recolorir e sem recortar o símbolo do wordmark.
 | `sofa.jpg` | cartão «Sofás e cadeirões» | 600×400 |
 | `colchao.jpg` | cartão «Colchões» | 600×400 |
 | `impermeabilizacao.jpg` | cartão «Impermeabilização» | 600×400 |
-| `antes-depois-1.jpg` | secção «Antes e depois» | 600×400 |
-| `antes-depois-2.jpg` | secção «Antes e depois» | 600×400 |
+| `antes-depois-1.jpg` | secção «Antes e depois» | 1200×800, os dois lados numa só imagem |
+| `antes-depois-2.jpg` | secção «Antes e depois» | 1200×800, os dois lados numa só imagem |
 
 Use fotografias de trabalhos reais. Comprima antes de publicar (por exemplo em
 squoosh.app) — o herói é a imagem que mais pesa no tempo de carregamento.

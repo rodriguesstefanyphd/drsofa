@@ -49,6 +49,7 @@ main{padding:44px 0 56px}
 .caixa{background:var(--banda);border:1px solid var(--borda);border-left:4px solid var(--amarelo);border-radius:8px;padding:18px 20px;margin:22px 0}
 .caixa p:last-child{margin-bottom:0}
 .tabela-env{overflow-x:auto;margin-bottom:1rem}
+.tabela-env:focus-visible{outline:2px solid var(--carvao);outline-offset:2px}
 table{border-collapse:collapse;width:100%;min-width:520px;font-size:.94rem}
 th,td{border:1px solid var(--borda);padding:10px 12px;text-align:left;vertical-align:top}
 th{background:var(--banda);font-weight:650}
@@ -120,7 +121,7 @@ footer a{color:#fff}
 
     <h2>4. Cookies e tecnologias semelhantes</h2>
     <p>Ao entrar no site, todos os cookies não essenciais estão <strong>bloqueados por predefinição</strong> (Consent Mode v2 do Google). Só são ativados depois de carregar em «Aceitar» no aviso de cookies. Se carregar em «Recusar», o site continua a funcionar na íntegra.</p>
-    <div class="tabela-env">
+    <div class="tabela-env" tabindex="0" role="region" aria-label="Categorias de cookies utilizadas">
       <table>
         <thead>
           <tr><th>Categoria</th><th>Para que serve</th><th>Precisa de consentimento?</th></tr>

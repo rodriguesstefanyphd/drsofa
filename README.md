@@ -6,6 +6,14 @@ sofás, colchões e estofos ao domicílio.
 Site estático, sem build: `index.html`, `privacidade.html` e a pasta `images/`.
 Publica-se como está em qualquer alojamento estático.
 
+> **Antes de publicar no domínio da marca:** a unidade opera sob contrato de
+> franquia que exige autorização escrita da franqueadora para qualquer página
+> ou domínio que use a marca (cláusulas 10.22, 16.1 e 16.2). A página pode ser
+> construída e testada num URL temporário, mas não deve ir para
+> `lisboa.doutorsofa.pt` nem receber tráfego pago antes dessa autorização.
+> Por isso todos os caminhos internos são relativos — o site funciona em
+> qualquer domínio. Os únicos URLs absolutos são o `canonical` e o `og:url`.
+
 ## Ficheiros
 
 - `index.html` — página principal (herói, serviços, prova social, formulário, FAQ).
@@ -14,6 +22,47 @@ Publica-se como está em qualquer alojamento estático.
   exigidos. **O cabeçalho, o rodapé e os favicons já apontam para os ficheiros
   do logótipo, mas os ficheiros ainda não estão no repositório** — sem eles
   aparece apenas o texto alternativo.
+
+## Documentos de origem
+
+Em `docs/`, tal como foram entregues:
+
+- `docs/BRIEFING-CODEX.md` — especificação: objetivo, estrutura de secções,
+  parametrização por cidade, correções a manter e critérios de aceitação.
+- `docs/LEIA-ME.md` — guia de publicação: substituições, imagens, deploy na
+  Netlify, CNAME do subdomínio e lista de verificação pré-anúncios.
+
+Estado face aos critérios de aceitação do briefing (§8):
+
+| Critério | Estado |
+|---|---|
+| Estrutura e ordem das secções | ✅ 12 secções pela ordem do briefing |
+| Sem pedidos externos além do GTM e do formulário | ✅ verificado |
+| Banner na 1.ª visita; recusar não liberta as tags | ✅ testado |
+| Formulário só submete com consentimento | ✅ testado |
+| Links `wa.me` e `tel:` bem formados | ✅ `tel:+351928313797`, `wa.me/351928313797` |
+| Nenhum `href` vazio ou mal formado | ⚠️ só `LINK_PERFIL_GOOGLE`, que é marcador |
+| Zero construções em português do Brasil | ✅ verificado |
+| Acessibilidade (contraste AA, foco, etc.) | ✅ 0 violações WCAG 2.1 AA (axe-core, 360px e 1280px) |
+| Testado a 360px com a barra fixa | ✅ sem scroll horizontal, alvos de toque de 56px |
+| `privacidade.html` criada e ligada | ✅ |
+| Três eventos visíveis no GTM Preview | ⏳ depende do ID do contentor real |
+| Lighthouse ≥ 90 desempenho / ≥ 95 acessibilidade | ⏳ medir no URL publicado, com as imagens finais |
+
+## Replicar para outra unidade
+
+A página está parametrizada para ser copiada de cidade para cidade:
+
+1. Substituir os marcadores em maiúsculas (ver mais abaixo).
+2. Trocar `var CIDADE = 'lisboa'` no script do fim do `index.html` — é o valor
+   que vai em todos os eventos de conversão e permite separar as unidades no
+   GA4 e no Google Ads.
+3. Actualizar a lista de concelhos na secção «Onde vamos», o `areaServed` do
+   JSON-LD e a segmentação geográfica dos anúncios — os três têm de coincidir.
+   Para Coimbra a área contratual é: Coimbra, Oliveira do Hospital, Mealhada,
+   Lousã, Penacova, Miranda do Corvo, Tábua, Arganil, Mortágua, Vila Nova de
+   Poiares, Penela, Pampilhosa da Serra e Góis — **não pode ser alargada**.
+4. Actualizar `canonical`, `og:url`, o telefone e o e-mail da unidade.
 
 ## Marca
 
