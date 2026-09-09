@@ -1,6 +1,28 @@
 # Imagens do site
 
-Coloque aqui os ficheiros com estes nomes exactos (são os que o `index.html` procura):
+Coloque aqui os ficheiros com estes nomes exactos — são os que o `index.html`
+e o `privacidade.html` procuram.
+
+## Logótipo
+
+O logótipo tem variantes para fundos diferentes. Prefira **SVG** (fica nítido
+em qualquer ecrã e pesa pouco); se só tiver PNG, use PNG com fundo transparente
+e actualize a extensão no HTML.
+
+| Ficheiro | Variante | Onde é usado |
+|---|---|---|
+| `logo-branco.svg` | tudo a branco | cabeçalho e rodapé (fundos escuros) — **em uso** |
+| `logo-cor.svg` | amarelo + preto | versão principal, para fundos claros |
+| `logo-escuro.svg` | cinzento escuro | monocromático, para impressão ou fundos claros |
+| `logo-compacto.svg` | amarelo, formato reduzido | espaços pequenos, assinaturas de e-mail |
+| `favicon.svg` | ícone do sofá | separador do browser |
+| `favicon.png` | ícone do sofá, 96×96 | browsers sem suporte a SVG |
+| `apple-touch-icon.png` | ícone do sofá, 180×180 | atalho no ecrã principal do iPhone |
+
+O logótipo é marca registada — use os ficheiros originais, sem esticar, sem
+recolorir e sem recortar o símbolo do wordmark.
+
+## Fotografias
 
 | Ficheiro | Onde aparece | Tamanho sugerido |
 |---|---|---|

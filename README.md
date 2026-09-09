@@ -10,7 +10,10 @@ Publica-se como está em qualquer alojamento estático.
 
 - `index.html` — página principal (herói, serviços, prova social, formulário, FAQ).
 - `privacidade.html` — política de privacidade e de cookies (RGPD).
-- `images/` — fotografias do site; ver `images/README.md` para os nomes exigidos.
+- `images/` — logótipo e fotografias; ver `images/README.md` para os nomes
+  exigidos. **O cabeçalho, o rodapé e os favicons já apontam para os ficheiros
+  do logótipo, mas os ficheiros ainda não estão no repositório** — sem eles
+  aparece apenas o texto alternativo.
 
 ## Medição e consentimento
 

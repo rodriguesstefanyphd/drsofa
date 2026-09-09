@@ -13,6 +13,9 @@
 <meta property="og:url" content="https://lisboa.doutorsofa.pt/">
 <meta property="og:image" content="https://lisboa.doutorsofa.pt/images/capa.jpg">
 <meta name="theme-color" content="#0B4A44">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="images/favicon.png" sizes="96x96">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
 <!-- ============================================================
      CONSENT MODE V2 — tem de vir ANTES de qualquer tag de marketing
@@ -122,9 +125,15 @@ section{padding:56px 0}
 /* Barra superior */
 .topo{background:var(--teal);color:#fff;padding:12px 0}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.topo .marca{font-family:"Iowan Old Style",Georgia,serif;font-size:1.16rem;font-weight:600}
-.topo .marca span{display:block;font-family:inherit;font-size:.72rem;font-weight:400;opacity:.8;letter-spacing:.04em}
+.topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
+.topo .marca img{height:34px;width:auto;flex:0 0 auto}
+.topo .marca span{font-size:.72rem;font-weight:400;opacity:.85;letter-spacing:.04em;
+  border-left:1px solid rgba(255,255,255,.3);padding-left:12px;line-height:1.25}
 .topo a{color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
+@media (max-width:400px){
+  .topo .marca img{height:28px}
+  .topo .marca span{display:none}
+}
 
 /* Herói */
 .heroi{
@@ -215,6 +224,7 @@ details p{margin:12px 0 0;color:var(--tinta-suave);font-size:.97rem}
 footer{background:var(--tinta);color:#C7D2D6;padding:44px 0 32px;font-size:.9rem}
 footer a{color:#fff}
 footer h3{color:#fff;margin-bottom:10px;font-size:1rem}
+footer .marca-rodape{display:block;height:46px;width:auto;margin-bottom:16px}
 .legal{border-top:1px solid rgba(255,255,255,.16);margin-top:26px;padding-top:18px;font-size:.82rem;line-height:1.65}
 
 /* Barra fixa mobile */
@@ -269,7 +279,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <header class="topo">
   <div class="env">
-    <div class="marca">Doutor Sofá<span>Unidade de Lisboa</span></div>
+    <a class="marca" href="index.html" aria-label="Doutor Sofá — página inicial">
+      <img src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98">
+      <span>Unidade<br>de Lisboa</span>
+    </a>
     <a href="tel:+351928313797" data-local="topo">928 313 797</a>
   </div>
 </header>
@@ -474,7 +487,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer>
   <div class="env">
-    <h3>Doutor Sofá — Unidade de Lisboa</h3>
+    <img class="marca-rodape" src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98" loading="lazy">
+    <h3>Unidade de Lisboa</h3>
     <p>
       <a href="tel:+351928313797" data-local="rodape">+351 928 313 797</a><br>
       <a href="mailto:lisboa@doutorsofa.pt">lisboa@doutorsofa.pt</a><br>
