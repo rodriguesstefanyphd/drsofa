@@ -109,9 +109,11 @@ filete amarelo debaixo do título; nas faixas escuras, onde o amarelo tem
   | `pedido_orcamento` | submissão do formulário | `cidade`, `servico` |
   | `consentimento_aceite` / `consentimento_recusado` | escolha no aviso de cookies | — |
 
-  O `local_botao` vem do atributo `data-local` de cada link (`topo`, `heroi`,
-  `form`, `final`, `rodape`, `barra_fixa`), o que permite ver no GTM/GA4 qual o
-  botão que converte.
+  O `local_botao` vem do atributo `data-local` de cada link (`topo_cta`,
+  `heroi`, `form`, `final`, `rodape`, `barra_fixa`, `flutuante`), o que permite
+  ver no GTM/GA4 qual o botão que converte. `flutuante` é o botão redondo de
+  WhatsApp no canto inferior direito, que só existe em ecrã largo: em ecrã
+  pequeno esse canto é da barra fixa, que já tem WhatsApp e Ligar.
 
 ## Antes de publicar — valores a substituir
 
