@@ -213,26 +213,64 @@ section{padding:56px 0}
   border-radius:10px;overflow:hidden;background:#E8BF00;
   aspect-ratio:4/3;
 }
-.heroi .foto img,.heroi .foto video{width:100%;height:100%;object-fit:cover;display:block}
-/* o herói mostra o vídeo; a imagem parada só entra com «reduzir movimento» */
-.heroi .foto .heroi-parado{display:none}
-/* Botão de som. Só aparece com JavaScript — sem ele não teria o que fazer. */
-.heroi .foto{position:relative}
-.som{display:none}
-.js .som{
-  display:inline-flex;align-items:center;gap:8px;
-  position:absolute;right:12px;bottom:12px;
-  min-height:44px;padding:0 16px;
-  background:var(--amarelo);color:var(--tinta);
-  border:1.5px solid rgba(28,28,28,.35);border-radius:24px;
-  font:inherit;font-size:.86rem;font-weight:700;cursor:pointer;
-  box-shadow:0 2px 10px rgba(0,0,0,.35);
-}
-.js .som:hover{background:var(--amarelo-escuro)}
-.js .som:focus-visible{outline:3px solid var(--tinta);outline-offset:2px}
-.som-icone{font-size:.9rem;line-height:1}
+.heroi .foto img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* 5. Par antes/depois lado a lado — quando as duas fotos não têm o mesmo
+/* Texto só para leitores de ecrã */
+.oculto{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
+
+/* 5. Vídeo de entrada — ecrã inteiro, depois mini-leitor no canto.
+   As duas posições são o MESMO elemento a mudar de classe: assim o vídeo
+   nunca recarrega nem volta ao início quando encolhe. */
+.intro{
+  position:fixed;inset:0;z-index:200;background:#000;
+  display:flex;align-items:flex-end;justify-content:center;
+  transition:inset .45s ease, border-radius .45s ease, box-shadow .45s ease;
+}
+.intro-video{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+/* véu por baixo dos botões, para o texto não depender do que passa no vídeo */
+.intro::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:40%;
+  background:linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0));pointer-events:none;
+}
+.intro-acoes{
+  position:relative;z-index:1;display:flex;gap:12px;flex-wrap:wrap;
+  justify-content:center;padding:0 16px 40px;
+}
+.intro-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:56px;padding:0 22px;border-radius:28px;
+  font:inherit;font-size:1rem;font-weight:700;cursor:pointer;
+}
+.intro-som{background:var(--amarelo);color:var(--tinta);border:1.5px solid rgba(28,28,28,.35)}
+.intro-som:hover{background:var(--amarelo-escuro)}
+.intro-fechar{background:#fff;color:var(--tinta);border:1.5px solid #C6D1D0}
+.intro-fechar:hover{background:#F1F1F1}
+.intro-btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.intro-fechar:focus-visible{outline-color:var(--tinta)}
+
+/* O cantinho */
+.intro.cantinho{
+  inset:auto auto 18px 18px;width:260px;height:146px;
+  border-radius:10px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.45);
+  align-items:flex-start;justify-content:flex-end;
+}
+.intro.cantinho::after{display:none}
+.intro.cantinho .intro-acoes{padding:8px;gap:6px}
+.intro.cantinho .intro-btn{min-height:32px;padding:0 10px;font-size:.78rem;border-radius:16px}
+.intro.cantinho .intro-texto,.intro.cantinho .intro-sair-texto{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
+@media (max-width:759px){
+  /* em ecrã pequeno o fundo está ocupado — barra fixa de contacto e aviso de
+     cookies —, por isso o mini-leitor vai para cima, por baixo do cabeçalho */
+  .intro.cantinho{width:172px;height:97px;top:78px;bottom:auto;left:12px}
+}
+
+/* 5b. Par antes/depois lado a lado — quando as duas fotos não têm o mesmo
    enquadramento e por isso não servem para o comparador de arrastar */
 .par{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:3/2}
 .par-lado{position:relative}
@@ -376,7 +414,7 @@ footer .marca-texto{margin-bottom:14px;font-size:1.45rem;color:#fff}
 .cookies .recusar{background:#fff;color:var(--tinta);border:1.5px solid #C6D1D0}
 /* Enquanto o aviso de cookies estiver visível, a barra fixa fica escondida
    para não ficarem os dois sobrepostos no fundo do ecrã */
-body.aviso-aberto .barra-fixa{display:none}
+body.aviso-aberto .barra-fixa,body.intro-aberta .barra-fixa{display:none}
 
 @media (min-width:760px){
   body{font-size:18px;padding-bottom:0}
@@ -396,9 +434,8 @@ body.aviso-aberto .barra-fixa{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
-  .heroi .foto video{display:none}
-  .heroi .foto .heroi-parado{display:block}
-  .js .som{display:none}
+  /* o vídeo de entrada nem chega a abrir — ver o JavaScript */
+  .intro{display:none!important}
   .js .revelar{opacity:1!important;transform:none!important}
   .cartao:hover,.avaliacao:hover,.btn:hover{transform:none!important}
 }
@@ -408,6 +445,30 @@ body.aviso-aberto .barra-fixa{display:none}
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- Vídeo de entrada.
+
+     Fica `hidden` no HTML e só o JavaScript o abre: sem JavaScript a página
+     abre logo no conteúdo, sem nada a tapá-la. As `<source>` também são postas
+     pelo JavaScript, para quem não vai ver o vídeo não gastar os 700 KB.
+
+     Em ecrã inteiro é um diálogo modal a sério — Esc fecha, o foco fica preso
+     lá dentro e volta ao título quando sai. Depois passa a mini-leitor no
+     canto, e aí deixa de ser modal. -->
+<div class="intro" id="intro" hidden role="dialog" aria-modal="true" aria-labelledby="introTitulo">
+  <video class="intro-video" id="introVideo" poster="images/heroi-poster.jpg"
+         width="1280" height="720" muted playsinline preload="none" disablepictureinpicture
+         data-webm="images/heroi.webm" data-mp4="images/heroi.mp4"></video>
+  <h2 class="oculto" id="introTitulo">Vídeo de apresentação da Doutor Sofá Lisboa</h2>
+  <div class="intro-acoes">
+    <button type="button" class="intro-btn intro-som" id="introSom" aria-pressed="false">
+      <span class="intro-icone" aria-hidden="true">🔇</span><span class="intro-texto">Ligar som</span>
+    </button>
+    <button type="button" class="intro-btn intro-fechar" id="introFechar">
+      <span aria-hidden="true">✕</span> <span class="intro-sair-texto">Ver o site</span>
+    </button>
+  </div>
+</div>
 
 <header class="topo">
   <div class="env">
@@ -428,7 +489,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="env">
     <div>
     <span class="selo">Serviço ao domicílio em Lisboa e arredores</span>
-    <h1>Limpeza e higienização de sofás ao domicílio</h1>
+    <h1 id="tituloHeroi" tabindex="-1">Limpeza e higienização de sofás ao domicílio</h1>
     <p class="sub">Removemos nódoas, ácaros, bactérias e odores no seu sofá, colchão ou tapete, sem tirar nada de casa. Orçamento gratuito em minutos.</p>
     <div class="acoes">
       <a class="btn" href="https://wa.me/351928313797?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20Lisboa." data-local="heroi">Pedir orçamento no WhatsApp</a>
@@ -441,23 +502,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </ul>
     </div>
     <div class="foto">
-      <video class="heroi-video" poster="images/heroi-poster.jpg" width="1280" height="720"
-             autoplay muted loop playsinline preload="metadata" disablepictureinpicture>
-        <source src="images/heroi.webm" type="video/webm">
-        <source src="images/heroi.mp4" type="video/mp4">
-        <img src="images/capa.jpg" alt="Técnico da Doutor Sofá a aplicar produto num sofá de tecido durante uma limpeza ao domicílio" width="1600" height="900">
-      </video>
-      <img class="heroi-parado" src="images/heroi-poster.jpg" alt="Técnico da Doutor Sofá a aspirar um sofá de tecido numa sala" width="1280" height="720">
-      <button type="button" class="som" id="botaoSom" aria-pressed="false">
-        <span class="som-icone" aria-hidden="true">🔇</span><span class="som-texto">Ligar som</span>
-      </button>
+      <img src="images/capa.jpg" alt="Técnico da Doutor Sofá a aplicar produto num sofá de tecido durante uma limpeza ao domicílio" width="1600" height="900">
     </div>
   </div>
 </div>
 
 <div class="confianca">
   <div class="env">
-    <div><b>★ AVALIACAO_GOOGLE</b><small>NUMERO_AVALIACOES avaliações no Google</small></div>
+    <div><b>★ 4,9</b><small>44 avaliações no Google</small></div>
     <div><b>12 anos</b><small>de experiência</small></div>
     <div><b>MB Way e Multibanco</b><small>pagamento só no fim</small></div>
     <div><b>Seg a sáb</b><small>8h-18h · sáb até 12h</small></div>
@@ -693,9 +745,16 @@ function fecharBanner(){
   banner.classList.remove('visivel');
   document.body.classList.remove('aviso-aberto');
 }
+/* O aviso não salta já: se o vídeo de entrada abrir, dois avisos em cima da
+   página ao mesmo tempo seria de mais. Fica guardado e o vídeo chama-o quando
+   sair do ecrã inteiro; se o vídeo não abrir, corre logo a seguir. */
+window.dsMostrarBanner = null;
 if (!dsLerConsentimento()) {
-  banner.classList.add('visivel');
-  document.body.classList.add('aviso-aberto');
+  window.dsMostrarBanner = function(){
+    banner.classList.add('visivel');
+    document.body.classList.add('aviso-aberto');
+    window.dsMostrarBanner = null;
+  };
 }
 
 document.getElementById('aceitarCookies').addEventListener('click', function(){
@@ -716,49 +775,133 @@ document.getElementById('recusarCookies').addEventListener('click', function(){
 /* ---------- Efeitos ---------- */
 var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* Som do vídeo do herói.
+/* ---------- Vídeo de entrada ----------
 
-   O vídeo arranca sempre SEM som, e não é uma escolha de gosto: nenhum
-   browser actual deixa um vídeo arrancar sozinho com som — Chrome, Safari e
-   Firefox bloqueiam-no e o vídeo nem sequer começava. Arrancar mudo e dar um
-   botão é a única forma de o som chegar a ouvir-se, e é também o que o
-   WCAG 1.4.2 exige: som que arranque sozinho tem de ter como se desligar. */
+   Abre em ecrã inteiro, e passa ao mini-leitor do canto quando o vídeo acaba,
+   quando se carrega em «Ver o site» ou quando se carrega em Esc.
+
+   Arranca sempre SEM som, e não é escolha de gosto: nenhum browser actual
+   deixa um vídeo arrancar sozinho com som — Chrome, Safari e Firefox
+   bloqueiam-no, e pedir `autoplay` com som não dá som, dá um vídeo que não
+   começa. Arrancar mudo com botão é o que faz o som chegar a ouvir-se, e é
+   também o que o WCAG 1.4.2 pede: som que arranca sozinho tem de ter como se
+   desligar.
+
+   Não aparece: sem JavaScript, com «reduzir movimento», ou se já tiver sido
+   visto nesta sessão do browser. */
 (function(){
-  var v = document.querySelector('.heroi-video');
-  var b = document.getElementById('botaoSom');
-  if (!v || !b) return;
-  var texto = b.querySelector('.som-texto');
-  var icone = b.querySelector('.som-icone');
-  function mostra(){
-    var ligado = !v.muted;
-    b.setAttribute('aria-pressed', ligado ? 'true' : 'false');
-    texto.textContent = ligado ? 'Desligar som' : 'Ligar som';
-    icone.textContent = ligado ? '🔊' : '🔇';
+  var caixa   = document.getElementById('intro');
+  var video   = document.getElementById('introVideo');
+  var btSom   = document.getElementById('introSom');
+  var btSair  = document.getElementById('introFechar');
+  var titulo  = document.getElementById('tituloHeroi');
+  if (!caixa || !video || !btSom || !btSair) return;
+
+  var CHAVE = 'ds_intro';
+  function jaViu(){ try { return sessionStorage.getItem(CHAVE) === 'visto'; } catch(e){ return false; } }
+  function marcaVisto(){ try { sessionStorage.setItem(CHAVE,'visto'); } catch(e){} }
+
+  function libertaBanner(){
+    if (window.dsMostrarBanner) window.dsMostrarBanner();
   }
-  b.addEventListener('click', function(){
-    v.muted = !v.muted;
-    if (!v.muted) { v.volume = 0.7; var t = v.play(); if (t && t.catch) t.catch(function(){}); }
-    mostra();
+
+  /* Sem vídeo de entrada, o aviso de cookies sai já. */
+  if (semMovimento || jaViu()) { libertaBanner(); return; }
+
+  function pinta(){
+    var ligado = !video.muted;
+    btSom.setAttribute('aria-pressed', ligado ? 'true' : 'false');
+    btSom.querySelector('.intro-texto').textContent = ligado ? 'Desligar som' : 'Ligar som';
+    btSom.querySelector('.intro-icone').textContent = ligado ? '🔊' : '🔇';
+  }
+
+  function prendeFoco(e){
+    if (e.key === 'Escape'){ e.preventDefault(); paraOCanto(); return; }
+    if (e.key !== 'Tab') return;
+    var focaveis = [btSom, btSair];
+    var i = focaveis.indexOf(document.activeElement);
+    var proximo = e.shiftKey ? i - 1 : i + 1;
+    if (proximo < 0) proximo = focaveis.length - 1;
+    if (proximo >= focaveis.length) proximo = 0;
+    e.preventDefault();
+    focaveis[proximo].focus();
+  }
+
+  var podeFechar = false;
+
+  function paraOCanto(){
+    if (caixa.classList.contains('cantinho')) return;
+    caixa.classList.add('cantinho');
+    /* deixa de ser um diálogo: passa a ser só um leitor a um canto */
+    caixa.removeAttribute('role');
+    caixa.removeAttribute('aria-modal');
+    caixa.removeAttribute('aria-labelledby');
+    caixa.setAttribute('role','group');
+    caixa.setAttribute('aria-label','Vídeo de apresentação da Doutor Sofá Lisboa');
+    document.removeEventListener('keydown', prendeFoco, true);
+    document.body.classList.remove('intro-aberta');
+    document.body.style.overflow = '';
+    video.loop = true;
+    btSair.querySelector('.intro-sair-texto').textContent = 'Fechar vídeo';
+    /* enquanto o vídeo desliza para o canto, o botão não aceita o clique
+       seguinte: senão um duplo-clique em «Ver o site» encolhia e fechava de
+       uma vez só, e a pessoa ficava sem vídeo nenhum. */
+    setTimeout(function(){ podeFechar = true; }, 550);
+    if (titulo) titulo.focus();
+    libertaBanner();
+  }
+
+  function fechaDeVez(){
+    video.pause();
+    caixa.remove();
+    if (titulo) titulo.focus();
+  }
+
+  /* as <source> só entram agora, para quem não vê o vídeo não as descarregar */
+  [['webm','video/webm'],['mp4','video/mp4']].forEach(function(par){
+    var url = video.getAttribute('data-' + par[0]);
+    if (!url) return;
+    var f = document.createElement('source');
+    f.src = url; f.type = par[1];
+    video.appendChild(f);
   });
-  v.addEventListener('volumechange', mostra);
-  mostra();
-})();
+  video.preload = 'auto';
+  video.load();
 
-/* Vídeo do herói: com «reduzir movimento» não toca nem se descarrega.
-   O CSS já mostra a imagem parada; isto evita gastar dados à mesma. */
-(function(){
-  var v = document.querySelector('.heroi-video');
-  if (!v || !semMovimento) return;
-  v.removeAttribute('autoplay');
-  v.pause();
-  v.preload = 'none';
-  v.removeAttribute('src');
-  var b = document.getElementById('botaoSom');
-  if (b) b.remove();
-  while (v.firstElementChild && v.firstElementChild.tagName === 'SOURCE') {
-    v.removeChild(v.firstElementChild);
-  }
-  v.load();
+  caixa.hidden = false;
+  document.body.classList.add('intro-aberta');
+  document.body.style.overflow = 'hidden';
+  marcaVisto();
+  pinta();
+  btSair.focus();
+  document.addEventListener('keydown', prendeFoco, true);
+
+  /* Se o browser recusar tocar (política de autoplay, dados poupados), não
+     fica um ecrã preto à frente do site: encolhe já para o canto. */
+  var comecou = false;
+  video.addEventListener('playing', function(){ comecou = true; });
+  var promessa = video.play();
+  if (promessa && promessa.catch) promessa.catch(function(){ paraOCanto(); });
+  video.addEventListener('error', paraOCanto);
+  /* A pergunta é «chegou a arrancar?», não «está parado agora?»: um vídeo a
+     meio pode ficar um instante em pausa a encher o buffer, e isso não é
+     motivo para lhe fugir com o ecrã. */
+  setTimeout(function(){ if (!comecou) paraOCanto(); }, 4000);
+
+  btSom.addEventListener('click', function(){
+    video.muted = !video.muted;
+    if (!video.muted){
+      video.volume = 0.8;
+      var t = video.play(); if (t && t.catch) t.catch(function(){});
+    }
+    pinta();
+  });
+  video.addEventListener('volumechange', pinta);
+  btSair.addEventListener('click', function(){
+    if (!caixa.classList.contains('cantinho')) { paraOCanto(); return; }
+    if (podeFechar) fechaDeVez();
+  });
+  video.addEventListener('ended', paraOCanto);
 })();
 
 /* Revelação ao rolar. Sem IntersectionObserver, mostra tudo de imediato. */
