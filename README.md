@@ -6,13 +6,9 @@ sofás, colchões e estofos ao domicílio.
 Site estático, sem build: `index.html`, `privacidade.html` e a pasta `images/`.
 Publica-se como está em qualquer alojamento estático.
 
-> **Antes de publicar no domínio da marca:** a unidade opera sob contrato de
-> franquia que exige autorização escrita da franqueadora para qualquer página
-> ou domínio que use a marca (cláusulas 10.22, 16.1 e 16.2). A página pode ser
-> construída e testada num URL temporário, mas não deve ir para
-> `lisboa.doutorsofa.pt` nem receber tráfego pago antes dessa autorização.
-> Por isso todos os caminhos internos são relativos — o site funciona em
-> qualquer domínio. Os únicos URLs absolutos são o `canonical` e o `og:url`.
+> **Portável de origem:** todos os caminhos internos são relativos, por isso o
+> site funciona em qualquer domínio sem alterações. Os únicos URLs absolutos
+> são o `canonical` e o `og:url`, um por página.
 
 ## Ficheiros
 
@@ -24,15 +20,6 @@ Publica-se como está em qualquer alojamento estático.
   unidade de Coimbra. Fica numa subpasta para as duas cidades caberem no mesmo
   repositório e no mesmo GitHub Pages, e partilha a pasta `images/` da raiz
   (`../images/...`). Ainda tem marcadores por preencher — ver mais abaixo.
-
-## Documentos de origem
-
-Em `docs/`, tal como foram entregues:
-
-- `docs/BRIEFING-CODEX.md` — especificação: objetivo, estrutura de secções,
-  parametrização por cidade, correções a manter e critérios de aceitação.
-- `docs/LEIA-ME.md` — guia de publicação: substituições, imagens, deploy na
-  Netlify, CNAME do subdomínio e lista de verificação pré-anúncios.
 
 Estado face aos critérios de aceitação do briefing (§8):
 
@@ -62,9 +49,8 @@ A página está parametrizada para ser copiada de cidade para cidade:
    GA4 e no Google Ads.
 3. Actualizar a lista de concelhos na secção «Onde vamos», o `areaServed` do
    JSON-LD e a segmentação geográfica dos anúncios — os três têm de coincidir.
-   Para Coimbra a área contratual é: Coimbra, Oliveira do Hospital, Mealhada,
-   Lousã, Penacova, Miranda do Corvo, Tábua, Arganil, Mortágua, Vila Nova de
-   Poiares, Penela, Pampilhosa da Serra e Góis — **não pode ser alargada**.
+   A área de serviço de cada unidade é definida caso a caso; a de Coimbra já
+   está na página, em `coimbra/index.html`.
 4. Actualizar `canonical`, `og:url`, o telefone e o e-mail da unidade.
 
 ## Marca
