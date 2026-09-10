@@ -39,7 +39,7 @@ Estado face aos critérios de aceitação do briefing (§8):
 | Banner na 1.ª visita; recusar não liberta as tags | ✅ testado |
 | Formulário só submete com consentimento | ✅ testado |
 | Links `wa.me` e `tel:` bem formados | ✅ `tel:+351928313797`, `wa.me/351928313797` |
-| Nenhum `href` vazio ou mal formado | ⚠️ só `LINK_PERFIL_GOOGLE`, que é marcador |
+| Nenhum `href` vazio ou mal formado | ✅ `LINK_PERFIL_GOOGLE` preenchido com o link de partilha |
 | Zero construções em português do Brasil | ✅ verificado |
 | Acessibilidade (contraste AA, foco, etc.) | ✅ 0 violações WCAG 2.1 AA (axe-core, 360px e 1280px) |
 | Testado a 360px com a barra fixa | ✅ sem scroll horizontal, alvos de toque de 56px |
