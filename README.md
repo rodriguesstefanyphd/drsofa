@@ -127,10 +127,16 @@ grep -n -E '[A-Z_]{5,}(_AQUI)?' index.html privacidade.html
 - `CHAVE_WEB3FORMS_AQUI` — access key do [Web3Forms](https://web3forms.com/)
   para o formulário enviar e-mail.
 - `PRECO_SOFA`, `PRECO_COLCHAO`, `PRECO_IMPERM` — preços «desde».
-- `AVALIACAO_GOOGLE`, `NUMERO_AVALIACOES`, `LINK_PERFIL_GOOGLE` — dados do
-  perfil de empresa no Google.
-- `AVALIACAO_REAL_1..3`, `NOME_CLIENTE_1..3`, `DATA_1..3` — avaliações reais de
-  clientes (usar apenas testemunhos verdadeiros).
+- `AVALIACAO_GOOGLE` e `NUMERO_AVALIACOES` — **ainda por preencher**: a nota
+  média e o total de avaliações do perfil de empresa. São os dois últimos
+  marcadores em maiúsculas da página e aparecem na faixa de confiança, logo
+  por baixo do herói. `LINK_PERFIL_GOOGLE` já está preenchido.
+- `AVALIACAO_REAL_1..3`, `NOME_CLIENTE_1..3`, `DATA_1..3` — ✅ preenchidos com
+  três avaliações reais do perfil, transcritas tal como os clientes as
+  escreveram (incluindo o português do Brasil de uma delas, que fica como
+  está). **As datas são aproximadas:** o Google mostra-as em relativo («há 2
+  meses»), por isso foram convertidas para o mês correspondente. Para as ter
+  exactas, abrir cada avaliação no perfil.
 - `DENOMINACAO_SOCIAL`, `NIF_AQUI`, `MORADA_AQUI`, `CODIGO_POSTAL_AQUI` —
   identificação legal, no rodapé, nos dados estruturados e na política de
   privacidade.
