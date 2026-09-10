@@ -135,6 +135,25 @@ grep -n -E '[A-Z_]{5,}(_AQUI)?' index.html privacidade.html
   privacidade.
 - `ALOJAMENTO_AQUI` e `DATA_ATUALIZACAO` — em `privacidade.html`.
 
+## Efeitos
+
+Todos escritos à mão, sem bibliotecas, e todos degradam para nada: sem
+JavaScript o conteúdo aparece na mesma, e quem tenha «reduzir movimento»
+ligado no sistema não vê animação alguma.
+
+| Efeito | O que faz |
+|---|---|
+| Revelação ao rolar | as secções sobem e aparecem quando entram no ecrã (`IntersectionObserver`) |
+| Cabeçalho fixo | acompanha a página e ganha sombra depois dos primeiros pixels |
+| Botão no cabeçalho | «Orçamento gratuito» sempre à vista em ecrã largo |
+| Cartões que levantam | ligeira subida e sombra ao passar o rato |
+| Comparador antes/depois | arrasta-se uma barra para revelar o resultado |
+
+O comparador é um `input[type=range]` invisível por cima das imagens: assim
+funciona com rato, com dedo **e com as setas do teclado**, e é anunciado
+correctamente por um leitor de ecrã. Um `div` com eventos de rato não teria
+nada disso.
+
 ## Pré-visualização pública (GitHub Pages)
 
 Para ir vendo o site online enquanto está a ser feito, sem instalar nada:

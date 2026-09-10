@@ -38,8 +38,15 @@ símbolo do wordmark.
 | `sofa.jpg` | cartão «Sofás e cadeirões» | 600×400 |
 | `colchao.jpg` | cartão «Colchões» | 600×400 |
 | `impermeabilizacao.jpg` | cartão «Impermeabilização» | 600×400 |
-| `antes-depois-1.jpg` | secção «Antes e depois» | 1200×800, os dois lados numa só imagem |
-| `antes-depois-2.jpg` | secção «Antes e depois» | 1200×800, os dois lados numa só imagem |
+| `antes-1.jpg` e `depois-1.jpg` | comparador do sofá | 1200×800 |
+| `antes-2.jpg` e `depois-2.jpg` | comparador do colchão | 1200×800 |
+
+**As imagens antes/depois mudaram de formato.** Em vez de uma imagem só com
+os dois lados lado a lado, são agora **duas imagens separadas por caso** — o
+site sobrepõe-nas e o visitante arrasta uma barra para revelar o resultado,
+como no site brasileiro da marca. Para isto resultar, as duas fotografias do
+mesmo caso têm de ser tiradas **do mesmo sítio e com o mesmo enquadramento**,
+senão a comparação não bate certo.
 
 Use fotografias de trabalhos reais. Comprima antes de publicar (por exemplo em
 squoosh.app) — o herói é a imagem que mais pesa no tempo de carregamento.

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="sem-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Limpeza de Sofás ao Domicílio em Lisboa | Doutor Sofá</title>
 <meta name="description" content="Limpeza e higienização de sofás, colchões e estofos ao domicílio em Lisboa. Orçamento gratuito por WhatsApp, produtos biodegradáveis e secagem rápida.">
 <link rel="canonical" href="https://lisboa.doutorsofa.pt/">
+<script>document.documentElement.className='js'</script>
 <script>
   /* Pré-visualização: enquanto o site correr num endereço github.io, pede aos
      motores de busca que não o indexem, para não concorrer com o site real
@@ -155,8 +156,36 @@ section{padding:56px 0}
 .escura{background:var(--carvao);color:#fff}
 .escura h2{color:#fff}
 
-/* Barra superior */
-.topo{background:var(--carvao);color:#fff;padding:12px 0}
+/* ---------- Efeitos ----------
+   Todos degradam para nada: sem JavaScript o conteúdo aparece na mesma, e
+   quem tiver "reduzir movimento" ligado no sistema não vê animação nenhuma.
+*/
+
+/* 1. Revelação ao rolar (fade-up) */
+.js .revelar{opacity:0;transform:translateY(20px)}
+.js .revelar.visivel{opacity:1;transform:none;
+  transition:opacity .55s cubic-bezier(.2,.6,.2,1),transform .55s cubic-bezier(.2,.6,.2,1)}
+
+/* 2. Cartões que levantam ao passar o rato */
+.cartao,.avaliacao{transition:transform .2s ease,box-shadow .2s ease}
+.cartao:hover,.avaliacao:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.13)}
+
+/* 3. Botões com reacção ao toque */
+.btn{transition:background .15s ease,transform .12s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+.btn:active{transform:translateY(0)}
+
+/* Barra superior — agora fixa no topo */
+.topo{background:var(--carvao);color:#fff;padding:12px 0;
+  position:sticky;top:0;z-index:70;transition:box-shadow .2s ease,padding .2s ease}
+.topo.rolado{box-shadow:0 4px 20px rgba(0,0,0,.28);padding:8px 0}
+.topo .acao-topo{
+  display:none;background:var(--amarelo);color:var(--carvao);
+  padding:9px 16px;border-radius:6px;font-weight:700;font-size:.9rem;
+  text-decoration:none;transition:background .15s ease;
+}
+.topo .acao-topo:hover{background:var(--amarelo-escuro)}
+.topo .contactos{display:flex;align-items:center;gap:14px}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
 .topo .marca img{height:48px;width:auto;flex:0 0 auto}
@@ -239,6 +268,30 @@ section{padding:56px 0}
 .avaliacao cite{font-style:normal;font-weight:650;font-size:.92rem}
 .avaliacao time{display:block;color:var(--tinta-suave);font-size:.82rem}
 
+/* 4. Comparador antes/depois — arrasta-se para revelar */
+.comparador{position:relative;border-radius:10px;overflow:hidden;background:#000;
+  aspect-ratio:3/2;isolation:isolate}
+.comparador img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.comparador .depois{clip-path:inset(0 0 0 var(--corte,50%))}
+.comparador .puxador{
+  position:absolute;top:0;bottom:0;left:var(--corte,50%);width:3px;
+  background:var(--amarelo);transform:translateX(-50%);pointer-events:none;
+}
+.comparador .puxador::after{
+  content:"↔";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:40px;height:40px;border-radius:50%;background:var(--amarelo);color:var(--carvao);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+.comparador input[type=range]{
+  position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;
+}
+.comparador input[type=range]:focus-visible ~ .puxador::after{outline:3px solid #fff;outline-offset:3px}
+.etiqueta{position:absolute;bottom:10px;padding:4px 10px;border-radius:4px;
+  background:rgba(0,0,0,.72);color:#fff;font-size:.78rem;font-weight:600;letter-spacing:.03em}
+.etiqueta.e{left:10px}
+.etiqueta.d{right:10px}
+
 /* Cobertura */
 .concelhos{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:6px}
 .concelhos li{background:#fff;border:1px solid var(--borda);border-radius:100px;padding:6px 14px;font-size:.9rem}
@@ -315,9 +368,14 @@ body.aviso-aberto .barra-fixa{display:none}
   .passos{grid-template-columns:repeat(2,1fr);gap:34px}
   .form{max-width:620px;margin:0 auto}
   .barra-fixa{display:none}
+  .topo .acao-topo{display:inline-block}
   .cookies{left:auto;right:24px;bottom:24px;max-width:400px;border:1px solid var(--borda);border-top:3px solid var(--amarelo);border-radius:10px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .js .revelar{opacity:1!important;transform:none!important}
+  .cartao:hover,.avaliacao:hover,.btn:hover{transform:none!important}
+}
 </style>
 </head>
 <body>
@@ -333,7 +391,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="marca-texto" hidden>doutor <i>sofá</i></span>
       <span class="unidade">Unidade<br>de Lisboa</span>
     </a>
-    <a href="tel:+351928313797" data-local="topo">928 313 797</a>
+    <div class="contactos">
+      <a href="tel:+351928313797" data-local="topo">928 313 797</a>
+      <a class="acao-topo" href="https://wa.me/351928313797?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20Lisboa." data-local="topo_cta">Orçamento gratuito</a>
+    </div>
   </div>
 </header>
 
@@ -369,7 +430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <section>
-  <div class="env">
+  <div class="env revelar">
     <h2>O que limpamos</h2>
     <div class="grelha">
       <article class="cartao">
@@ -402,18 +463,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="grafite">
-  <div class="env">
+  <div class="env revelar">
     <h2>Antes e <span class="realce">depois</span></h2>
     <p style="color:#D8D8D8">Trabalhos reais feitos em casa de clientes em Lisboa.</p>
     <div class="grelha duas" style="margin-top:24px">
-      <img src="images/antes-depois-1.jpg" alt="Sofá antes e depois da limpeza" loading="lazy" style="border-radius:8px" width="600" height="400">
-      <img src="images/antes-depois-2.jpg" alt="Colchão antes e depois da higienização" loading="lazy" style="border-radius:8px" width="600" height="400">
+      <figure class="comparador" style="margin:0">
+        <img src="images/antes-1.jpg" alt="Sofá antes da limpeza" loading="lazy" width="1200" height="800">
+        <img class="depois" src="images/depois-1.jpg" alt="O mesmo sofá depois da limpeza" loading="lazy" width="1200" height="800">
+        <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar o sofá antes e depois da limpeza">
+        <span class="puxador" aria-hidden="true"></span>
+        <span class="etiqueta e">Antes</span><span class="etiqueta d">Depois</span>
+      </figure>
+      <figure class="comparador" style="margin:0">
+        <img src="images/antes-2.jpg" alt="Colchão antes da higienização" loading="lazy" width="1200" height="800">
+        <img class="depois" src="images/depois-2.jpg" alt="O mesmo colchão depois da higienização" loading="lazy" width="1200" height="800">
+        <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar o colchão antes e depois da higienização">
+        <span class="puxador" aria-hidden="true"></span>
+        <span class="etiqueta e">Antes</span><span class="etiqueta d">Depois</span>
+      </figure>
     </div>
+    <p style="color:#D8D8D8;font-size:.9rem;margin-top:14px;text-align:center">Arraste a barra amarela para ver a diferença.</p>
   </div>
 </section>
 
 <section>
-  <div class="env">
+  <div class="env revelar">
     <h2>Como funciona</h2>
     <ol class="passos">
       <li>
@@ -437,7 +511,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="solar">
-  <div class="env">
+  <div class="env revelar">
     <h2>O que dizem os clientes de Lisboa</h2>
     <div class="grelha" style="margin-top:6px">
       <blockquote class="avaliacao">
@@ -461,7 +535,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section>
-  <div class="env">
+  <div class="env revelar">
     <h2>Onde vamos</h2>
     <p style="color:var(--tinta-suave)">Serviço ao domicílio, sem taxa de deslocação nestes concelhos:</p>
     <ul class="concelhos">
@@ -474,7 +548,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section id="orcamento">
-  <div class="env">
+  <div class="env revelar">
     <h2 style="text-align:center">Peça o seu orçamento</h2>
     <p style="text-align:center;color:var(--tinta-suave);margin-bottom:26px">Respondemos no mesmo dia, em horário de funcionamento.</p>
 
@@ -599,6 +673,45 @@ document.getElementById('recusarCookies').addEventListener('click', function(){
   dsGuardarConsentimento('recusado');
   dataLayer.push({event:'consentimento_recusado'});
   fecharBanner();
+});
+
+/* ---------- Efeitos ---------- */
+var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Revelação ao rolar. Sem IntersectionObserver, mostra tudo de imediato. */
+(function(){
+  var alvos = document.querySelectorAll('.revelar');
+  if (semMovimento || !('IntersectionObserver' in window)) {
+    for (var i=0;i<alvos.length;i++) alvos[i].classList.add('visivel');
+    return;
+  }
+  var obs = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('visivel'); obs.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -12% 0px', threshold:0.08});
+  alvos.forEach(function(a){ obs.observe(a); });
+})();
+
+/* Sombra no cabeçalho depois de rolar */
+(function(){
+  var topo = document.querySelector('.topo'), aPedido = false;
+  window.addEventListener('scroll', function(){
+    if (aPedido) return;
+    aPedido = true;
+    requestAnimationFrame(function(){
+      topo.classList.toggle('rolado', window.scrollY > 10);
+      aPedido = false;
+    });
+  }, {passive:true});
+})();
+
+/* Comparador antes/depois */
+document.querySelectorAll('.comparador').forEach(function(c){
+  var barra = c.querySelector('input[type=range]');
+  function actualizar(){ c.style.setProperty('--corte', barra.value + '%'); }
+  barra.addEventListener('input', actualizar);
+  actualizar();
 });
 
 /* ---------- Eventos de conversão ---------- */
