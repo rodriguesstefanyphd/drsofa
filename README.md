@@ -124,6 +124,33 @@ grep -n -E '[A-Z_]{5,}(_AQUI)?' index.html privacidade.html
   privacidade.
 - `ALOJAMENTO_AQUI` e `DATA_ATUALIZACAO` — em `privacidade.html`.
 
+## Pré-visualização pública (GitHub Pages)
+
+Para ir vendo o site online enquanto está a ser feito, sem instalar nada:
+
+1. No repositório, **Settings → Pages**.
+2. Em **Source**, escolher **Deploy from a branch**.
+3. Em **Branch**, escolher `claude/consent-gtm-setup-bh959t` e a pasta `/ (root)`.
+4. **Save**.
+
+Ao fim de um a dois minutos fica em:
+
+**https://rodriguesstefanyphd.github.io/drsofa/**
+
+A partir daí, cada vez que houver um commit novo no branch o endereço
+actualiza-se sozinho ao fim de um minuto ou dois (pode ser preciso recarregar
+com Ctrl+F5 ou Cmd+Shift+R para o browser largar a versão em cache).
+
+Este endereço é **público**, mas não é um domínio da marca e não recebe
+tráfego pago, por isso cabe no que o contrato permite para testes. Enquanto
+correr num endereço `github.io`, as páginas pedem aos motores de busca que não
+as indexem — a verificação é feita pelo nome do domínio, por isso desliga-se
+sozinha no domínio final e não há risco de a página real ir para o ar com
+`noindex`.
+
+`.nojekyll` está no repositório para o GitHub servir os ficheiros tal como
+estão, sem os processar.
+
 ## Ver localmente
 
 ```sh
