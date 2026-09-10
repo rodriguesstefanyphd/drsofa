@@ -5,26 +5,30 @@ e o `privacidade.html` procuram.
 
 ## Logótipo
 
-**É preciso um único ficheiro: `logo.svg`** (ou `logo.png`, se não tiver SVG).
+Já está no repositório. O site usa `logo-branco.png` no cabeçalho e no rodapé,
+que assentam sempre em fundo escuro.
 
-Serve qualquer variante — a de cor, a preta ou a branca. O cabeçalho e o
-rodapé aplicam-lhe um filtro CSS que a torna branca, porque assentam sempre em
-fundo escuro. O ficheiro deve ter **fundo transparente**; um fundo branco
-ficaria um retângulo branco.
-
-Se não existir nenhum dos dois, as páginas mostram o nome «doutor sofá»
-composto em texto — não fica nada partido.
-
-Ícones do separador do browser, opcionais:
-
-| Ficheiro | Tamanho |
+| Ficheiro | O que é |
 |---|---|
-| `favicon.svg` | vetorial, só o símbolo do sofá |
-| `favicon.png` | 96×96 |
-| `apple-touch-icon.png` | 180×180 |
+| `logo-branco.png` | versão branca, 522×240, a que as páginas carregam |
+| `favicon.png` | 96×96, símbolo do sofá sobre o amarelo da marca |
+| `apple-touch-icon.png` | 180×180, o mesmo ícone para o ecrã principal do iPhone |
+| `logo/logo-cor.png` | original amarelo e preto, resolução completa |
+| `logo/logo-branco.png` | original branco, resolução completa |
+| `logo/logo-escuro.png` | original monocromático escuro |
+| `logo/logo-amarelo.png` | original amarelo |
 
-O logótipo é marca registada — use os ficheiros originais, sem esticar, sem
-recolorir e sem recortar o símbolo do wordmark.
+Os ficheiros em `logo/` são os originais tal como foram entregues, guardados
+para futuras utilizações (impressão, redes sociais, assinaturas de e-mail). Os
+do site foram gerados a partir deles: a versão branca redimensionada para
+522×240 e os ícones recortados do símbolo do sofá, sem o ®, que a 96px seria
+apenas ruído.
+
+Se algum dia faltar o ficheiro do logótipo, o cabeçalho e o rodapé mostram o
+nome «doutor sofá» composto em texto — não fica nada partido.
+
+O logótipo é marca registada — não esticar, não recolorir e não recortar o
+símbolo do wordmark.
 
 ## Fotografias
 

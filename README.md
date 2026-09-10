@@ -18,11 +18,8 @@ Publica-se como está em qualquer alojamento estático.
 
 - `index.html` — página principal (herói, serviços, prova social, formulário, FAQ).
 - `privacidade.html` — política de privacidade e de cookies (RGPD).
-- `images/` — logótipo e fotografias; ver `images/README.md` para os nomes
-  exigidos. O logótipo precisa de **um só ficheiro**, `images/logo.svg` (ou
-  `logo.png`), em qualquer variante e com fundo transparente: o cabeçalho e o
-  rodapé aplicam-lhe um filtro que o torna branco. Enquanto não existir,
-  mostram o nome «doutor sofá» composto em texto.
+- `images/` — o logótipo e os favicons já estão cá; faltam as fotografias.
+  Ver `images/README.md`.
 
 ## Documentos de origem
 
@@ -48,7 +45,7 @@ Estado face aos critérios de aceitação do briefing (§8):
 | Testado a 360px com a barra fixa | ✅ sem scroll horizontal, alvos de toque de 56px |
 | `privacidade.html` criada e ligada | ✅ |
 | Três eventos visíveis no GTM Preview | ⏳ depende do ID do contentor real |
-| Lighthouse ≥ 90 desempenho / ≥ 95 acessibilidade | ⏳ medir no URL publicado, com as imagens finais |
+| Lighthouse ≥ 90 desempenho / ≥ 95 acessibilidade | ⏳ medir no URL publicado, com as fotografias finais |
 
 ## Replicar para outra unidade
 

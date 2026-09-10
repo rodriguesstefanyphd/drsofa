@@ -13,7 +13,6 @@
 <meta property="og:url" content="https://lisboa.doutorsofa.pt/">
 <meta property="og:image" content="https://lisboa.doutorsofa.pt/images/capa.jpg">
 <meta name="theme-color" content="#1A1A1A">
-<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="images/favicon.png" sizes="96x96">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
@@ -38,13 +37,6 @@
   }
   function dsGuardarConsentimento(valor){
     try { localStorage.setItem('ds_consentimento', valor); } catch(e){}
-  }
-  /* Logótipo: tenta images/logo.svg, depois images/logo.png; se nenhum
-     existir, mostra o nome composto em texto. */
-  function dsLogo(img){
-    if (img.dataset.tentado !== 'png') { img.dataset.tentado = 'png'; img.src = 'images/logo.png'; return; }
-    img.hidden = true;
-    img.nextElementSibling.hidden = false;
   }
   if (dsLerConsentimento() === 'aceite') {
     gtag('consent', 'update', {
@@ -138,10 +130,7 @@ section{padding:56px 0}
 .topo{background:var(--carvao);color:#fff;padding:12px 0}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
-/* O logótipo assenta sempre em fundo escuro; o filtro força-o a branco,
-   seja qual for a variante do ficheiro (cor, preta ou já branca). */
-.topo .marca img,footer .marca-rodape{filter:brightness(0) invert(1)}
-.topo .marca img{height:34px;width:auto;flex:0 0 auto}
+.topo .marca img{height:48px;width:auto;flex:0 0 auto}
 /* Alternativa em texto enquanto o ficheiro do logótipo não existir.
    O onerror do <img> troca um pelo outro; quando o SVG for adicionado
    à pasta images/, o texto deixa de aparecer sozinho. */
@@ -153,7 +142,7 @@ section{padding:56px 0}
   border-left:1px solid rgba(255,255,255,.3);padding-left:12px;line-height:1.25}
 .topo a{color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
 @media (max-width:400px){
-  .topo .marca img{height:28px}
+  .topo .marca img{height:38px}
   .topo .marca .unidade{display:none}
 }
 
@@ -250,7 +239,7 @@ details p{margin:12px 0 0;color:var(--tinta-suave);font-size:.97rem}
 footer{background:var(--preto);color:#C9C9C9;padding:44px 0 32px;font-size:.9rem}
 footer a{color:#fff}
 footer h3{color:#fff;margin-bottom:10px;font-size:1rem}
-footer .marca-rodape{display:block;height:46px;width:auto;margin-bottom:16px}
+footer .marca-rodape{display:block;height:64px;width:auto;margin-bottom:16px}
 footer .marca-texto{margin-bottom:14px;font-size:1.45rem;color:#fff}
 .legal{border-top:1px solid rgba(255,255,255,.16);margin-top:26px;padding-top:18px;font-size:.82rem;line-height:1.65}
 
@@ -307,8 +296,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="topo">
   <div class="env">
     <a class="marca" href="index.html" aria-label="Doutor Sofá — página inicial">
-      <img src="images/logo.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
-           onerror="dsLogo(this)">
+      <img src="images/logo-branco.png" alt="Doutor Sofá — limpeza especializada" width="522" height="240"
+           onerror="this.hidden=true;this.nextElementSibling.hidden=false">
       <span class="marca-texto" hidden>doutor <i>sofá</i></span>
       <span class="unidade">Unidade<br>de Lisboa</span>
     </a>
@@ -516,8 +505,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer>
   <div class="env">
-    <img class="marca-rodape" src="images/logo.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
-         onerror="dsLogo(this)">
+    <img class="marca-rodape" src="images/logo-branco.png" alt="Doutor Sofá — limpeza especializada" width="522" height="240"
+         loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
     <div class="marca-texto" hidden>doutor <i>sofá</i></div>
     <h3>Unidade de Lisboa</h3>
     <p>
