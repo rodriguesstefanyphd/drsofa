@@ -32,14 +32,28 @@ símbolo do wordmark.
 
 ## Fotografias
 
-| Ficheiro | Onde aparece | Tamanho sugerido |
-|---|---|---|
-| `capa.jpg` | fundo do herói e imagem de partilha (Open Graph) | 1600×900, < 250 KB |
-| `sofa.jpg` | cartão «Sofás e cadeirões» | 600×400 |
-| `colchao.jpg` | cartão «Colchões» | 600×400 |
-| `impermeabilizacao.jpg` | cartão «Impermeabilização» | 600×400 |
-| `antes-1.jpg` e `depois-1.jpg` | comparador do sofá | 1200×800 |
-| `antes-2.jpg` e `depois-2.jpg` | comparador do colchão | 1200×800 |
+| Ficheiro | Onde aparece | Tamanho | Estado |
+|---|---|---|---|
+| `capa.jpg` | fundo do herói e imagem de partilha (Open Graph) | 1600×900, 177 KB | ✅ no repositório |
+| `sofa.jpg` | cartão «Sofás e cadeirões» | 600×400, 25 KB | ✅ no repositório |
+| `colchao.jpg` | cartão «Colchões» | 600×400, 21 KB | ✅ no repositório |
+| `impermeabilizacao.jpg` | cartão «Impermeabilização» | 600×400, 12 KB | ✅ no repositório |
+| `antes-1.jpg` e `depois-1.jpg` | comparador do sofá | 1200×800 | ⏳ **em falta** |
+| `antes-2.jpg` e `depois-2.jpg` | comparador do colchão | 1200×800 | ⏳ **em falta** |
+
+### De onde vêm as que já cá estão
+
+- `capa.jpg` — fotografia de um técnico a aplicar produto num sofá, do banco de
+  imagens da marca. É a única fotografia de trabalho real disponível até agora,
+  e **não foi tirada em Lisboa** — por isso o `alt` não o afirma. Quando houver
+  uma fotografia de um serviço feito em Lisboa, deve substituir esta.
+- `sofa.jpg`, `colchao.jpg`, `impermeabilizacao.jpg` — recortes de produto do
+  material de Instagram, recompostos sobre o amarelo da marca em formato
+  600×400. São **ilustrações de estúdio, não fotografias de trabalhos reais**;
+  os `alt` no `index.html` dizem exactamente isso («do tipo que limpamos»), para
+  não sugerirem um resultado que a imagem não mostra.
+
+### As que faltam
 
 **As imagens antes/depois mudaram de formato.** Em vez de uma imagem só com
 os dois lados lado a lado, são agora **duas imagens separadas por caso** — o
