@@ -216,6 +216,21 @@ section{padding:56px 0}
 .heroi .foto img,.heroi .foto video{width:100%;height:100%;object-fit:cover;display:block}
 /* o herói mostra o vídeo; a imagem parada só entra com «reduzir movimento» */
 .heroi .foto .heroi-parado{display:none}
+/* Botão de som. Só aparece com JavaScript — sem ele não teria o que fazer. */
+.heroi .foto{position:relative}
+.som{display:none}
+.js .som{
+  display:inline-flex;align-items:center;gap:8px;
+  position:absolute;right:12px;bottom:12px;
+  min-height:44px;padding:0 16px;
+  background:var(--amarelo);color:var(--tinta);
+  border:1.5px solid rgba(28,28,28,.35);border-radius:24px;
+  font:inherit;font-size:.86rem;font-weight:700;cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+.js .som:hover{background:var(--amarelo-escuro)}
+.js .som:focus-visible{outline:3px solid var(--tinta);outline-offset:2px}
+.som-icone{font-size:.9rem;line-height:1}
 
 /* 5. Par antes/depois lado a lado — quando as duas fotos não têm o mesmo
    enquadramento e por isso não servem para o comparador de arrastar */
@@ -383,6 +398,7 @@ body.aviso-aberto .barra-fixa{display:none}
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
   .heroi .foto video{display:none}
   .heroi .foto .heroi-parado{display:block}
+  .js .som{display:none}
   .js .revelar{opacity:1!important;transform:none!important}
   .cartao:hover,.avaliacao:hover,.btn:hover{transform:none!important}
 }
@@ -432,6 +448,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img src="images/capa.jpg" alt="Técnico da Doutor Sofá a aplicar produto num sofá de tecido durante uma limpeza ao domicílio" width="1600" height="900">
       </video>
       <img class="heroi-parado" src="images/heroi-poster.jpg" alt="Técnico da Doutor Sofá a aspirar um sofá de tecido numa sala" width="1280" height="720">
+      <button type="button" class="som" id="botaoSom" aria-pressed="false">
+        <span class="som-icone" aria-hidden="true">🔇</span><span class="som-texto">Ligar som</span>
+      </button>
     </div>
   </div>
 </div>
@@ -697,6 +716,34 @@ document.getElementById('recusarCookies').addEventListener('click', function(){
 /* ---------- Efeitos ---------- */
 var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* Som do vídeo do herói.
+
+   O vídeo arranca sempre SEM som, e não é uma escolha de gosto: nenhum
+   browser actual deixa um vídeo arrancar sozinho com som — Chrome, Safari e
+   Firefox bloqueiam-no e o vídeo nem sequer começava. Arrancar mudo e dar um
+   botão é a única forma de o som chegar a ouvir-se, e é também o que o
+   WCAG 1.4.2 exige: som que arranque sozinho tem de ter como se desligar. */
+(function(){
+  var v = document.querySelector('.heroi-video');
+  var b = document.getElementById('botaoSom');
+  if (!v || !b) return;
+  var texto = b.querySelector('.som-texto');
+  var icone = b.querySelector('.som-icone');
+  function mostra(){
+    var ligado = !v.muted;
+    b.setAttribute('aria-pressed', ligado ? 'true' : 'false');
+    texto.textContent = ligado ? 'Desligar som' : 'Ligar som';
+    icone.textContent = ligado ? '🔊' : '🔇';
+  }
+  b.addEventListener('click', function(){
+    v.muted = !v.muted;
+    if (!v.muted) { v.volume = 0.7; var t = v.play(); if (t && t.catch) t.catch(function(){}); }
+    mostra();
+  });
+  v.addEventListener('volumechange', mostra);
+  mostra();
+})();
+
 /* Vídeo do herói: com «reduzir movimento» não toca nem se descarrega.
    O CSS já mostra a imagem parada; isto evita gastar dados à mesma. */
 (function(){
@@ -706,6 +753,8 @@ var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   v.pause();
   v.preload = 'none';
   v.removeAttribute('src');
+  var b = document.getElementById('botaoSom');
+  if (b) b.remove();
   while (v.firstElementChild && v.firstElementChild.tagName === 'SOURCE') {
     v.removeChild(v.firstElementChild);
   }

@@ -76,16 +76,32 @@ basta trocar a `figure.par` por uma `figure.comparador` igual à do cadeirão.
 
 ### O vídeo do herói
 
-`heroi.webm` e `heroi.mp4` **não têm faixa de áudio** — foi removida no
-processamento. Isso não é um detalhe: um vídeo que toca sozinho com som falha
-o critério WCAG 1.4.2, e sem áudio o vídeo passa a ser conteúdo só de imagem,
-que aqui é decorativo (o herói já diz tudo em texto) e por isso não precisa de
-legendas. O `axe-core` marca `video-caption` como «a rever» justamente porque
-não consegue saber se há áudio; com a faixa removida, não há nada a corrigir.
+`heroi.webm` e `heroi.mp4` **têm áudio** (Opus e AAC, 96 kbps), mas o vídeo
+**arranca sempre sem som**. Não é uma preferência: nenhum browser actual deixa
+um vídeo arrancar sozinho com som — Chrome, Safari e Firefox bloqueiam-no, e o
+vídeo nem sequer começaria a tocar. Arrancar mudo e dar um botão «Ligar som» é
+a única forma de o som chegar a ouvir-se.
 
-Com **«reduzir movimento»** ligado no sistema, o vídeo não toca nem sequer se
-descarrega: o CSS esconde-o e mostra `heroi-poster.jpg`, e o JavaScript
-remove-lhe as `<source>`. Sem JavaScript o vídeo toca à mesma (é nativo do
-HTML) e, se o browser não souber ler nenhum dos formatos, mostra `capa.jpg`.
+O mesmo arranjo satisfaz o **WCAG 1.4.2**: som que arranque sozinho e dure mais
+de 3 segundos tem de ter maneira de se desligar. Aqui nem chega a arrancar com
+som, e o botão liga e desliga a qualquer momento, com rato ou com teclado
+(`aria-pressed` acompanha o estado).
+
+⚠️ **Falta a legendagem.** Com áudio e com fala, aplica-se o WCAG 1.2.2
+(legendas em multimédia pré-gravada, nível A). Assim que houver o texto do que
+é dito no vídeo, deve juntar-se um ficheiro `heroi.vtt` e a linha:
+
+```html
+<track kind="captions" src="images/heroi.vtt" srclang="pt" label="Português" default>
+```
+
+Até lá, o `axe-core` deixa `video-caption` como «a rever» — e desta vez isso é
+mesmo uma falha por fechar, não um falso alarme.
+
+Com **«reduzir movimento»** ligado no sistema, o vídeo não toca nem se
+descarrega: o CSS esconde-o e mostra `heroi-poster.jpg`, o JavaScript remove-lhe
+as `<source>` e tira o botão do som. Sem JavaScript o vídeo toca à mesma, mudo
+e sem botão (que sem JavaScript não teria o que fazer); e se o browser não
+souber ler nenhum dos formatos, mostra `capa.jpg`.
 
 Comprima sempre antes de publicar (por exemplo em squoosh.app).

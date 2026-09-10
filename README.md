@@ -42,6 +42,7 @@ Estado face aos critérios de aceitação do briefing (§8):
 | Nenhum `href` vazio ou mal formado | ✅ `LINK_PERFIL_GOOGLE` preenchido com o link de partilha |
 | Zero construções em português do Brasil | ✅ verificado |
 | Acessibilidade (contraste AA, foco, etc.) | ✅ 0 violações WCAG 2.1 AA (axe-core, 360px e 1280px) |
+| Legendas do vídeo do herói (WCAG 1.2.2) | ⏳ falta `heroi.vtt` — ver `images/README.md` |
 | Testado a 360px com a barra fixa | ✅ sem scroll horizontal, alvos de toque de 56px |
 | `privacidade.html` criada e ligada | ✅ |
 | Três eventos visíveis no GTM Preview | ⏳ depende do ID do contentor real |
@@ -148,7 +149,7 @@ ligado no sistema não vê animação alguma.
 | Botão no cabeçalho | «Orçamento gratuito» sempre à vista em ecrã largo |
 | Cartões que levantam | ligeira subida e sombra ao passar o rato |
 | Comparador antes/depois | arrasta-se uma barra para revelar o resultado |
-| Vídeo no herói | toca em ciclo, sem som; com «reduzir movimento» fica a imagem parada |
+| Vídeo no herói | toca em ciclo; arranca mudo e tem botão «Ligar som»; com «reduzir movimento» fica a imagem parada |
 
 O comparador é um `input[type=range]` invisível por cima das imagens: assim
 funciona com rato, com dedo **e com as setas do teclado**, e é anunciado
