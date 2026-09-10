@@ -20,6 +20,10 @@ Publica-se como está em qualquer alojamento estático.
 - `privacidade.html` — política de privacidade e de cookies (RGPD).
 - `images/` — logótipo, favicons, fotografias e o vídeo do herói.
   Ver `images/README.md`.
+- `coimbra/index.html` e `coimbra/privacidade.html` — a mesma página para a
+  unidade de Coimbra. Fica numa subpasta para as duas cidades caberem no mesmo
+  repositório e no mesmo GitHub Pages, e partilha a pasta `images/` da raiz
+  (`../images/...`). Ainda tem marcadores por preencher — ver mais abaixo.
 
 ## Documentos de origem
 
@@ -143,6 +147,26 @@ grep -n -E '[A-Z_]{5,}(_AQUI)?' index.html privacidade.html
   identificação legal, no rodapé, nos dados estruturados e na política de
   privacidade.
 - `ALOJAMENTO_AQUI` e `DATA_ATUALIZACAO` — em `privacidade.html`.
+
+### Só em `coimbra/`
+
+A página de Coimbra saiu da de Lisboa, por isso tem os marcadores todos acima
+por preencher **outra vez** — as avaliações e os preços de Lisboa não servem
+para Coimbra — mais estes, próprios da unidade:
+
+- `TELEFONE_COIMBRA` e `WHATSAPP_COIMBRA` — o número da unidade. O
+  `351928313797` é de Lisboa e **não serve**. O `TELEFONE_COIMBRA` aparece no
+  texto e dentro de `tel:`; o `WHATSAPP_COIMBRA` só dentro dos `wa.me/`, e é
+  o número em formato internacional sem `+` nem espaços.
+- `EMAIL_COIMBRA` — o e-mail da unidade, no rodapé, nos dados estruturados e
+  na política de privacidade. Ficou por preencher de propósito: o padrão do
+  domínio sugeria `coimbra@doutorsofa.pt`, mas não está confirmado e um
+  e-mail errado perde pedidos sem dar erro.
+- `ANOS_AQUI` — anos de experiência **desta** unidade, na faixa de confiança.
+- Confirmar o **horário**: veio tal e qual o de Lisboa (seg-sex 8h-18h,
+  sáb 8h-12h) e aparece em quatro sítios — faixa de confiança, rodapé, FAQ e
+  `openingHoursSpecification` do JSON-LD.
+- As quatro fotografias do «antes e depois» — ver `images/README.md`.
 
 ## Efeitos
 

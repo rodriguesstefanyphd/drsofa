@@ -59,6 +59,34 @@ símbolo do wordmark.
   áudio foi removido de propósito (ver mais abaixo). Substituir por material
   definitivo antes de qualquer campanha.
 
+### Esta pasta é partilhada pelas duas unidades
+
+Há uma só pasta `images/` na raiz. O `index.html` de Lisboa carrega-a como
+`images/...` e os ficheiros em `coimbra/` como `../images/...`. Não duplicar a
+pasta: o logótipo, os ícones, a `capa.jpg`, os três cartões de serviço e o
+vídeo são material de marca e servem as duas unidades.
+
+### O que falta para Coimbra
+
+O «antes e depois» é a única secção com fotografias de uma unidade concreta —
+as actuais são de trabalhos da unidade de Lisboa e não podem ser apresentadas
+como trabalhos de Coimbra. Por isso `coimbra/index.html` aponta para quatro
+ficheiros que **ainda não existem**:
+
+| Ficheiro | Onde aparece | Tamanho |
+|---|---|---|
+| `coimbra-antes-1.jpg` / `coimbra-depois-1.jpg` | comparador de arrastar | 1200×800 |
+| `coimbra-antes-2.jpg` / `coimbra-depois-2.jpg` | par lado a lado | 800×914 |
+
+Até chegarem, essa secção mostra quatro imagens partidas e o texto não afirma
+cidade nenhuma («Exemplos do resultado de uma limpeza Doutor Sofá»). Quando
+houver fotografias reais de Coimbra: pô-las aqui com estes nomes, escrever
+`alt` que descrevam o que se vê em cada uma e repor a linha «Trabalhos reais
+da unidade de Coimbra.».
+
+O par 1 tem de ser **o mesmo enquadramento** nas duas fotografias, senão o
+comparador salta — ver a explicação a seguir. O par 2 não tem essa exigência.
+
 ### Porque é que só um dos casos é comparador de arrastar
 
 O comparador sobrepõe as duas fotografias e revela uma por cima da outra, por
