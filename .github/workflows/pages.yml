@@ -1,11 +1,11 @@
-# Publica o site no GitHub Pages a cada commit neste branch.
-# O passo configure-pages com enablement:true liga o Pages automaticamente na
-# primeira execução, sem ser preciso mexer nas definições do repositório.
+# Publica o site no GitHub Pages a cada commit no main.
+# O ambiente github-pages só aceita publicações do branch principal, por isso
+# o main é o branch que está no ar.
 name: Publicar pré-visualização no GitHub Pages
 
 on:
   push:
-    branches: [claude/consent-gtm-setup-bh959t]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
