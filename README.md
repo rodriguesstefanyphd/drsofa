@@ -78,6 +78,17 @@ O verde está reservado ao WhatsApp de propósito: é a cor que as pessoas
 associam à app e ajuda o botão a ser reconhecido. As restantes acções usam o
 amarelo da marca com texto preto.
 
+O desenho segue os sites oficiais (`doutorsofa.pt` e `doutorsofa.com.br`):
+herói amarelo, cabeçalho preto, faixas a alternar entre branco, amarelo e
+grafite, títulos centrados e sem serifas.
+
+**Uma adaptação deliberada:** a marca escreve parte dos títulos a amarelo
+sobre branco — por exemplo «*Nossas* Especialidades». Amarelo sobre branco dá
+1,46:1 de contraste, muito abaixo do mínimo de 4,5:1 que o briefing exige, e
+é ilegível para muita gente. Nas faixas claras isso foi substituído por um
+filete amarelo debaixo do título; nas faixas escuras, onde o amarelo tem
+7,8:1, a palavra a amarelo mantém-se.
+
 ## Medição e consentimento
 
 - **Consent Mode v2** está declarado no `<head>`, **antes** do Google Tag Manager.
