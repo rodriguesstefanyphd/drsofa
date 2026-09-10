@@ -5,19 +5,23 @@ e o `privacidade.html` procuram.
 
 ## Logótipo
 
-O logótipo tem variantes para fundos diferentes. Prefira **SVG** (fica nítido
-em qualquer ecrã e pesa pouco); se só tiver PNG, use PNG com fundo transparente
-e actualize a extensão no HTML.
+**É preciso um único ficheiro: `logo.svg`** (ou `logo.png`, se não tiver SVG).
 
-| Ficheiro | Variante | Onde é usado |
-|---|---|---|
-| `logo-branco.svg` | tudo a branco | cabeçalho e rodapé (fundos escuros) — **em uso** |
-| `logo-cor.svg` | amarelo + preto | versão principal, para fundos claros |
-| `logo-escuro.svg` | cinzento escuro | monocromático, para impressão ou fundos claros |
-| `logo-compacto.svg` | amarelo, formato reduzido | espaços pequenos, assinaturas de e-mail |
-| `favicon.svg` | ícone do sofá | separador do browser |
-| `favicon.png` | ícone do sofá, 96×96 | browsers sem suporte a SVG |
-| `apple-touch-icon.png` | ícone do sofá, 180×180 | atalho no ecrã principal do iPhone |
+Serve qualquer variante — a de cor, a preta ou a branca. O cabeçalho e o
+rodapé aplicam-lhe um filtro CSS que a torna branca, porque assentam sempre em
+fundo escuro. O ficheiro deve ter **fundo transparente**; um fundo branco
+ficaria um retângulo branco.
+
+Se não existir nenhum dos dois, as páginas mostram o nome «doutor sofá»
+composto em texto — não fica nada partido.
+
+Ícones do separador do browser, opcionais:
+
+| Ficheiro | Tamanho |
+|---|---|
+| `favicon.svg` | vetorial, só o símbolo do sofá |
+| `favicon.png` | 96×96 |
+| `apple-touch-icon.png` | 180×180 |
 
 O logótipo é marca registada — use os ficheiros originais, sem esticar, sem
 recolorir e sem recortar o símbolo do wordmark.

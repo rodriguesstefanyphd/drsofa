@@ -39,6 +39,13 @@
   function dsGuardarConsentimento(valor){
     try { localStorage.setItem('ds_consentimento', valor); } catch(e){}
   }
+  /* Logótipo: tenta images/logo.svg, depois images/logo.png; se nenhum
+     existir, mostra o nome composto em texto. */
+  function dsLogo(img){
+    if (img.dataset.tentado !== 'png') { img.dataset.tentado = 'png'; img.src = 'images/logo.png'; return; }
+    img.hidden = true;
+    img.nextElementSibling.hidden = false;
+  }
   if (dsLerConsentimento() === 'aceite') {
     gtag('consent', 'update', {
       'ad_storage': 'granted',
@@ -131,6 +138,9 @@ section{padding:56px 0}
 .topo{background:var(--carvao);color:#fff;padding:12px 0}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
+/* O logótipo assenta sempre em fundo escuro; o filtro força-o a branco,
+   seja qual for a variante do ficheiro (cor, preta ou já branca). */
+.topo .marca img,footer .marca-rodape{filter:brightness(0) invert(1)}
 .topo .marca img{height:34px;width:auto;flex:0 0 auto}
 /* Alternativa em texto enquanto o ficheiro do logótipo não existir.
    O onerror do <img> troca um pelo outro; quando o SVG for adicionado
@@ -297,8 +307,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="topo">
   <div class="env">
     <a class="marca" href="index.html" aria-label="Doutor Sofá — página inicial">
-      <img src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
-           onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+      <img src="images/logo.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
+           onerror="dsLogo(this)">
       <span class="marca-texto" hidden>doutor <i>sofá</i></span>
       <span class="unidade">Unidade<br>de Lisboa</span>
     </a>
@@ -506,8 +516,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer>
   <div class="env">
-    <img class="marca-rodape" src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
-         onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+    <img class="marca-rodape" src="images/logo.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
+         onerror="dsLogo(this)">
     <div class="marca-texto" hidden>doutor <i>sofá</i></div>
     <h3>Unidade de Lisboa</h3>
     <p>

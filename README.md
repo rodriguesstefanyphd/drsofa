@@ -19,10 +19,10 @@ Publica-se como está em qualquer alojamento estático.
 - `index.html` — página principal (herói, serviços, prova social, formulário, FAQ).
 - `privacidade.html` — política de privacidade e de cookies (RGPD).
 - `images/` — logótipo e fotografias; ver `images/README.md` para os nomes
-  exigidos. Os ficheiros do logótipo ainda **não** estão no repositório: até
-  lá, o cabeçalho e o rodapé mostram o nome «doutor sofá» composto em texto.
-  Basta colocar `logo-branco.svg` em `images/` para a imagem passar a aparecer
-  no lugar do texto, sem mexer no HTML.
+  exigidos. O logótipo precisa de **um só ficheiro**, `images/logo.svg` (ou
+  `logo.png`), em qualquer variante e com fundo transparente: o cabeçalho e o
+  rodapé aplicam-lhe um filtro que o torna branco. Enquanto não existir,
+  mostram o nome «doutor sofá» composto em texto.
 
 ## Documentos de origem
 

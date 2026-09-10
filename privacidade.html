@@ -11,6 +11,13 @@
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="images/favicon.png" sizes="96x96">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<script>
+  function dsLogo(img){
+    if (img.dataset.tentado !== 'png') { img.dataset.tentado = 'png'; img.src = 'images/logo.png'; return; }
+    img.hidden = true;
+    img.nextElementSibling.hidden = false;
+  }
+</script>
 <style>
 :root{
   --amarelo:#FFD100;
@@ -39,7 +46,7 @@ a{color:var(--tinta);text-decoration:underline}
 .topo{background:var(--carvao);color:#fff;padding:12px 0}
 .topo .env{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .topo .marca{display:flex;align-items:center;gap:12px;text-decoration:none}
-.topo .marca img{height:34px;width:auto;flex:0 0 auto}
+.topo .marca img{height:34px;width:auto;flex:0 0 auto;filter:brightness(0) invert(1)}
 [hidden]{display:none!important}
 .marca-texto{font-family:"Iowan Old Style",Georgia,serif;font-weight:700;
   font-size:1.2rem;letter-spacing:-0.01em;line-height:1.1;white-space:nowrap}
@@ -73,8 +80,8 @@ footer a{color:#fff}
 <header class="topo">
   <div class="env">
     <a class="marca" href="index.html" aria-label="Doutor Sofá — página inicial">
-      <img src="images/logo-branco.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
-           onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+      <img src="images/logo.svg" alt="Doutor Sofá — limpeza especializada" width="260" height="98"
+           onerror="dsLogo(this)">
       <span class="marca-texto" hidden>doutor <i>sofá</i></span>
       <span class="unidade">Unidade<br>de Lisboa</span>
     </a>
