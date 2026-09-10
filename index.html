@@ -213,7 +213,15 @@ section{padding:56px 0}
   border-radius:10px;overflow:hidden;background:#E8BF00;
   aspect-ratio:4/3;
 }
-.heroi .foto img{width:100%;height:100%;object-fit:cover;display:block}
+.heroi .foto img,.heroi .foto video{width:100%;height:100%;object-fit:cover;display:block}
+/* o herói mostra o vídeo; a imagem parada só entra com «reduzir movimento» */
+.heroi .foto .heroi-parado{display:none}
+
+/* 5. Par antes/depois lado a lado — quando as duas fotos não têm o mesmo
+   enquadramento e por isso não servem para o comparador de arrastar */
+.par{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:3/2}
+.par-lado{position:relative}
+.par-lado img{display:block;width:100%;height:100%;object-fit:cover}
 .selo{
   display:inline-block;border:1.5px solid rgba(28,28,28,.35);color:var(--tinta);
   padding:5px 12px;border-radius:2px;font-size:.82rem;margin-bottom:18px;font-weight:600;
@@ -373,6 +381,8 @@ body.aviso-aberto .barra-fixa{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .heroi .foto video{display:none}
+  .heroi .foto .heroi-parado{display:block}
   .js .revelar{opacity:1!important;transform:none!important}
   .cartao:hover,.avaliacao:hover,.btn:hover{transform:none!important}
 }
@@ -415,7 +425,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </ul>
     </div>
     <div class="foto">
-      <img src="images/capa.jpg" alt="Técnico da Doutor Sofá a aplicar produto num sofá de tecido durante uma limpeza ao domicílio" width="1600" height="900">
+      <video class="heroi-video" poster="images/heroi-poster.jpg" width="1280" height="720"
+             autoplay muted loop playsinline preload="metadata" disablepictureinpicture>
+        <source src="images/heroi.webm" type="video/webm">
+        <source src="images/heroi.mp4" type="video/mp4">
+        <img src="images/capa.jpg" alt="Técnico da Doutor Sofá a aplicar produto num sofá de tecido durante uma limpeza ao domicílio" width="1600" height="900">
+      </video>
+      <img class="heroi-parado" src="images/heroi-poster.jpg" alt="Técnico da Doutor Sofá a aspirar um sofá de tecido numa sala" width="1280" height="720">
     </div>
   </div>
 </div>
@@ -465,24 +481,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="grafite">
   <div class="env revelar">
     <h2>Antes e <span class="realce">depois</span></h2>
-    <p style="color:#D8D8D8">Trabalhos reais feitos em casa de clientes em Lisboa.</p>
+    <p style="color:#D8D8D8">Trabalhos reais da unidade de Lisboa.</p>
     <div class="grelha duas" style="margin-top:24px">
       <figure class="comparador" style="margin:0">
-        <img src="images/antes-1.jpg" alt="Sofá antes da limpeza" loading="lazy" width="1200" height="800">
-        <img class="depois" src="images/depois-1.jpg" alt="O mesmo sofá depois da limpeza" loading="lazy" width="1200" height="800">
-        <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar o sofá antes e depois da limpeza">
+        <img src="images/antes-1.jpg" alt="Assento e braço de um cadeirão de tecido amarelo com nódoas escuras, antes da limpeza" loading="lazy" width="1200" height="800">
+        <img class="depois" src="images/depois-1.jpg" alt="O mesmo cadeirão depois da limpeza, com o tecido amarelo uniforme e sem nódoas" loading="lazy" width="1200" height="800">
+        <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar o cadeirão antes e depois da limpeza">
         <span class="puxador" aria-hidden="true"></span>
         <span class="etiqueta e">Antes</span><span class="etiqueta d">Depois</span>
       </figure>
-      <figure class="comparador" style="margin:0">
-        <img src="images/antes-2.jpg" alt="Colchão antes da higienização" loading="lazy" width="1200" height="800">
-        <img class="depois" src="images/depois-2.jpg" alt="O mesmo colchão depois da higienização" loading="lazy" width="1200" height="800">
-        <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar o colchão antes e depois da higienização">
-        <span class="puxador" aria-hidden="true"></span>
-        <span class="etiqueta e">Antes</span><span class="etiqueta d">Depois</span>
+      <figure class="par" style="margin:0">
+        <div class="par-lado">
+          <img src="images/antes-2.jpg" alt="Cadeirinha de bebé cinzenta muito suja, com o forro escurecido e os cintos manchados" loading="lazy" width="800" height="914">
+          <span class="etiqueta e">Antes</span>
+        </div>
+        <div class="par-lado">
+          <img src="images/depois-2.jpg" alt="A mesma cadeirinha depois da higienização, com o forro e os cintos limpos" loading="lazy" width="800" height="914">
+          <span class="etiqueta d">Depois</span>
+        </div>
       </figure>
     </div>
-    <p style="color:#D8D8D8;font-size:.9rem;margin-top:14px;text-align:center">Arraste a barra amarela para ver a diferença.</p>
+    <p style="color:#D8D8D8;font-size:.9rem;margin-top:14px;text-align:center">No cadeirão, arraste a barra amarela para ver a diferença.</p>
   </div>
 </section>
 
@@ -677,6 +696,21 @@ document.getElementById('recusarCookies').addEventListener('click', function(){
 
 /* ---------- Efeitos ---------- */
 var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Vídeo do herói: com «reduzir movimento» não toca nem se descarrega.
+   O CSS já mostra a imagem parada; isto evita gastar dados à mesma. */
+(function(){
+  var v = document.querySelector('.heroi-video');
+  if (!v || !semMovimento) return;
+  v.removeAttribute('autoplay');
+  v.pause();
+  v.preload = 'none';
+  v.removeAttribute('src');
+  while (v.firstElementChild && v.firstElementChild.tagName === 'SOURCE') {
+    v.removeChild(v.firstElementChild);
+  }
+  v.load();
+})();
 
 /* Revelação ao rolar. Sem IntersectionObserver, mostra tudo de imediato. */
 (function(){

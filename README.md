@@ -18,7 +18,7 @@ Publica-se como está em qualquer alojamento estático.
 
 - `index.html` — página principal (herói, serviços, prova social, formulário, FAQ).
 - `privacidade.html` — política de privacidade e de cookies (RGPD).
-- `images/` — o logótipo e os favicons já estão cá; faltam as fotografias.
+- `images/` — logótipo, favicons, fotografias e o vídeo do herói.
   Ver `images/README.md`.
 
 ## Documentos de origem
@@ -148,6 +148,7 @@ ligado no sistema não vê animação alguma.
 | Botão no cabeçalho | «Orçamento gratuito» sempre à vista em ecrã largo |
 | Cartões que levantam | ligeira subida e sombra ao passar o rato |
 | Comparador antes/depois | arrasta-se uma barra para revelar o resultado |
+| Vídeo no herói | toca em ciclo, sem som; com «reduzir movimento» fica a imagem parada |
 
 O comparador é um `input[type=range]` invisível por cima das imagens: assim
 funciona com rato, com dedo **e com as setas do teclado**, e é anunciado

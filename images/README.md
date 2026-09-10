@@ -34,33 +34,58 @@ símbolo do wordmark.
 
 | Ficheiro | Onde aparece | Tamanho | Estado |
 |---|---|---|---|
-| `capa.jpg` | fundo do herói e imagem de partilha (Open Graph) | 1600×900, 177 KB | ✅ no repositório |
-| `sofa.jpg` | cartão «Sofás e cadeirões» | 600×400, 25 KB | ✅ no repositório |
-| `colchao.jpg` | cartão «Colchões» | 600×400, 21 KB | ✅ no repositório |
-| `impermeabilizacao.jpg` | cartão «Impermeabilização» | 600×400, 12 KB | ✅ no repositório |
-| `antes-1.jpg` e `depois-1.jpg` | comparador do sofá | 1200×800 | ⏳ **em falta** |
-| `antes-2.jpg` e `depois-2.jpg` | comparador do colchão | 1200×800 | ⏳ **em falta** |
+| `capa.jpg` | imagem de partilha (Open Graph) e alternativa do vídeo | 1600×900, 177 KB | ✅ |
+| `sofa.jpg` | cartão «Sofás e cadeirões» | 600×400, 25 KB | ✅ |
+| `colchao.jpg` | cartão «Colchões» | 600×400, 21 KB | ✅ |
+| `impermeabilizacao.jpg` | cartão «Impermeabilização» | 600×400, 12 KB | ✅ |
+| `antes-1.jpg` / `depois-1.jpg` | comparador de arrastar (cadeirão) | 1200×800, 75/46 KB | ✅ |
+| `antes-2.jpg` / `depois-2.jpg` | par lado a lado (cadeirinha de bebé) | 800×914, 85/56 KB | ✅ |
+| `heroi.webm` / `heroi.mp4` | vídeo do herói | 1280×720, 10 s, 605/580 KB | ⚠️ exemplo |
+| `heroi-poster.jpg` | poster do vídeo e imagem parada | 1280×720, 69 KB | ✅ |
 
-### De onde vêm as que já cá estão
+### De onde vêm
 
-- `capa.jpg` — fotografia de um técnico a aplicar produto num sofá, do banco de
-  imagens da marca. É a única fotografia de trabalho real disponível até agora,
-  e **não foi tirada em Lisboa** — por isso o `alt` não o afirma. Quando houver
-  uma fotografia de um serviço feito em Lisboa, deve substituir esta.
+- `capa.jpg` — fotografia do banco de imagens da marca, de um técnico a aplicar
+  produto num sofá. **Não foi tirada em Lisboa**, por isso o `alt` não o afirma.
 - `sofa.jpg`, `colchao.jpg`, `impermeabilizacao.jpg` — recortes de produto do
-  material de Instagram, recompostos sobre o amarelo da marca em formato
-  600×400. São **ilustrações de estúdio, não fotografias de trabalhos reais**;
-  os `alt` no `index.html` dizem exactamente isso («do tipo que limpamos»), para
-  não sugerirem um resultado que a imagem não mostra.
+  material de Instagram, recompostos sobre o amarelo da marca. São
+  **ilustrações de estúdio, não fotografias de trabalhos reais**; os `alt`
+  dizem-no («do tipo que limpamos»), para não prometerem um resultado.
+- `antes-*` / `depois-*` — recortes de publicações reais do Instagram
+  `@doutorsofalisboa.pt`, de 27 de agosto de 2024. O enquadramento do
+  Instagram (moldura amarela, texto «ANTES»/«DEPOIS», autocolante do logótipo)
+  foi cortado fora.
+- `heroi.*` — **vídeo de exemplo**, entregue apenas para a apresentação. O
+  áudio foi removido de propósito (ver mais abaixo). Substituir por material
+  definitivo antes de qualquer campanha.
 
-### As que faltam
+### Porque é que só um dos casos é comparador de arrastar
 
-**As imagens antes/depois mudaram de formato.** Em vez de uma imagem só com
-os dois lados lado a lado, são agora **duas imagens separadas por caso** — o
-site sobrepõe-nas e o visitante arrasta uma barra para revelar o resultado,
-como no site brasileiro da marca. Para isto resultar, as duas fotografias do
-mesmo caso têm de ser tiradas **do mesmo sítio e com o mesmo enquadramento**,
-senão a comparação não bate certo.
+O comparador sobrepõe as duas fotografias e revela uma por cima da outra, por
+isso **só funciona se as duas tiverem o mesmo enquadramento**.
 
-Use fotografias de trabalhos reais. Comprima antes de publicar (por exemplo em
-squoosh.app) — o herói é a imagem que mais pesa no tempo de carregamento.
+- **Cadeirão** (`antes-1`/`depois-1`) — as duas fotografias foram tiradas do
+  mesmo sítio; alinham e o comparador funciona.
+- **Cadeirinha de bebé** (`antes-2`/`depois-2`) — o «antes» é de cima, o
+  «depois» é de frente. São o mesmo objecto, mas de ângulos diferentes: ao
+  arrastar, a cadeirinha saltava. Por isso este caso está como **par lado a
+  lado** (`figure.par`), que não exige alinhamento nenhum.
+
+Se houver um dia duas fotografias da cadeirinha com o mesmo enquadramento,
+basta trocar a `figure.par` por uma `figure.comparador` igual à do cadeirão.
+
+### O vídeo do herói
+
+`heroi.webm` e `heroi.mp4` **não têm faixa de áudio** — foi removida no
+processamento. Isso não é um detalhe: um vídeo que toca sozinho com som falha
+o critério WCAG 1.4.2, e sem áudio o vídeo passa a ser conteúdo só de imagem,
+que aqui é decorativo (o herói já diz tudo em texto) e por isso não precisa de
+legendas. O `axe-core` marca `video-caption` como «a rever» justamente porque
+não consegue saber se há áudio; com a faixa removida, não há nada a corrigir.
+
+Com **«reduzir movimento»** ligado no sistema, o vídeo não toca nem sequer se
+descarrega: o CSS esconde-o e mostra `heroi-poster.jpg`, e o JavaScript
+remove-lhe as `<source>`. Sem JavaScript o vídeo toca à mesma (é nativo do
+HTML) e, se o browser não souber ler nenhum dos formatos, mostra `capa.jpg`.
+
+Comprima sempre antes de publicar (por exemplo em squoosh.app).
