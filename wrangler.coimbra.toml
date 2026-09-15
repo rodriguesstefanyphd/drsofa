@@ -1,0 +1,19 @@
+# Publicação da unidade de Coimbra na Cloudflare.
+#
+# Um ficheiro por cidade porque o nome do Worker é o que separa os dois
+# projetos, e cada um tem o seu domínio. O conteúdo é o mesmo repositório:
+# muda só qual a unidade que a build gera.
+#
+# Não há `main`: isto serve ficheiros estáticos e não tem código de servidor
+# nenhum. É o mesmo motivo por que a exportação é estática — não há nada para
+# um servidor fazer, e assim a página é servida directamente pela rede da
+# Cloudflare.
+
+name = "drsofa-coimbra"
+compatibility_date = "2026-09-15"
+
+[assets]
+directory = "./web/out"
+# As rotas são reais (/ e /privacidade/), não é uma aplicação de página única:
+# um endereço que não exista deve dar 404 e não a página inicial disfarçada.
+not_found_handling = "404-page"

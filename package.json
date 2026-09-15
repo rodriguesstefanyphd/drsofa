@@ -1,0 +1,12 @@
+{
+  "name": "drsofa",
+  "private": true,
+  "description": "Landing pages das unidades Doutor Sofá. O projeto vive em web/; estes atalhos existem para a Cloudflare, que constrói a partir da raiz do repositório.",
+  "scripts": {
+    "build:lisboa": "cd web && npm ci && npm run build:lisboa",
+    "build:coimbra": "cd web && npm ci && npm run build:coimbra"
+  },
+  "devDependencies": {
+    "wrangler": "^4.132.0"
+  }
+}

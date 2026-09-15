@@ -60,29 +60,45 @@ Isto não é arrumação: na versão anterior, a lista de concelhos estava escri
 em dois sítios e podia divergir do JSON-LD sem ninguém dar por isso — e a
 segmentação dos anúncios tem de bater certo com ela.
 
-## Publicar na Cloudflare Pages
+## Publicar na Cloudflare
 
-Dois projetos, o mesmo repositório. Cada um serve uma cidade, e cada um tem o
-seu domínio — na Cloudflare Pages o domínio é por projeto.
+A Cloudflare passou a criar tudo como **Workers** — o fluxo antigo de Pages
+está a desaparecer do painel. Dá no mesmo para nós: isto serve ficheiros
+estáticos e não tem código de servidor nenhum, e um Worker com *static assets*
+faz exactamente isso.
 
-| Definição | Lisboa | Coimbra |
+**Dois projetos, o mesmo repositório.** O nome do Worker é o que os separa, e
+cada um tem o seu domínio.
+
+No painel: **Create an app** → **Connect to Git** → repositório `drsofa`.
+
+| Campo do ecrã | Lisboa | Coimbra |
 |---|---|---|
-| Root directory | `web` | `web` |
-| Build command | `npm run build:lisboa` | `npm run build:coimbra` |
-| Build output directory | `out` | `out` |
-| Domínio | `lisboa.doutorsofa.pt` | `coimbra.doutorsofa.pt` |
+| Nome do projeto | `drsofa-lisboa` | `drsofa-coimbra` |
+| Comando da build | `npm run build:lisboa` | `npm run build:coimbra` |
+| Comando de implantação | `npx wrangler deploy -c wrangler.lisboa.toml` | `npx wrangler deploy -c wrangler.coimbra.toml` |
+
+Os comandos correm a partir da **raiz** do repositório, não de `web/`. É para
+isso que existe o `package.json` da raiz: entra em `web/`, instala e constrói.
+Assim não é preciso acertar nenhum campo de «root directory», que nem sempre
+aparece no ecrã.
+
+Cada `wrangler.<cidade>.toml` diz só duas coisas: o nome do Worker e que os
+ficheiros a servir estão em `web/out`.
 
 ### Variáveis de ambiente
 
-Definem-se no painel, sem tocar no código:
+Definem-se no painel da Cloudflare, sem tocar no código:
 
 | Variável | Para que serve |
 |---|---|
-| `NEXT_PUBLIC_UNIDADE` | qual a unidade (já vem no comando de build) |
 | `NEXT_PUBLIC_GTM_ID` | contentor do Google Tag Manager |
 | `NEXT_PUBLIC_WEB3FORMS_KEY` | chave do formulário; sem ela não chega e-mail |
-| `NEXT_PUBLIC_ALOJAMENTO` | nome do alojamento, na política de privacidade |
+| `NEXT_PUBLIC_ALOJAMENTO` | nome do alojamento, citado na política de privacidade |
 | `NEXT_PUBLIC_DATA_POLITICA` | data da última atualização da política |
+
+`NEXT_PUBLIC_UNIDADE` não precisa de ser definida à mão: já vai no comando de
+build de cada projeto.
 
 ## Medição e consentimento
 
