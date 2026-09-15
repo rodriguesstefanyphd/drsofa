@@ -60,31 +60,47 @@ Isto não é arrumação: na versão anterior, a lista de concelhos estava escri
 em dois sítios e podia divergir do JSON-LD sem ninguém dar por isso — e a
 segmentação dos anúncios tem de bater certo com ela.
 
-## Publicar na Cloudflare
+## Publicar na Cloudflare — tem de ser **Pages**, não Workers
 
-A Cloudflare passou a criar tudo como **Workers** — o fluxo antigo de Pages
-está a desaparecer do painel. Dá no mesmo para nós: isto serve ficheiros
-estáticos e não tem código de servidor nenhum, e um Worker com *static assets*
-faz exactamente isso.
+Esta é a decisão mais fácil de errar do projeto, por isso fica escrita com o
+motivo.
 
-**Dois projetos, o mesmo repositório.** O nome do Worker é o que os separa, e
-cada um tem o seu domínio.
+O painel da Cloudflare empurra hoje toda a gente para criar **Workers**. Para
+servir ficheiros estáticos, um Worker até serve — mas **não serve para o nosso
+domínio**, e a razão está na documentação deles:
 
-No painel: **Create an app** → **Connect to Git** → repositório `drsofa`.
+> **Workers:** «Custom Domains are routes to a domain or subdomain *within a
+> Cloudflare zone* where the Worker is the origin.»
+>
+> **Pages:** «If you are deploying to a *subdomain*, it is **not** necessary
+> for your site to be a Cloudflare zone. You will need to add a custom CNAME
+> record to point the domain to your Cloudflare Pages site.»
 
-| Campo do ecrã | Lisboa | Coimbra |
+`doutorsofa.pt` é da franqueadora e nunca vai estar na nossa conta Cloudflare.
+Com Workers, ligar `lisboa.doutorsofa.pt` exigiria mover o domínio inteiro
+deles para cá — impensável. Com Pages, basta-lhes acrescentar um CNAME na zona
+onde já estão, que é o pedido pequeno que queremos fazer.
+
+**Dois projetos Pages, o mesmo repositório.**
+
+No painel: **Workers & Pages** → **Create** → separador **Pages** → **Connect
+to Git** → repositório `drsofa`.
+
+| Definição | Lisboa | Coimbra |
 |---|---|---|
 | Nome do projeto | `drsofa-lisboa` | `drsofa-coimbra` |
-| Comando da build | `npm run build:lisboa` | `npm run build:coimbra` |
-| Comando de implantação | `npx wrangler deploy -c wrangler.lisboa.toml` | `npx wrangler deploy -c wrangler.coimbra.toml` |
+| Framework preset | None | None |
+| Build command | `npm run build:lisboa` | `npm run build:coimbra` |
+| Build output directory | `web/out` | `web/out` |
+| Root directory | vazio (`/`) | vazio (`/`) |
 
-Os comandos correm a partir da **raiz** do repositório, não de `web/`. É para
-isso que existe o `package.json` da raiz: entra em `web/`, instala e constrói.
-Assim não é preciso acertar nenhum campo de «root directory», que nem sempre
-aparece no ecrã.
+O domínio liga-se depois em **Custom domains** dentro de cada projeto, e o
+valor a pedir à franqueadora é o `<projeto>.pages.dev` que a Cloudflare
+mostrar.
 
-Cada `wrangler.<cidade>.toml` diz só duas coisas: o nome do Worker e que os
-ficheiros a servir estão em `web/out`.
+Os ficheiros `wrangler.lisboa.toml` e `wrangler.coimbra.toml` ficam no
+repositório mas **não são usados pelo fluxo de Pages** — servem apenas se
+algum dia se publicar por linha de comandos com `wrangler pages deploy`.
 
 ### Variáveis de ambiente
 

@@ -1,3 +1,11 @@
+# ATENÇÃO: este ficheiro NÃO é usado pela publicação normal.
+#
+# A publicação é feita por Cloudflare **Pages**, não por Workers, e a razão
+# está no web/README.md: só o Pages aceita um CNAME vindo de um domínio que
+# não está na nossa conta — e doutorsofa.pt é da franqueadora.
+#
+# Fica aqui para quem um dia queira publicar por linha de comandos.
+#
 # Publicação da unidade de Lisboa na Cloudflare.
 #
 # Um ficheiro por cidade porque o nome do Worker é o que separa os dois
