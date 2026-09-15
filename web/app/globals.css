@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  O Tailwind trata do layout e da tipografia. Fica aqui só o que ele não
+  exprime bem: as interações próprias (comparador, vídeo de entrada) e um
+  punhado de regras de base.
+*/
+
+@layer base {
+  :root {
+    --amarelo: #ffd100;
+    --amarelo-escuro: #e6bc00;
+    --carvao: #1a1a1a;
+    --tinta: #1c1c1c;
+    --tinta-suave: #5c5c5c;
+    --borda: #e3e3df;
+    --acao: #0f7b39;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-tinta font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  @screen md {
+    body {
+      font-size: 18px;
+    }
+  }
+
+  /* O foco tem de ser sempre visível — é o que permite navegar com teclado. */
+  :focus-visible {
+    outline: 3px solid var(--carvao);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Texto só para leitores de ecrã. Não usar `display:none`: isso tira o
+     elemento da árvore de acessibilidade e deixa botões sem nome. */
+  .oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Revelação ao rolar. O estado escondido só é aplicado quando há
+     JavaScript, por isso sem JavaScript continua tudo visível. */
+  .js .revelar {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .js .revelar.visivel {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Comparador antes/depois. A barra é um input[type=range] invisível por
+     cima das imagens: assim funciona com rato, com dedo E com as setas do
+     teclado, e é anunciado por um leitor de ecrã. Um div com eventos de rato
+     não teria nada disso. */
+  .comparador {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 3 / 2;
+    isolation: isolate;
+  }
+
+  .comparador img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .comparador .depois {
+    clip-path: inset(0 0 0 var(--corte, 50%));
+  }
+
+  .comparador input[type='range'] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+  }
+
+  .comparador .puxador {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--corte, 50%);
+    width: 3px;
+    background: var(--amarelo);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .comparador .puxador::after {
+    content: '↔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--amarelo);
+    color: var(--carvao);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.4);
+  }
+
+  .comparador input[type='range']:focus-visible ~ .puxador::after {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .etiqueta {
+    position: absolute;
+    bottom: 10px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgb(0 0 0 / 0.72);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  /* Vídeo de entrada: ecrã inteiro e cantinho são o MESMO elemento a mudar de
+     classe, para o vídeo não recarregar nem voltar ao início quando encolhe. */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: #000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transition: inset 0.45s ease, border-radius 0.45s ease, box-shadow 0.45s ease;
+  }
+
+  .intro video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .intro::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.72), transparent);
+    pointer-events: none;
+  }
+
+  .intro.cantinho {
+    inset: auto auto 18px 18px;
+    width: 260px;
+    height: 146px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgb(0 0 0 / 0.45);
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .intro.cantinho::after {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    /* Em ecrã pequeno o fundo está ocupado — barra fixa de contacto e aviso de
+       cookies —, por isso o mini-leitor vai para cima. */
+    .intro.cantinho {
+      width: 172px;
+      height: 97px;
+      top: 78px;
+      bottom: auto;
+      left: 12px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .revelar {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .intro {
+    display: none !important;
+  }
+}
