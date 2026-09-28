@@ -1,8 +1,10 @@
 import type { Unidade } from '@/data/unidades';
-import { ou } from '@/lib/marcadores';
+import { linhaLegal, ou } from '@/lib/marcadores';
 import { Env } from './Env';
 
 export function Rodape({ u }: { u: Unidade }) {
+  const legal = linhaLegal(u);
+
   return (
     <footer className="bg-preto py-12 text-center text-white">
       <Env>
@@ -50,9 +52,12 @@ export function Rodape({ u }: { u: Unidade }) {
           </a>
         </p>
         <div className="mt-6 text-[0.8rem] leading-relaxed text-white/60">
-          {ou(u.legal.denominacao, 'legal.denominacao')} · NIF {ou(u.legal.nif, 'legal.nif')} ·{' '}
-          {ou(u.legal.morada, 'legal.morada')}
-          <br />
+          {legal !== null && (
+            <>
+              {legal}
+              <br />
+            </>
+          )}
           Chamada para a rede móvel nacional. © {new Date().getFullYear()} Doutor Sofá {u.cidade}.
         </div>
       </Env>

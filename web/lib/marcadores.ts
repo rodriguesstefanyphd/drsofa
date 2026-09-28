@@ -20,6 +20,25 @@ export function ou<T>(valor: T | null, campo: string): string {
   return valor === null ? marcador(campo) : String(valor);
 }
 
+/**
+ * A linha de identificação legal do rodapé, ou `null` se não houver nada a
+ * mostrar.
+ *
+ * Aqui a ausência não leva marcador, ao contrário do resto do ficheiro: as
+ * unidades decidiram não publicar denominação, NIF e morada, e uma decisão
+ * tomada não é um campo esquecido. Os campos continuam no modelo, prontos,
+ * para o dia em que essa decisão mudar.
+ */
+export function linhaLegal(u: Unidade): string | null {
+  const partes = [
+    u.legal.denominacao,
+    u.legal.nif === null ? null : `NIF ${u.legal.nif}`,
+    u.legal.morada,
+  ].filter((p): p is string => p !== null);
+
+  return partes.length === 0 ? null : partes.join(' · ');
+}
+
 export type Pendencia = { campo: string; descricao: string };
 
 /** Tudo o que falta a uma unidade, por ordem de impacto. */
@@ -46,10 +65,11 @@ export function pendencias(u: Unidade): Pendencia[] {
   if (u.antesDepois.length === 0)
     falta('antesDepois', 'Fotografias de trabalhos reais desta unidade.');
 
-  if (u.legal.denominacao === null) falta('legal.denominacao', 'Denominação social, no rodapé.');
-  if (u.legal.nif === null) falta('legal.nif', 'NIF, no rodapé e na política de privacidade.');
-  if (u.legal.morada === null) falta('legal.morada', 'Morada, no rodapé e no JSON-LD.');
-  if (u.legal.codigoPostal === null) falta('legal.codigoPostal', 'Código postal, no JSON-LD.');
+  // `legal` não entra nesta lista. As unidades optaram por não publicar
+  // denominação, NIF e morada, e listá-los para sempre transformaria este
+  // relatório em ruído que se aprende a ignorar — que é justamente o que lhe
+  // tiraria a utilidade. Se a decisão mudar, basta preencher os campos:
+  // a página mostra-os sozinha.
 
   return faltas;
 }

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Env } from '@/components/Env';
 import { unidadeActual } from '@/data/unidades';
 import { CHAVE_CONSENTIMENTO } from '@/lib/eventos';
-import { ou } from '@/lib/marcadores';
+import { linhaLegal, ou } from '@/lib/marcadores';
 
 const u = unidadeActual();
 const dominio = u.dominio.replace(/^https?:\/\//, '');
@@ -30,6 +30,7 @@ function Acapite({ n, titulo, children }: { n: number; titulo: string; children:
 export default function Privacidade() {
   const email = u.email ?? ou(null, 'email');
   const telefone = u.telefone ? u.telefone.e164.replace('+351', '+351 ') : ou(null, 'telefone');
+  const legal = linhaLegal(u);
 
   return (
     <>
@@ -72,14 +73,25 @@ export default function Privacidade() {
           </p>
 
           <Acapite n={1} titulo="Quem é responsável pelos seus dados">
+            {/* Cada linha só aparece se existir. Sem denominação, NIF e morada,
+                a unidade identifica-se pela marca, pela cidade e pelos
+                contactos — que é por onde o cliente lhe fala de facto. */}
             <p>
-              {ou(u.legal.denominacao, 'legal.denominacao')}
+              {u.legal.denominacao ?? `Doutor Sofá ${u.cidade}`}
               <br />
-              NIF {ou(u.legal.nif, 'legal.nif')}
-              <br />
-              {ou(u.legal.morada, 'legal.morada')}, {ou(u.legal.codigoPostal, 'legal.codigoPostal')}{' '}
-              {u.cidade}
-              <br />
+              {u.legal.nif !== null && (
+                <>
+                  NIF {u.legal.nif}
+                  <br />
+                </>
+              )}
+              {u.legal.morada !== null && (
+                <>
+                  {u.legal.morada}
+                  {u.legal.codigoPostal !== null && `, ${u.legal.codigoPostal}`} {u.cidade}
+                  <br />
+                </>
+              )}
               E-mail: {email}
               <br />
               Telefone: {telefone}
@@ -278,9 +290,13 @@ export default function Privacidade() {
             </a>
           </p>
           <p className="mt-4 text-[0.8rem] text-white/55">
-            {ou(u.legal.denominacao, 'legal.denominacao')} · NIF {ou(u.legal.nif, 'legal.nif')} ·{' '}
-            {ou(u.legal.morada, 'legal.morada')}
-            <br />© {new Date().getFullYear()} Doutor Sofá {u.cidade}.
+            {legal !== null && (
+              <>
+                {legal}
+                <br />
+              </>
+            )}
+            © {new Date().getFullYear()} Doutor Sofá {u.cidade}.
           </p>
         </Env>
       </footer>
