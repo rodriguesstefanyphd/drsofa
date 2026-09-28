@@ -25,8 +25,15 @@ export const SOB_CONSULTA = 'sob-consulta' as const;
 export type Preco = PorPreencher<number | typeof SOB_CONSULTA>;
 
 export type Testemunho = {
-  /** Tal como o cliente escreveu, sem corrigir e sem cortar. Pode vir em
-   *  português do Brasil — fica como está, é palavra dele. */
+  /** Tal como o cliente escreveu, sem corrigir uma vírgula. Pode vir em
+   *  português do Brasil — fica como está, é palavra dele.
+   *
+   *  Cortar é possível, mas só assim: a parte que fica é literal e o que sai
+   *  é assinalado com `[…]`. Nunca se juntam pedaços soltos para formar uma
+   *  frase que o cliente não escreveu. A marca existe porque qualquer pessoa
+   *  pode abrir o perfil no Google e comparar — e um excerto assumido lê-se
+   *  como citação, enquanto um corte escondido lê-se como falsificação e leva
+   *  atrás a credibilidade de todos os outros testemunhos. */
   texto: string;
   nome: string;
   /** Ano-mês, ou só o ano quando é essa a precisão que temos. O Google mostra
@@ -233,6 +240,16 @@ export const COIMBRA: Unidade = {
         texto:
           'Solicitei os serviços da empresa para limpeza de sofá em tecido, com bastantes manchas.\nForam muito atenciosos na marcação do serviço e esclarecimento de dúvidas.\nO serviço foi efetuado com pontualidade, muito cuidado e esforço para que ficasse perfeito.\nQuanto ao valor pago, não foi nada caro para o resultado final que obtive.\nRecomendo!',
         nome: 'Apolónia Amorim',
+        data: '2025',
+        dataLegivel: '2025',
+        estrelas: 5,
+      },
+      {
+        // Sai a frase que nomeia um colaborador que já não representa a
+        // unidade. O resto é literal, e o corte está à vista.
+        texto:
+          'Serviço & atendimento de primeira!!!\n[…] Fizeram milagre no meu sofá (que tem 5 anos) que ficou impecável! Gostei tanto que no dia em que vieram cá, acabei por solicitar um serviço adicional: que levassem duas cadeiras da mesa de jantar para limpeza, que voltaram, obviamente, perfeitas!\nAltamente recomendo!',
+        nome: 'Luiza Paiva',
         data: '2025',
         dataLegivel: '2025',
         estrelas: 5,
