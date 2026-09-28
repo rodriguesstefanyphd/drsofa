@@ -205,7 +205,11 @@ export const COIMBRA: Unidade = {
   dominio: 'https://coimbra.doutorsofa.pt',
 
   // A unidade de Coimbra tem contactos próprios. Os de Lisboa não servem.
-  telefone: null,
+  telefone: {
+    legivel: '913 165 744',
+    e164: '+351913165744',
+    whatsapp: '351913165744',
+  },
   email: null,
 
   concelhos: [
