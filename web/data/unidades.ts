@@ -268,7 +268,7 @@ export const COIMBRA: Unidade = {
     ],
   },
 
-  anosExperiencia: null,
+  anosExperiencia: 12,
   horario: horarioPadrao,
 
   // As fotografias de antes/depois no repositório são de trabalhos da unidade
