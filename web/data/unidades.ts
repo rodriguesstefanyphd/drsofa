@@ -210,7 +210,7 @@ export const COIMBRA: Unidade = {
     e164: '+351913165744',
     whatsapp: '351913165744',
   },
-  email: null,
+  email: 'coimbra@doutorsofa.pt',
 
   concelhos: [
     'Coimbra', 'Oliveira do Hospital', 'Mealhada', 'Lousã', 'Penacova',
