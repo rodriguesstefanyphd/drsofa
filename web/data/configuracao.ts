@@ -28,7 +28,7 @@ export const MEDICAO: {
    */
   gtm: PorPreencher<string>;
 } = {
-  gtm: null,
+  gtm: 'GTM-MFFJ6KWM',
 };
 
 export const SITE: {
