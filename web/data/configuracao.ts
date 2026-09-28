@@ -31,6 +31,39 @@ export const MEDICAO: {
   gtm: 'GTM-MFFJ6KWM',
 };
 
+/**
+ * Cópia dos pedidos num Google Forms, a par do WhatsApp.
+ *
+ * O formulário do site abre o WhatsApp com a mensagem escrita, mas quem
+ * carrega em enviar é a pessoa — e quem desiste a meio não deixa rasto. Esta
+ * cópia é a rede por baixo: fica tudo numa folha de cálculo, mesmo os pedidos
+ * que nunca chegam a ser enviados.
+ *
+ * Enviada com `navigator.sendBeacon`, que existe precisamente para isto:
+ * sobrevive à navegação que leva a pessoa para o WhatsApp a seguir. Não há
+ * como saber se chegou — o Google não responde a pedidos destes vindos de
+ * outro domínio —, por isso é uma cópia de segurança e nunca o canal
+ * principal.
+ *
+ * Com `url` a `null` não se envia nada, e a política de privacidade também não
+ * o menciona: o que a página declara acompanha o que ela faz.
+ */
+export const FORMULARIO_GOOGLE: {
+  /** O endereço que acaba em `/formResponse`. */
+  url: PorPreencher<string>;
+  /** O nome `entry.N` de cada pergunta, tirado do link pré-preenchido. */
+  campos: {
+    nome: PorPreencher<string>;
+    telemovel: PorPreencher<string>;
+    servico: PorPreencher<string>;
+    detalhes: PorPreencher<string>;
+    cidade: PorPreencher<string>;
+  };
+} = {
+  url: null,
+  campos: { nome: null, telemovel: null, servico: null, detalhes: null, cidade: null },
+};
+
 export const SITE: {
   /** Citado na política de privacidade, na lista de subcontratantes. */
   alojamento: PorPreencher<string>;

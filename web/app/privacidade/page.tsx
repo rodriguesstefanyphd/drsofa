@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Env } from '@/components/Env';
 import { unidadeActual } from '@/data/unidades';
-import { SITE } from '@/data/configuracao';
+import { FORMULARIO_GOOGLE, SITE } from '@/data/configuracao';
 import { CHAVE_CONSENTIMENTO } from '@/lib/eventos';
 import { linhaLegal, ou } from '@/lib/marcadores';
 
@@ -104,9 +104,14 @@ export default function Privacidade() {
             <p>
               O formulário do site <strong>não envia os seus dados a lado nenhum</strong>: escreve a
               mensagem e abre o WhatsApp no seu telemóvel ou computador, já preenchida. Quem carrega
-              em enviar é você, e a conversa é directamente connosco. Se não carregar, nada nos
-              chega.
+              em enviar é você, e a conversa é directamente connosco.
             </p>
+            {FORMULARIO_GOOGLE.url !== null && (
+              <p>
+                Ao mesmo tempo, guardamos uma cópia do que escreveu numa folha nossa no Google
+                Forms, para o pedido não se perder caso o WhatsApp não chegue a ser enviado.
+              </p>
+            )}
             <p>
               A mensagem leva o <strong>nome</strong>, o <strong>telemóvel</strong>, o{' '}
               <strong>serviço pretendido</strong> e os detalhes que optar por escrever. Usamos estes
@@ -150,6 +155,12 @@ export default function Privacidade() {
                 Google Ireland Ltd. — Google Tag Manager, Google Analytics e Google Ads, para
                 medição de audiência e de publicidade, apenas mediante consentimento.
               </li>
+              {FORMULARIO_GOOGLE.url !== null && (
+                <li>
+                  Google Ireland Ltd. — Google Forms, onde guardamos uma cópia dos pedidos de
+                  orçamento, para nenhum se perder.
+                </li>
+              )}
               <li>{ou(ALOJAMENTO, 'SITE.alojamento')} — alojamento do site.</li>
               <li>Autoridades públicas, quando exista obrigação legal.</li>
             </ul>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FORMULARIO_GOOGLE } from '@/data/configuracao';
 import type { Unidade } from '@/data/unidades';
 import { linkWhatsApp, linkWhatsAppMensagem, pedidoOrcamento } from '@/lib/eventos';
 import { Env } from './Env';
@@ -14,6 +15,41 @@ const SERVICOS = [
   'Empresa ou condomínio',
   'Outro',
 ];
+
+/**
+ * Guarda uma cópia do pedido na folha do Google, se estiver configurada.
+ *
+ * `sendBeacon` é o que torna isto fiável: o pedido é entregue pelo browser
+ * mesmo depois de a página sair para o WhatsApp. Um `fetch` normal seria
+ * cancelado a meio nessa altura.
+ *
+ * Falha em silêncio de propósito. Esta é a rede de segurança, não o canal: se
+ * um bloqueador a travar, a pessoa segue para o WhatsApp na mesma e não vê
+ * erro nenhum.
+ */
+function guardarCopia(
+  u: Unidade,
+  dados: { nome: string; telemovel: string; servico: string; detalhes: string },
+) {
+  const { url, campos } = FORMULARIO_GOOGLE;
+  if (url === null || typeof navigator === 'undefined' || !navigator.sendBeacon) return;
+
+  const corpo = new URLSearchParams();
+  const juntar = (campo: string | null, valor: string) => {
+    if (campo !== null && valor !== '') corpo.append(campo, valor);
+  };
+  juntar(campos.nome, dados.nome);
+  juntar(campos.telemovel, dados.telemovel);
+  juntar(campos.servico, dados.servico);
+  juntar(campos.detalhes, dados.detalhes);
+  juntar(campos.cidade, u.cidade);
+
+  try {
+    navigator.sendBeacon(url, corpo);
+  } catch {
+    /* sem rede, ou bloqueado: o WhatsApp continua a abrir */
+  }
+}
 
 /**
  * Pedido de orçamento, entregue no WhatsApp.
@@ -51,6 +87,13 @@ export function Formulario({ u }: { u: Unidade }) {
     ];
     const detalhes = campo('mensagem');
     if (detalhes) linhas.push(`Detalhes: ${detalhes}`);
+
+    guardarCopia(u, {
+      nome: campo('nome'),
+      telemovel: campo('telemovel'),
+      servico: campo('servico'),
+      detalhes,
+    });
 
     pedidoOrcamento(u.slug, campo('servico'));
 
