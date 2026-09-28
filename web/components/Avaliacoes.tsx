@@ -16,7 +16,19 @@ export function Avaliacoes({ u }: { u: Unidade }) {
             o cliente as escreveu. As de outra unidade não servem.
           </p>
         ) : (
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
+          // A grelha segue o número de testemunhos. Com três colunas fixas,
+          // uma unidade que ainda só tenha um fica com dois terços da fila em
+          // branco — que se lê como falha de carregamento, não como unidade
+          // recente. Quando chegarem os três, volta sozinha a três colunas.
+          <div
+            className={`mt-8 grid gap-6 ${
+              testemunhos.length >= 3
+                ? 'md:grid-cols-3'
+                : testemunhos.length === 2
+                  ? 'md:grid-cols-2'
+                  : 'md:max-w-xl md:mx-auto'
+            }`}
+          >
             {testemunhos.map((t) => (
               <blockquote
                 key={t.nome}

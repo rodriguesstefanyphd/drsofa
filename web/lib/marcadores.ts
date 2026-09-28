@@ -58,8 +58,17 @@ export function pendencias(u: Unidade): Pendencia[] {
   if (u.avaliacoes.total === null) falta('avaliacoes.total', 'Número de avaliações no Google.');
   if (u.avaliacoes.linkPerfil === null)
     falta('avaliacoes.linkPerfil', 'Link de partilha do perfil no Google.');
-  if (u.avaliacoes.testemunhos.length === 0)
-    falta('avaliacoes.testemunhos', 'Três avaliações reais desta unidade, copiadas tal como estão.');
+  // Menos de três, e não zero: a secção tem três colunas, e uma unidade que
+  // ficasse com um testemunho só deixaria de ser assinalada aqui e ficaria
+  // assim para sempre — que é precisamente a perda silenciosa que esta lista
+  // existe para evitar.
+  if (u.avaliacoes.testemunhos.length < 3) {
+    const faltam = 3 - u.avaliacoes.testemunhos.length;
+    falta(
+      'avaliacoes.testemunhos',
+      `Faltam ${faltam} de três, reais desta unidade e copiadas tal como estão.`,
+    );
+  }
 
   if (u.anosExperiencia === null) falta('anosExperiencia', 'Aparece na faixa de confiança.');
   if (u.antesDepois.length === 0)

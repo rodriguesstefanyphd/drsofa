@@ -29,8 +29,10 @@ export type Testemunho = {
    *  português do Brasil — fica como está, é palavra dele. */
   texto: string;
   nome: string;
-  /** Ano-mês. O Google só mostra datas relativas («há 2 meses»), por isso
-   *  esta é a precisão que existe de facto. */
+  /** Ano-mês, ou só o ano quando é essa a precisão que temos. O Google mostra
+   *  datas relativas («há 2 meses», «há um ano»), e «há um ano» pode ser
+   *  qualquer mês num intervalo largo: escrever ali um mês exacto seria
+   *  inventar precisão. Ambos os formatos são válidos no atributo `datetime`. */
   data: string;
   /** Rótulo legível da data, na língua do site. */
   dataLegivel: string;
@@ -222,7 +224,21 @@ export const COIMBRA: Unidade = {
 
   // As avaliações de Lisboa são de clientes de Lisboa. Coimbra tem o seu
   // próprio perfil no Google e os seus próprios testemunhos.
-  avaliacoes: { nota: null, total: null, linkPerfil: null, testemunhos: [] },
+  avaliacoes: {
+    nota: '5,0',
+    total: 56,
+    linkPerfil: null,
+    testemunhos: [
+      {
+        texto:
+          'Solicitei os serviços da empresa para limpeza de sofá em tecido, com bastantes manchas.\nForam muito atenciosos na marcação do serviço e esclarecimento de dúvidas.\nO serviço foi efetuado com pontualidade, muito cuidado e esforço para que ficasse perfeito.\nQuanto ao valor pago, não foi nada caro para o resultado final que obtive.\nRecomendo!',
+        nome: 'Apolónia Amorim',
+        data: '2025',
+        dataLegivel: '2025',
+        estrelas: 5,
+      },
+    ],
+  },
 
   anosExperiencia: null,
   horario: horarioPadrao,
