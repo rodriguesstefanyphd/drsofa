@@ -64,7 +64,7 @@ export default function Privacidade() {
             Política de Privacidade e de Cookies
           </h1>
           <p className="mt-2 text-[0.9rem] text-tinta-suave">
-            Última atualização: {ou(ACTUALIZADA_EM, 'NEXT_PUBLIC_DATA_POLITICA')}
+            Última atualização: {ou(ACTUALIZADA_EM, 'SITE.dataPolitica')}
           </p>
 
           <p className="mt-6 text-tinta-suave">
@@ -102,15 +102,21 @@ export default function Privacidade() {
           <Acapite n={2} titulo="Que dados recolhemos e porquê">
             <h3 className="font-bold text-tinta">Pedido de orçamento (formulário do site)</h3>
             <p>
-              Recolhemos o <strong>nome</strong>, o <strong>telemóvel</strong>, o{' '}
+              O formulário do site <strong>não envia os seus dados a lado nenhum</strong>: escreve a
+              mensagem e abre o WhatsApp no seu telemóvel ou computador, já preenchida. Quem carrega
+              em enviar é você, e a conversa é directamente connosco. Se não carregar, nada nos
+              chega.
+            </p>
+            <p>
+              A mensagem leva o <strong>nome</strong>, o <strong>telemóvel</strong>, o{' '}
               <strong>serviço pretendido</strong> e os detalhes que optar por escrever. Usamos estes
               dados apenas para responder ao pedido e, se avançar, para marcar e prestar o serviço.
             </p>
             <ul className="list-disc space-y-2 pl-5">
               <li>
-                Fundamento legal: o seu consentimento (artigo 6.º, n.º 1, alínea a) do RGPD), dado
-                ao assinalar a caixa no formulário; se contratar o serviço, o fundamento passa a ser
-                a execução do contrato (alínea b).
+                Fundamento legal: as diligências prévias ao contrato que nos pede (artigo 6.º, n.º
+                1, alínea b) do RGPD); se contratar o serviço, o mesmo fundamento cobre a sua
+                execução.
               </li>
               <li>
                 Prazo de conservação: 12 meses no caso de orçamentos sem seguimento; nos serviços
@@ -140,12 +146,11 @@ export default function Privacidade() {
               os tratam por nossa conta:
             </p>
             <ul className="list-disc space-y-2 pl-5">
-              <li>Web3Forms — envio dos formulários do site para o nosso e-mail.</li>
               <li>
                 Google Ireland Ltd. — Google Tag Manager, Google Analytics e Google Ads, para
                 medição de audiência e de publicidade, apenas mediante consentimento.
               </li>
-              <li>{ou(ALOJAMENTO, 'NEXT_PUBLIC_ALOJAMENTO')} — alojamento do site.</li>
+              <li>{ou(ALOJAMENTO, 'SITE.alojamento')} — alojamento do site.</li>
               <li>Autoridades públicas, quando exista obrigação legal.</li>
             </ul>
             <p>

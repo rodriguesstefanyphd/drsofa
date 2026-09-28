@@ -79,6 +79,11 @@ export function actualizarConsentimento(aceite: boolean) {
   });
 }
 
+/** Link do WhatsApp com uma mensagem já composta. */
+export function linkWhatsAppMensagem(numero: string, texto: string): string {
+  return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+}
+
 /** Mensagem pré-preenchida dos links wa.me. */
 export function linkWhatsApp(numero: string, cidade: string): string {
   const texto = `Olá, gostaria de um orçamento para ${cidade}.`;

@@ -48,8 +48,6 @@ export function pendencias(u: Unidade): Pendencia[] {
 
   if (!u.telefone) falta('telefone', 'Sem telefone não há chamadas nem links de WhatsApp.');
   if (!u.email) falta('email', 'Aparece no rodapé e no JSON-LD.');
-  if (!u.web3formsKey)
-    falta('web3formsKey', 'Sem ela o formulário não aparece: os pedidos não têm para onde ir.');
 
   if (u.precos.sofa === null) falta('precos.sofa', 'Preço «desde» do cartão de sofás.');
   if (u.precos.colchao === null) falta('precos.colchao', 'Preço «desde» do cartão de colchões.');

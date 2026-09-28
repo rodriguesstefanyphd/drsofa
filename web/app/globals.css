@@ -64,6 +64,21 @@
     border: 0;
   }
 
+  /* O formulário de orçamento compõe a mensagem do WhatsApp em JavaScript.
+     Sem ele, um botão que não faz nada seria pior do que não existir: mostra-se
+     antes os contactos directos, que funcionam sempre. */
+  .so-com-js {
+    display: none;
+  }
+
+  .js .so-com-js {
+    display: block;
+  }
+
+  .js .sem-js-alternativa {
+    display: none;
+  }
+
   /* Revelação ao rolar. O estado escondido só é aplicado quando há
      JavaScript, por isso sem JavaScript continua tudo visível. */
   .js .revelar {

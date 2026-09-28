@@ -77,12 +77,6 @@ export type Unidade = {
   }>;
   email: PorPreencher<string>;
 
-  /** Chave de acesso do Web3Forms, que decide para onde vai o formulário.
-   *  Uma por unidade: é o que faz os pedidos de Coimbra chegarem a Coimbra.
-   *  Não é segredo — vai escrita no HTML, como em qualquer formulário destes.
-   *  Sem ela o formulário não aparece de todo. */
-  web3formsKey: PorPreencher<string>;
-
   /** Concelhos servidos. Alimenta a secção «Onde vamos» E o areaServed do
    *  JSON-LD a partir da mesma fonte, para não poderem divergir. */
   concelhos: string[];
@@ -138,7 +132,6 @@ export const LISBOA: Unidade = {
     whatsapp: '351928313797',
   },
   email: 'lisboa@doutorsofa.pt',
-  web3formsKey: null,
 
   concelhos: [
     'Lisboa', 'Amadora', 'Odivelas', 'Loures', 'Oeiras',
@@ -227,7 +220,6 @@ export const COIMBRA: Unidade = {
     whatsapp: '351913165744',
   },
   email: 'coimbra@doutorsofa.pt',
-  web3formsKey: null,
 
   concelhos: [
     'Coimbra', 'Oliveira do Hospital', 'Mealhada', 'Lousã', 'Penacova',
