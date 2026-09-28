@@ -1,3 +1,4 @@
+import { MEDICAO } from '@/data/configuracao';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { unidadeActual } from '@/data/unidades';
@@ -6,7 +7,10 @@ const u = unidadeActual();
 
 /** ID do contentor do Google Tag Manager. Definido no painel da Cloudflare
  *  Pages como variável de ambiente — não precisa de tocar no código. */
-const GTM = process.env.NEXT_PUBLIC_GTM_ID ?? 'GTM-XXXXXXX';
+// Sem contentor não se carrega o Tag Manager de todo. A reserva anterior era
+// 'GTM-XXXXXXX', e o resultado foi um script a pedir um contentor
+// inexistente em todas as visitas: nenhuma medição, e nenhum sinal disso.
+const GTM = MEDICAO.gtm;
 
 const titulo = `Limpeza de Sofás ao Domicílio em ${u.cidade} | Doutor Sofá`;
 const descricao =
@@ -64,10 +68,14 @@ try{
       ad_personalization:'granted',analytics_storage:'granted'});
   }
 }catch(e){}
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+${
+  GTM === null
+    ? '/* Sem contentor definido: o Tag Manager não é carregado. */'
+    : `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
 var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
 j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM}');
+})(window,document,'script','dataLayer','${GTM}');`
+}
 `.trim();
 
 const dadosEstruturados = {
@@ -120,15 +128,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM}`}
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-            title="Google Tag Manager"
-          />
-        </noscript>
+        {GTM !== null && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM}`}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        )}
         {children}
       </body>
     </html>

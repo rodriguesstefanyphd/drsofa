@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Env } from '@/components/Env';
 import { unidadeActual } from '@/data/unidades';
+import { SITE } from '@/data/configuracao';
 import { CHAVE_CONSENTIMENTO } from '@/lib/eventos';
 import { linhaLegal, ou } from '@/lib/marcadores';
 
@@ -13,8 +14,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-const ALOJAMENTO = process.env.NEXT_PUBLIC_ALOJAMENTO ?? null;
-const ACTUALIZADA_EM = process.env.NEXT_PUBLIC_DATA_POLITICA ?? null;
+const ALOJAMENTO = SITE.alojamento;
+const ACTUALIZADA_EM = SITE.dataPolitica;
 
 function Acapite({ n, titulo, children }: { n: number; titulo: string; children: React.ReactNode }) {
   return (

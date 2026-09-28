@@ -18,7 +18,7 @@ import { Titulo } from './Titulo';
  * Com `null`, a secção mostra os canais que funcionam de facto. Menos bonito,
  * e não perde um único pedido.
  */
-const CHAVE = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? null;
+
 
 const SERVICOS = [
   'Limpeza de sofá',
@@ -30,6 +30,8 @@ const SERVICOS = [
 ];
 
 export function Formulario({ u }: { u: Unidade }) {
+  const CHAVE = u.web3formsKey;
+
   return (
     <section id="orcamento" className="bg-banda py-14 md:py-[78px]">
       <Env className="revelar">

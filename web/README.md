@@ -104,17 +104,27 @@ algum dia se publicar por linha de comandos com `wrangler pages deploy`.
 
 ### Variáveis de ambiente
 
-Definem-se no painel da Cloudflare, sem tocar no código:
+Só uma, e vai no comando de build de cada projeto: `NEXT_PUBLIC_UNIDADE`. Não
+há nada a definir no painel da Cloudflare.
 
-| Variável | Para que serve |
+Houve quatro, e foram retiradas de lá de propósito. O contentor do Tag
+Manager, a chave do formulário, o nome do alojamento e a data da política
+**não são segredos**: todos acabam escritos no HTML publicado, onde qualquer
+pessoa os lê com um clique direito. O painel não comprava segurança nenhuma, e
+cobrava um passo manual repetido em dois projetos mais uma reimplantação — que
+é fácil esquecer, porque estas variáveis são lidas quando o site compila, não
+quando alguém o visita.
+
+Custou caro: a data da política ficou em branco a público, e o contentor do
+Tag Manager esteve meses a apontar para `GTM-XXXXXXX`, a string de reserva do
+código, com a medição toda em nada. Nenhum dos dois deu erro. Agora vivem em
+`data/configuracao.ts` e na unidade, mudam no mesmo commit que o conteúdo, e o
+`npm run pendentes` vigia-os.
+
+| Onde | O quê |
 |---|---|
-| `NEXT_PUBLIC_GTM_ID` | contentor do Google Tag Manager |
-| `NEXT_PUBLIC_WEB3FORMS_KEY` | chave do formulário; sem ela não chega e-mail |
-| `NEXT_PUBLIC_ALOJAMENTO` | nome do alojamento, citado na política de privacidade |
-| `NEXT_PUBLIC_DATA_POLITICA` | data da última atualização da política |
-
-`NEXT_PUBLIC_UNIDADE` não precisa de ser definida à mão: já vai no comando de
-build de cada projeto.
+| `data/configuracao.ts` | contentor do Tag Manager, alojamento, data da política |
+| `data/unidades.ts` | chave do Web3Forms, uma por unidade |
 
 ## Medição e consentimento
 
