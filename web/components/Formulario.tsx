@@ -2,10 +2,23 @@
 
 import type { Unidade } from '@/data/unidades';
 import { linkWhatsApp, pedidoOrcamento } from '@/lib/eventos';
+import { marcador } from '@/lib/marcadores';
 import { Env } from './Env';
 import { Titulo } from './Titulo';
 
-const CHAVE = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? 'CHAVE_WEB3FORMS_AQUI';
+/**
+ * Sem chave não há formulário.
+ *
+ * A reserva anterior era a string `'CHAVE_WEB3FORMS_AQUI'`, e o resultado foi
+ * o pior comportamento possível: um formulário de aspecto impecável que
+ * recolhia nome, telemóvel e serviço e os entregava a um destino inexistente.
+ * Quem o preenchesse ficava à espera de resposta, e do nosso lado não havia
+ * sequer um erro para dar por isso — a perda perfeitamente silenciosa.
+ *
+ * Com `null`, a secção mostra os canais que funcionam de facto. Menos bonito,
+ * e não perde um único pedido.
+ */
+const CHAVE = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? null;
 
 const SERVICOS = [
   'Limpeza de sofá',
@@ -25,6 +38,33 @@ export function Formulario({ u }: { u: Unidade }) {
           Respondemos no mesmo dia, em horário de funcionamento.
         </p>
 
+        {CHAVE === null ? (
+          <div className="mx-auto mt-7 max-w-[620px] rounded-[10px] border border-borda bg-white p-6 text-center">
+            <p className="font-bold">{marcador('NEXT_PUBLIC_WEB3FORMS_KEY')}</p>
+            <p className="mt-3 text-tinta-suave">
+              O formulário está desligado até a chave estar definida. Entretanto, fale connosco
+              directamente — respondemos no mesmo dia.
+            </p>
+            {u.telefone && (
+              <p className="mt-5 flex flex-wrap justify-center gap-3">
+                <a
+                  href={linkWhatsApp(u.telefone.whatsapp, u.cidade)}
+                  data-local="form"
+                  className="inline-flex min-h-[56px] items-center rounded-md bg-acao px-6 font-bold text-white hover:bg-acao-escuro"
+                >
+                  Falar no WhatsApp
+                </a>
+                <a
+                  href={`tel:${u.telefone.e164}`}
+                  data-local="form"
+                  className="inline-flex min-h-[56px] items-center rounded-md border border-borda px-6 font-bold text-tinta"
+                >
+                  Ligar {u.telefone.legivel}
+                </a>
+              </p>
+            )}
+          </div>
+        ) : (
         <form
           action="https://api.web3forms.com/submit"
           method="POST"
@@ -142,6 +182,7 @@ export function Formulario({ u }: { u: Unidade }) {
             </p>
           )}
         </form>
+        )}
       </Env>
     </section>
   );
