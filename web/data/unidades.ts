@@ -13,6 +13,17 @@
 /** Um valor que ainda não conhecemos. Fica `null` até alguém o confirmar. */
 export type PorPreencher<T> = T | null;
 
+/**
+ * Serviço cujo preço depende do trabalho e se dá ao telefone.
+ *
+ * Não confundir com `null`: `null` é «ainda não sabemos» e faz aparecer um
+ * marcador de campo em falta; isto é uma resposta comercial tomada, e a página
+ * mostra-a ao cliente como tal.
+ */
+export const SOB_CONSULTA = 'sob-consulta' as const;
+
+export type Preco = PorPreencher<number | typeof SOB_CONSULTA>;
+
 export type Testemunho = {
   /** Tal como o cliente escreveu, sem corrigir e sem cortar. Pode vir em
    *  português do Brasil — fica como está, é palavra dele. */
@@ -62,9 +73,9 @@ export type Unidade = {
   concelhos: string[];
 
   precos: {
-    sofa: PorPreencher<number>;
-    colchao: PorPreencher<number>;
-    impermeabilizacao: PorPreencher<number>;
+    sofa: Preco;
+    colchao: Preco;
+    impermeabilizacao: Preco;
   };
 
   avaliacoes: {
@@ -118,7 +129,7 @@ export const LISBOA: Unidade = {
     'Sintra', 'Cascais', 'Almada', 'Barreiro', 'Seixal',
   ],
 
-  precos: { sofa: null, colchao: null, impermeabilizacao: null },
+  precos: { sofa: 59, colchao: 59, impermeabilizacao: SOB_CONSULTA },
 
   avaliacoes: {
     nota: '4,9',
@@ -203,7 +214,7 @@ export const COIMBRA: Unidade = {
     'Vila Nova de Poiares', 'Penela', 'Pampilhosa da Serra', 'Góis',
   ],
 
-  precos: { sofa: null, colchao: null, impermeabilizacao: null },
+  precos: { sofa: 59, colchao: 59, impermeabilizacao: SOB_CONSULTA },
 
   // As avaliações de Lisboa são de clientes de Lisboa. Coimbra tem o seu
   // próprio perfil no Google e os seus próprios testemunhos.

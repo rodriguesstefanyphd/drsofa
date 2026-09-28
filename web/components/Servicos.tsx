@@ -1,7 +1,21 @@
-import type { Unidade } from '@/data/unidades';
-import { ou } from '@/lib/marcadores';
+import { SOB_CONSULTA, type Preco, type Unidade } from '@/data/unidades';
+import { marcador } from '@/lib/marcadores';
 import { Env } from './Env';
 import { Titulo } from './Titulo';
+
+/**
+ * A linha de preço de um cartão, inteira.
+ *
+ * Devolve a frase toda e não só o número, porque as três respostas têm formas
+ * diferentes: um valor leva «Desde» e «€» à volta, «sob consulta» não leva
+ * nenhum dos dois, e um campo por preencher não pode aparecer disfarçado de
+ * preço.
+ */
+function precoLegivel(preco: Preco, campo: string): string {
+  if (preco === SOB_CONSULTA) return 'Consulte o valor';
+  if (preco === null) return marcador(campo);
+  return `Desde ${preco} €`;
+}
 
 export function Servicos({ u }: { u: Unidade }) {
   const cartoes = [
@@ -56,14 +70,14 @@ export function Servicos({ u }: { u: Unidade }) {
               <div className="p-5">
                 <h3 className="text-[1.05rem] font-bold">{c.titulo}</h3>
                 <p className="mt-2 text-[0.97rem] text-tinta-suave">{c.texto}</p>
-                <p className="mt-3 font-extrabold">Desde {ou(c.preco, c.campo)} €</p>
+                <p className="mt-3 font-extrabold">{precoLegivel(c.preco, c.campo)}</p>
               </div>
             </article>
           ))}
         </div>
         <p className="mt-6 text-[0.95rem] text-tinta-suave">
           Também fazemos tapetes, alcatifas, cadeiras de escritório e estofos de empresas,
-          alojamento local e condomínios.
+          alojamento local e condomínios. Nestes o valor depende da peça: consulte-nos.
         </p>
       </Env>
     </section>

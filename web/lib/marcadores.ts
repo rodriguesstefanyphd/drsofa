@@ -1,3 +1,6 @@
+// Só tipos: este ficheiro também é lido pelo `npm run pendentes`, que corre em
+// Node puro e não resolve o atalho `@/`. Os tipos desaparecem em execução; uma
+// constante importada daqui partiria o script.
 import type { Unidade } from '@/data/unidades';
 
 /**
