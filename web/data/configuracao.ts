@@ -60,8 +60,14 @@ export const FORMULARIO_GOOGLE: {
     cidade: PorPreencher<string>;
   };
 } = {
-  url: null,
-  campos: { nome: null, telemovel: null, servico: null, detalhes: null, cidade: null },
+  url: 'https://docs.google.com/forms/d/e/1FAIpQLSeq2KuQcXGV5b5f8WEeEHKdBGfELIyBqmXINolfSrELrsP1EQ/formResponse',
+  campos: {
+    nome: 'entry.1361836333',
+    telemovel: 'entry.2090378384',
+    servico: 'entry.722479897',
+    detalhes: 'entry.1614139425',
+    cidade: 'entry.608367707',
+  },
 };
 
 export const SITE: {
