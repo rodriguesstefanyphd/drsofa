@@ -254,6 +254,17 @@ export const COIMBRA: Unidade = {
         dataLegivel: '2025',
         estrelas: 5,
       },
+      {
+        // Dois cortes: a cliente nomeia o mesmo colaborador na abertura e no
+        // fecho. Sai a primeira frase inteira e a recomendação final dirigida
+        // a ele; o que descreve o trabalho fica intacto.
+        texto:
+          '[…] Trabalho bem realizado com rigor e profissionalismo.\nOrçamentos muito bons em relação a outras empresas. Ganharam uma cliente!\nO trabalho foi a higienização de 2 sofás, 6 cadeiras e um colchão de casal. […]\nParabéns pelo excelente trabalho',
+        nome: 'Sonia Gonçalves',
+        data: '2025',
+        dataLegivel: '2025',
+        estrelas: 5,
+      },
     ],
   },
 
