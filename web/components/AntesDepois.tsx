@@ -7,7 +7,7 @@ export function AntesDepois({ u }: { u: Unidade }) {
   const temArrastar = u.antesDepois.some((p) => p.modo === 'arrastar');
 
   return (
-    <section className="bg-grafite py-14 md:py-[78px]">
+    <section id="antes-depois" className="bg-grafite py-14 md:py-[78px]">
       <Env className="revelar">
         <Titulo escuro realce="depois">
           Antes e

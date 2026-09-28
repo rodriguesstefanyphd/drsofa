@@ -49,7 +49,7 @@ export function Servicos({ u }: { u: Unidade }) {
   ];
 
   return (
-    <section className="py-14 md:py-[78px]">
+    <section id="servicos" className="py-14 md:py-[78px]">
       <Env className="revelar">
         <Titulo>O que limpamos</Titulo>
         <div className="mt-8 grid gap-6 md:grid-cols-3">

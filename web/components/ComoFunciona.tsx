@@ -24,7 +24,7 @@ const PASSOS = [
 
 export function ComoFunciona() {
   return (
-    <section className="bg-banda py-14 md:py-[78px]">
+    <section id="como-funciona" className="bg-banda py-14 md:py-[78px]">
       <Env className="revelar">
         <Titulo>Como funciona</Titulo>
         {/* A numeração aqui é informação: os passos são mesmo uma sequência. */}

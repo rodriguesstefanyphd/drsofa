@@ -6,7 +6,7 @@ export function Avaliacoes({ u }: { u: Unidade }) {
   const { testemunhos, linkPerfil } = u.avaliacoes;
 
   return (
-    <section className="bg-amarelo py-14 md:py-[78px]">
+    <section id="avaliacoes" className="bg-amarelo py-14 md:py-[78px]">
       <Env className="revelar">
         <Titulo>O que dizem os clientes de {u.cidade}</Titulo>
 
