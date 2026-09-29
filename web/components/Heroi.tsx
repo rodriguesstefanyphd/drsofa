@@ -14,15 +14,20 @@ export function Heroi({ u }: { u: Unidade }) {
     <div className="bg-amarelo py-11 text-tinta">
       <Env className="grid gap-7 md:grid-cols-2 md:items-center">
         <div>
+          {/* A etiqueta dizia «Serviço ao domicílio em X e arredores» e o h1
+              não dizia a cidade nenhuma. Trocaram de papel: o h1 é o sinal
+              mais forte que uma página local dá ao Google, e é lá que a
+              cidade tem de estar. A etiqueta passa a dizer o que mais pesa
+              na decisão de quem está a comparar preços. */}
           <span className="mb-4 inline-block rounded-sm border-[1.5px] border-tinta/35 px-3 py-1 text-[0.82rem] font-semibold">
-            Serviço ao domicílio em {u.cidade} e arredores
+            Sem taxa de deslocação · Orçamento grátis
           </span>
           <h1
             id="tituloHeroi"
             tabIndex={-1}
             className="max-w-[18ch] text-[2.1rem] font-extrabold leading-[1.08] md:text-[3rem]"
           >
-            Limpeza e higienização de sofás ao domicílio
+            Limpeza de sofás e colchões ao domicílio em {u.cidade}
           </h1>
           <p className="mt-3.5 max-w-[46ch] text-[#3F3A2A] md:text-[1.08rem]">
             Removemos nódoas, ácaros, bactérias e odores no seu sofá, colchão ou tapete, sem tirar

@@ -76,7 +76,7 @@ export function Servicos({ u }: { u: Unidade }) {
           ))}
         </div>
         <p className="mt-6 text-[0.95rem] text-tinta-suave">
-          Também fazemos tapetes, alcatifas, cadeiras de escritório e estofos de empresas,
+          Também fazemos tapetes, alcatifas, cadeiras de escritório e mobiliário de empresas,
           alojamento local e condomínios. Nestes o valor depende da peça: consulte-nos.
         </p>
       </Env>

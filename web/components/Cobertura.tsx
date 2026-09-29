@@ -9,8 +9,12 @@ export function Cobertura({ u }: { u: Unidade }) {
     <section id="onde-vamos" className="py-14 md:py-[78px]">
       <Env className="revelar">
         <Titulo>Onde vamos</Titulo>
+        {/* O título da secção é curto de propósito. É este parágrafo que diz
+            o que se faz e onde — e é por frases assim, com serviço e lugar na
+            mesma linha, que uma página local é encontrada. */}
         <p className="mt-6 text-tinta-suave">
-          Serviço ao domicílio, sem taxa de deslocação nestes concelhos:
+          Limpeza de sofás, colchões e tapetes ao domicílio em {u.cidade}, sem taxa de
+          deslocação, nestes concelhos:
         </p>
         {/* A mesma lista alimenta o areaServed do JSON-LD. Uma fonte só, para
             a página e os dados estruturados não poderem divergir. */}

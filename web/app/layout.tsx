@@ -1,6 +1,7 @@
 import { MEDICAO } from '@/data/configuracao';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { PERGUNTAS } from '@/data/perguntas';
 import { unidadeActual } from '@/data/unidades';
 
 const u = unidadeActual();
@@ -13,9 +14,21 @@ const u = unidadeActual();
 const GTM = MEDICAO.gtm;
 
 const titulo = `Limpeza de Sofás ao Domicílio em ${u.cidade} | Doutor Sofá`;
+/**
+ * A descrição não posiciona a página — o Google escolhe o que lhe apetece
+ * mostrar —, mas é ela que decide se a pessoa carrega neste resultado ou no
+ * de baixo. Por isso leva o preço de entrada e a taxa de deslocação, que são
+ * as duas coisas que quem compara serviços procura primeiro.
+ *
+ * O preço vem dos dados. Escrito à mão aqui, seria a quarta cópia do mesmo
+ * número no projeto — e a primeira a ficar desactualizada.
+ */
+const desde =
+  typeof u.precos.sofa === 'number' ? `, desde ${u.precos.sofa} €` : '';
 const descricao =
-  `Limpeza e higienização de sofás, colchões e estofos ao domicílio em ${u.cidade}. ` +
-  'Orçamento gratuito por WhatsApp, produtos biodegradáveis e secagem rápida.';
+  `Limpeza de sofás, colchões e tapetes ao domicílio em ${u.cidade} e ` +
+  `arredores${desde}. Sem taxa de deslocação, orçamento grátis por WhatsApp ` +
+  'e secagem em 24 h.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(u.dominio),
@@ -26,7 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_PT',
     title: titulo,
-    description: `Limpeza e higienização de sofás, colchões e estofos ao domicílio em ${u.cidade}. Orçamento gratuito por WhatsApp.`,
+    description: `Limpeza e higienização de sofás, colchões e tapetes ao domicílio em ${u.cidade}. Orçamento gratuito por WhatsApp.`,
     url: u.dominio,
     images: [`${u.dominio}/images/capa.jpg`],
   },
@@ -82,7 +95,7 @@ const dadosEstruturados = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: `Doutor Sofá ${u.cidade}`,
-  description: `Limpeza e higienização de sofás, colchões e estofos ao domicílio em ${u.cidade}.`,
+  description: `Limpeza e higienização de sofás, colchões e tapetes ao domicílio em ${u.cidade}.`,
   url: `${u.dominio}/`,
   ...(u.telefone ? { telephone: u.telefone.e164 } : {}),
   ...(u.email ? { email: u.email } : {}),
@@ -97,6 +110,33 @@ const dadosEstruturados = {
   },
   // A mesma lista que a secção «Onde vamos» mostra, para não poderem divergir.
   areaServed: u.concelhos,
+  // O perfil do Google é a outra morada desta unidade na Internet. Ligá-la
+  // aqui ajuda o motor a perceber que as duas são a mesma casa.
+  ...(u.avaliacoes.linkPerfil ? { sameAs: [u.avaliacoes.linkPerfil] } : {}),
+  // Os três serviços, com o preço quando há preço. Onde é sob consulta não se
+  // declara valor nenhum: um preço inventado no JSON-LD é uma promessa que
+  // aparece no resultado de pesquisa e que depois não se cumpre ao telefone.
+  makesOffer: [
+    { nome: 'Limpeza de sofás e cadeirões', preco: u.precos.sofa },
+    { nome: 'Limpeza e higienização de colchões', preco: u.precos.colchao },
+    { nome: 'Impermeabilização de sofás e cadeiras', preco: u.precos.impermeabilizacao },
+  ].map((s) => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: s.nome,
+      areaServed: u.concelhos,
+      provider: { '@type': 'LocalBusiness', name: `Doutor Sofá ${u.cidade}` },
+    },
+    ...(typeof s.preco === 'number'
+      ? { price: String(s.preco), priceCurrency: 'EUR', priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: String(s.preco),
+          priceCurrency: 'EUR',
+          valueAddedTaxIncluded: true,
+        } }
+      : {}),
+  })),
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
@@ -117,6 +157,23 @@ const dadosEstruturados = {
   ],
 };
 
+/**
+ * As mesmas perguntas que a página mostra, declaradas para o Google.
+ *
+ * É o que faz aparecer as perguntas expansíveis por baixo do resultado de
+ * pesquisa. A regra é simples e não se contorna: só pode declarar-se o que
+ * está visível na página — e por isso vêm do mesmo ficheiro que a secção lê.
+ */
+const perguntasFrequentes = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: PERGUNTAS.map((q) => ({
+    '@type': 'Question',
+    name: q.p,
+    acceptedAnswer: { '@type': 'Answer', text: q.r },
+  })),
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-PT" className="sem-js">
@@ -125,6 +182,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(dadosEstruturados) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(perguntasFrequentes) }}
         />
       </head>
       <body>

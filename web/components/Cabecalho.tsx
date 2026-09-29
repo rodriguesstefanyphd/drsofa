@@ -27,7 +27,11 @@ export function Cabecalho({ u }: { u: Unidade }) {
             <a
               href={`tel:${u.telefone.e164}`}
               data-local="topo"
-              className="hidden font-bold hover:underline sm:inline"
+              // Era texto solto com 28 px de altura, ao lado de um botão de
+              // 44. Passa a ter a mesma caixa de toque do botão sem mudar de
+              // aspecto: continua a ler-se como um número, mas já se acerta
+              // nele com o dedo e com o rato.
+              className="hidden items-center font-bold hover:underline sm:inline-flex sm:min-h-[44px]"
             >
               {u.telefone.legivel}
             </a>
