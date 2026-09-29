@@ -198,6 +198,26 @@ export const LISBOA: Unidade = {
       modo: 'lado-a-lado',
       rotulo: 'Cadeirinha de bebé, antes e depois da higienização',
     },
+    {
+      antes: '/images/ad-colchao-ikea-antes.jpg',
+      depois: '/images/ad-colchao-ikea-depois.jpg',
+      altAntes:
+        'Colchão de casal com duas nódoas amarelas no centro, antes da limpeza',
+      altDepois: 'O mesmo colchão depois da limpeza, com o tecido branco e uniforme',
+      modo: 'arrastar',
+      rotulo: 'Arraste para comparar o colchão antes e depois da limpeza',
+    },
+    {
+      antes: '/images/ad-chaise-lama-antes.jpg',
+      depois: '/images/ad-chaise-lama-depois.jpg',
+      altAntes:
+        'Chaise longue de tecido claro com lama e sujidade espalhadas por todo o assento',
+      altDepois: 'A mesma chaise longue depois da limpeza, com o tecido claro e uniforme',
+      // A máquina mudou de sítio entre as duas fotografias e o enquadramento
+      // saiu ligeiramente rodado. A arrastar, a peça saltava.
+      modo: 'lado-a-lado',
+      rotulo: 'Chaise longue, antes e depois da limpeza',
+    },
   ],
 
   legal: {
@@ -274,7 +294,33 @@ export const COIMBRA: Unidade = {
   // As fotografias de antes/depois no repositório são de trabalhos da unidade
   // de Lisboa (Instagram @doutorsofalisboa.pt). Não podem ser apresentadas
   // como trabalhos de Coimbra.
-  antesDepois: [],
+  antesDepois: [
+    {
+      antes: '/images/ad-cama-nodoa-antes.jpg',
+      depois: '/images/ad-cama-nodoa-depois.jpg',
+      altAntes: 'Colchão numa cama de casal com uma nódoa castanha ao centro',
+      altDepois: 'O mesmo colchão depois da higienização, sem vestígio da nódoa',
+      modo: 'arrastar',
+      rotulo: 'Arraste para comparar o colchão antes e depois da higienização',
+    },
+    {
+      antes: '/images/ad-colchao-pe-antes.jpg',
+      depois: '/images/ad-colchao-pe-depois.jpg',
+      altAntes:
+        'Colchão encostado à parede, com uma nódoa castanha grande na parte de cima',
+      altDepois: 'O mesmo colchão depois da limpeza, sem sinal da nódoa',
+      modo: 'lado-a-lado',
+      rotulo: 'Colchão, antes e depois da limpeza',
+    },
+    {
+      antes: '/images/ad-chaise-clara-antes.jpg',
+      depois: '/images/ad-chaise-clara-depois.jpg',
+      altAntes: 'Chaise longue de tecido bege com sujidade escura em todo o assento',
+      altDepois: 'A mesma chaise longue depois da limpeza, com o tecido bege uniforme',
+      modo: 'lado-a-lado',
+      rotulo: 'Chaise longue, antes e depois da limpeza',
+    },
+  ],
 
   legal: {
     denominacao: null,

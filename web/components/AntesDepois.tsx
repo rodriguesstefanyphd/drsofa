@@ -12,14 +12,20 @@ export function AntesDepois({ u }: { u: Unidade }) {
         <Titulo escuro realce="depois">
           Antes e
         </Titulo>
+        {/* Diz «Doutor Sofá» e não «a unidade de X» de propósito. As
+            fotografias circulam entre franquiados, e quase nunca se sabe ao
+            certo de que unidade é cada uma. Assinar cada trabalho como sendo
+            desta casa seria dizer que foi esta mão a fazê-lo, o que não se
+            pode garantir. Marca e método são os mesmos em todo o lado: isso
+            sim, é verdade, e até diz mais a quem está a decidir. */}
         <p className="mt-4 text-center text-[#D8D8D8]">
-          Trabalhos reais da unidade de {u.cidade}.
+          Trabalhos reais Doutor Sofá. O mesmo método em todas as unidades.
         </p>
 
         {u.antesDepois.length === 0 ? (
           <p className="mx-auto mt-8 max-w-[52ch] rounded-[10px] border-2 border-dashed border-white/40 p-6 text-center font-bold text-white">
-            «FALTA: antesDepois» — fotografias de trabalhos desta unidade. As que existem no
-            repositório são de outra unidade e não podem ser apresentadas como sendo daqui.
+            «FALTA: antesDepois» — fotografias de trabalhos, antes e depois. Sem elas esta
+            secção não tem nada para mostrar.
           </p>
         ) : (
           <div className="mt-6 grid gap-6 md:grid-cols-2">
@@ -64,9 +70,12 @@ export function AntesDepois({ u }: { u: Unidade }) {
           </div>
         )}
 
+        {/* Dizia «na primeira imagem», e passou a haver mais do que uma
+            com barra. A frase aponta agora para a barra amarela em vez de
+            para uma posição, e deixa de mentir quando os pares mudam. */}
         {temArrastar && (
           <p className="mt-4 text-center text-[0.9rem] text-[#D8D8D8]">
-            Na primeira imagem, arraste a barra amarela para ver a diferença.
+            Nas imagens com a barra amarela, arraste-a para ver a diferença.
           </p>
         )}
       </Env>
