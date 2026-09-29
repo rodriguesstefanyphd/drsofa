@@ -29,8 +29,10 @@ const PERGUNTAS = [
 ];
 
 export function Faq() {
+  /* O id existe para os links de site do Google Ads poderem apontar
+     directamente para aqui. Sem ele, o anúncio só sabe levar ao topo. */
   return (
-    <section className="py-14 md:py-[78px]">
+    <section id="perguntas" className="py-14 md:py-[78px]">
       <div className="mx-auto w-full max-w-[760px] px-5">
         <Titulo>Perguntas frequentes</Titulo>
         <div className="mt-8 divide-y divide-borda border-y border-borda">

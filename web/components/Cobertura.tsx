@@ -3,8 +3,10 @@ import { Env } from './Env';
 import { Titulo } from './Titulo';
 
 export function Cobertura({ u }: { u: Unidade }) {
+  /* O id existe para os links de site do Google Ads poderem apontar
+     directamente para aqui. Sem ele, o anúncio só sabe levar ao topo. */
   return (
-    <section className="py-14 md:py-[78px]">
+    <section id="onde-vamos" className="py-14 md:py-[78px]">
       <Env className="revelar">
         <Titulo>Onde vamos</Titulo>
         <p className="mt-6 text-tinta-suave">
