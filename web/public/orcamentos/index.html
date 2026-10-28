@@ -80,6 +80,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 .logo-zona{display:flex;align-items:center;gap:10px}
 .logo-zona img{height:38px;width:auto}
+.ficheiro{font-size:.8rem}
 
 /* ---------- Folha A4 ---------- */
 .palco{
@@ -141,6 +142,37 @@ tr.total td.val{border-top:2px solid #000}
   .palco{display:block;overflow:visible}
   .folha{width:210mm;min-height:297mm;box-shadow:none;transform:none!important;margin:0}
 }
+/* ---------- Ecrãs estreitos ---------- */
+/* O nome curto dos botões só aparece no telemóvel. */
+.curto{display:none}
+
+@media (max-width:999px){
+  /* Cinco botões com os nomes por extenso enchiam quatro linhas: a barra
+     ficava com 236 px num telemóvel — quase um quarto do ecrã — e, como
+     está fixa ao topo, tapava o que estivesse por baixo ao deslizar. Era
+     isto que parecia "caixas em cima umas das outras". Agora os nomes
+     encurtam e ficam numa linha só; se ainda assim não couberem, a barra
+     desliza para o lado em vez de crescer para baixo. */
+  .barra{flex-wrap:nowrap;overflow-x:auto;gap:8px;scrollbar-width:none}
+  .barra::-webkit-scrollbar{display:none}
+  .barra h1{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .btn{padding:9px 12px;flex:0 0 auto}
+  .longo{display:none}
+  .curto{display:inline}
+
+  /* Apertar o suficiente para os cinco caberem sem ter de deslizar nos
+     telemóveis mais comuns; a 320 px ainda desliza, e tudo bem, porque o
+     que fica de fora é o "Sair". */
+  .btn{font-size:.82rem;padding:9px 10px}
+
+  /* 16 px é o limiar abaixo do qual o iPhone dá zoom sozinho quando se
+     toca num campo. Esse zoom deixa a página mais larga do que o ecrã e
+     é o que faz tudo parecer desalinhado — não é o desenho, é o zoom. */
+  .campo input,.campo select,.campo textarea,
+  .linha-item select,.linha-item input{font-size:16px}
+  .ficheiro{font-size:16px}
+}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* ---------- Entrada ---------- */
@@ -183,9 +215,9 @@ tr.total td.val{border-top:2px solid #000}
 <div class="app" id="app">
 <div class="barra">
   <h1>Orçamentos <span>Doutor Sofá</span></h1>
-  <button class="btn" id="btnPdf">Guardar PDF</button>
-  <button class="btn sec" id="btnPng">Guardar imagem</button>
-  <button class="btn zap" id="btnZap">Enviar por WhatsApp</button>
+  <button class="btn" id="btnPdf"><span class="longo">Guardar PDF</span><span class="curto">PDF</span></button>
+  <button class="btn sec" id="btnPng"><span class="longo">Guardar imagem</span><span class="curto">Imagem</span></button>
+  <button class="btn zap" id="btnZap"><span class="longo">Enviar por WhatsApp</span><span class="curto">WhatsApp</span></button>
   <button class="btn sec" id="btnNovo">Novo</button>
   <button class="btn sec" id="btnSair">Sair</button>
 </div>
@@ -244,7 +276,7 @@ tr.total td.val{border-top:2px solid #000}
     <div class="campo">
       <label for="ficheiroLogo">Logótipo</label>
       <div class="logo-zona">
-        <input type="file" id="ficheiroLogo" accept="image/*" style="font-size:.8rem">
+        <input type="file" id="ficheiroLogo" accept="image/*" class="ficheiro">
       </div>
       <p class="ajuda">O logótipo da marca já vem posto. Só carregue aqui se quiser outro.</p>
     </div>
