@@ -446,8 +446,10 @@ function desenhar(){
 
   var itens = dadosItens();
 
+  /* Vírgula e não " + ": os nomes já trazem um "+" lá dentro
+     ("Limpeza + impermeabilização") e os dois juntos liam-se mal. */
   el("vServicos").textContent = itens.length
-    ? itens.map(function(i){ return i.nome; }).join(" + ")
+    ? itens.map(function(i){ return i.nome; }).join(", ") + "."
     : "—";
 
   var corpo = el("vTabela");
