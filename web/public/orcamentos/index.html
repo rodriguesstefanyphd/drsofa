@@ -102,6 +102,12 @@ button,input,select,textarea{font:inherit;color:inherit}
   overflow:hidden;
 }
 .folha{
+  /* `flex-shrink:0` não é um pormenor: sem ele, a folha é um item de uma
+     caixa flexível e encolhe para a largura do ecrã em vez de manter os
+     210 mm. Num telemóvel passava a 358 px de largura — deixava de ser
+     uma folha A4 reduzida e passava a ser uma folha A4 esmagada, com o
+     texto todo a mudar de linha. E a imagem exportada saía assim. */
+  flex:0 0 auto;
   width:210mm;min-height:297mm;background:var(--papel);color:#000;
   box-shadow:0 8px 30px rgba(0,0,0,.14);position:relative;overflow:hidden;
   padding:0 18mm 18mm;display:flex;flex-direction:column;
@@ -559,22 +565,82 @@ window.addEventListener("resize", ajustarEscala);
 /* ---------------- Ações ---------------- */
 el("btnPdf").addEventListener("click", function(){ window.print(); });
 
+/* Guardar a imagem passa por um ficheiro verdadeiro e não por um endereço
+   `data:`. O endereço `data:` traz a imagem inteira escrita lá dentro — uma
+   folha A4 dá para cima de 2 MB — e a essa dimensão o browser desiste a meio
+   sem dizer nada: o botão parece funcionar e não aparece ficheiro nenhum.
+   Um ficheiro em memória (`blob`) não tem esse limite. */
+function nomeDoFicheiro(){
+  var nome = (el("cliente").value || "orcamento")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return "orcamento-" + (nome || "sem-nome") + ".png";
+}
+
+function transferir(blob, nome){
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = nome;
+  /* Há browsers que ignoram um elo que não esteja na página. */
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 10000);
+}
+
 el("btnPng").addEventListener("click", function(){
   if(typeof html2canvas !== "function"){
     alert("A biblioteca que desenha a imagem não carregou. Verifique a ligação à Internet, ou use «Guardar PDF».");
     return;
   }
   var folha = el("folha");
+  var botao = el("btnPng");
   var anterior = folha.style.transform;
+  var rotulo = botao.innerHTML;
+
+  botao.disabled = true;
+  botao.textContent = "A preparar…";
   folha.style.transform = "none";
-  html2canvas(folha, { scale: 2, backgroundColor: "#ffffff", useCORS: true }).then(function(canvas){
+
+  function arrumar(){
     folha.style.transform = anterior;
-    var a = document.createElement("a");
-    var nome = (el("cliente").value || "orcamento").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-    a.download = "orcamento-" + nome + ".png";
-    a.href = canvas.toDataURL("image/png");
-    a.click();
-  }).catch(function(){ folha.style.transform = anterior; });
+    botao.disabled = false;
+    botao.innerHTML = rotulo;
+  }
+
+  html2canvas(folha, { scale: 2, backgroundColor: "#ffffff", useCORS: true })
+    .then(function(canvas){
+      return new Promise(function(resolve, reject){
+        canvas.toBlob(function(blob){
+          blob ? resolve(blob) : reject(new Error("imagem vazia"));
+        }, "image/png");
+      });
+    })
+    .then(function(blob){
+      var nome = nomeDoFicheiro();
+      var ficheiro = null;
+      try{ ficheiro = new File([blob], nome, { type: "image/png" }); }catch(e){}
+
+      /* No telemóvel, "transferir" muitas vezes não dá nada: o Safari do
+         iPhone ignora o atributo `download`. O menu de partilha do sistema
+         faz o que a pessoa quer mesmo — guardar nas fotografias, ou mandar
+         logo pelo WhatsApp sem passar pela galeria. */
+      if(ficheiro && navigator.canShare && navigator.canShare({ files: [ficheiro] })){
+        return navigator.share({ files: [ficheiro], title: nome })
+          .catch(function(erro){
+            /* Fechar o menu de partilha não é uma avaria. */
+            if(erro && erro.name === "AbortError") return;
+            transferir(blob, nome);
+          });
+      }
+      transferir(blob, nome);
+    })
+    .catch(function(){
+      alert("Não foi possível guardar a imagem. Use «Guardar PDF»: na janela de impressão escolha «Guardar como PDF».");
+    })
+    .then(arrumar, arrumar);
 });
 
 el("btnZap").addEventListener("click", function(){
