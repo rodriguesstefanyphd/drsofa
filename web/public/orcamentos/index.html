@@ -63,7 +63,17 @@ button,input,select,textarea{font:inherit;color:inherit}
   width:100%;padding:9px 11px;border:1px solid var(--borda);border-radius:6px;background:#fff;
 }
 .campo textarea{min-height:150px;resize:vertical;font-size:.82rem;line-height:1.55}
-.dupla{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* Data e validade lado a lado — mas só enquanto couberem.
+   Duas armadilhas aqui. Uma: as colunas de uma grelha não encolhem abaixo
+   do conteúdo a não ser que se diga `min-width:0`, e o campo de data tem
+   um tamanho mínimo teimoso. Outra: no Safari do iPhone esse campo traz
+   um tamanho próprio que ignora o `width:100%` — e ainda cresceu quando
+   passámos a letra para 16 px. Resultado: a data empurrava a validade.
+   Com `auto-fit` e um mínimo de 130 px, se não couberem lado a lado
+   passam a ficar uma debaixo da outra, em vez de se sobreporem. */
+.dupla{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.dupla>*{min-width:0}
+.campo input[type="date"]{-webkit-appearance:none;appearance:none;min-width:0;max-width:100%}
 
 .linha-item{display:grid;grid-template-columns:1fr 84px 44px;gap:8px;margin-bottom:8px;align-items:center}
 .linha-item select,.linha-item input{padding:8px 9px;font-size:.86rem;min-width:0}
@@ -171,7 +181,16 @@ tr.total td.val{border-top:2px solid #000}
   .campo input,.campo select,.campo textarea,
   .linha-item select,.linha-item input{font-size:16px}
   .ficheiro{font-size:16px}
+
 }
+
+/* Num telemóvel, data e validade ficam uma debaixo da outra, ponto.
+   O `auto-fit` acima já devia chegar, mas o campo de data do Safari tem
+   vontade própria e eu não tenho um iPhone para confirmar. Duas linhas
+   num formulário que já é todo vertical não custam nada; duas caixas
+   sobrepostas custam. Num tablet já há largura de sobra, por isso o
+   limite é 600 px e não a largura do painel. */
+@media (max-width:600px){ .dupla{grid-template-columns:1fr} }
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
