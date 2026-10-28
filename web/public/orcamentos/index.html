@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Esta página expõe a tabela de preços. O `noindex` tira-a dos resultados
+     de pesquisa; o robots.txt do site manda os motores nem sequer entrar. As
+     duas coisas juntas, porque cada uma falha de maneira diferente. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Gerador de Orçamentos — Doutor Sofá</title>
+<style>
+:root{
+  --amarelo:#F7C600;
+  --amarelo-escuro:#D9AC00;
+  --tinta:#121212;
+  --tinta-suave:#5A5A5A;
+  --papel:#FFFFFF;
+  --fundo:#EDEEF0;
+  --borda:#D8DADE;
+  --ok:#0F8040;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--fundo);color:var(--tinta);font-size:15px;line-height:1.5;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+
+/* ---------- Barra de topo ---------- */
+.barra{
+  position:sticky;top:0;z-index:20;background:var(--tinta);color:#fff;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));
+}
+.barra h1{font-size:1rem;font-weight:700;margin-right:auto}
+.barra h1 span{color:var(--amarelo)}
+.btn{
+  background:var(--amarelo);color:var(--tinta);border:none;border-radius:6px;
+  padding:9px 16px;font-weight:700;font-size:.9rem;cursor:pointer;
+  min-height:44px;
+}
+.btn:hover{background:var(--amarelo-escuro)}
+.btn.sec{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+.btn.sec:hover{background:rgba(255,255,255,.12)}
+.btn.zap{background:var(--ok);color:#fff}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--amarelo);outline-offset:2px}
+
+/* ---------- Área de trabalho ---------- */
+.area{
+  display:grid;gap:24px;align-items:start;
+  padding:24px max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));
+  max-width:1400px;margin:0 auto;
+}
+@media (min-width:1000px){ .area{grid-template-columns:380px 1fr} }
+
+/* ---------- Painel ---------- */
+.painel{background:#fff;border:1px solid var(--borda);border-radius:10px;padding:20px;min-width:0}
+.painel h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--tinta-suave);margin-bottom:14px}
+.painel h2:not(:first-child){margin-top:26px;padding-top:20px;border-top:1px solid var(--borda)}
+.campo{margin-bottom:12px}
+.campo label{display:block;font-size:.8rem;font-weight:650;margin-bottom:4px}
+.campo input,.campo select,.campo textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--borda);border-radius:6px;background:#fff;
+}
+.campo textarea{min-height:150px;resize:vertical;font-size:.82rem;line-height:1.55}
+.dupla{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.linha-item{display:grid;grid-template-columns:1fr 84px 44px;gap:8px;margin-bottom:8px;align-items:center}
+.linha-item select,.linha-item input{padding:8px 9px;font-size:.86rem;min-width:0}
+.linha-item .apagar{
+  background:#fff;border:1px solid var(--borda);border-radius:6px;cursor:pointer;
+  width:44px;height:44px;color:var(--tinta-suave);font-size:1.1rem;line-height:1;
+}
+.linha-item .apagar:hover{border-color:#C00;color:#C00}
+.linha-item .apagar:focus-visible{outline:2px solid var(--amarelo);outline-offset:2px}
+.add{background:#fff;border:1.5px dashed var(--borda);border-radius:6px;padding:9px;width:100%;cursor:pointer;font-weight:650;font-size:.86rem;color:var(--tinta-suave);min-height:44px}
+.add:hover{border-color:var(--amarelo-escuro);color:var(--tinta)}
+.add:focus-visible{outline:2px solid var(--amarelo);outline-offset:2px}
+.ajuda{font-size:.76rem;color:var(--tinta-suave);margin-top:6px}
+
+.logo-zona{display:flex;align-items:center;gap:10px}
+.logo-zona img{height:38px;width:auto}
+
+/* ---------- Folha A4 ---------- */
+.palco{
+  display:flex;justify-content:center;min-width:0;
+  /* A folha mede 210 mm (cerca de 794 px) e continua a ocupar esse espaço
+     mesmo depois de `ajustarEscala` lhe aplicar um `scale`: o `transform`
+     encolhe o que se vê, não a caixa. Sem este `hidden`, num telemóvel a
+     caixa transborda e a página inteira ganha barra horizontal. */
+  overflow:hidden;
+}
+.folha{
+  width:210mm;min-height:297mm;background:var(--papel);color:#000;
+  box-shadow:0 8px 30px rgba(0,0,0,.14);position:relative;overflow:hidden;
+  padding:0 18mm 18mm;display:flex;flex-direction:column;
+  font-size:10.5pt;line-height:1.5;
+  transform-origin:top center;
+}
+.faixa{
+  position:absolute;top:0;left:0;right:0;height:26mm;background:var(--amarelo);
+  border-bottom-left-radius:60% 100%;
+}
+.faixa-base{
+  position:absolute;bottom:0;left:0;width:48mm;height:40mm;background:var(--amarelo);
+  border-top-right-radius:100% 70%;opacity:.25;
+}
+.cabecalho{position:relative;z-index:2;height:26mm;display:flex;align-items:center;justify-content:flex-end}
+.cabecalho img{max-height:19mm;width:auto}
+.marca-texto{font-weight:800;font-size:17pt;letter-spacing:-.02em;line-height:1}
+.marca-texto small{display:block;font-size:7pt;font-weight:600;letter-spacing:.12em;text-transform:lowercase}
+
+.titulo{display:flex;justify-content:space-between;align-items:baseline;margin-top:10mm}
+.titulo b{font-size:13pt}
+.titulo span{text-decoration:underline}
+
+.dados{margin-top:6mm}
+.dados div{margin-bottom:1.5mm}
+
+.bloco-titulo{font-weight:700;margin:7mm 0 3mm}
+.processo{white-space:pre-wrap;font-size:9.8pt;line-height:1.55}
+
+table{width:100%;border-collapse:collapse;margin-top:7mm;font-size:10pt}
+th,td{border:1px solid #000;padding:2.2mm 3mm}
+th{font-weight:700;text-align:center;background:#fff}
+td.serv{text-align:center}
+td.val{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.total td{border:none;padding-top:3mm;font-weight:700;font-size:11pt}
+tr.total td.val{border-top:2px solid #000}
+
+.rodape-folha{margin-top:auto;padding-top:10mm;text-align:center;position:relative;z-index:2}
+.rodape-folha .nota{font-size:8.6pt;color:#444;margin-bottom:4mm;line-height:1.5}
+.rodape-folha b{font-size:10.5pt}
+
+/* ---------- Impressão ---------- */
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .barra,.painel,.ajuda{display:none!important}
+  .area{display:block;padding:0;max-width:none}
+  .palco{display:block;overflow:visible}
+  .folha{width:210mm;min-height:297mm;box-shadow:none;transform:none!important;margin:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- Entrada ---------- */
+.entrada{
+  position:fixed;inset:0;z-index:100;background:var(--tinta);
+  display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-left,0px));
+}
+.caixa{background:#fff;border-radius:12px;padding:30px;width:100%;max-width:360px}
+.caixa .marca{font-weight:800;font-size:1.3rem;letter-spacing:-.02em;margin-bottom:4px}
+.caixa .marca em{font-style:normal;background:var(--amarelo);padding:0 4px;border-radius:3px}
+.caixa p.sub{color:var(--tinta-suave);font-size:.86rem;margin-bottom:22px}
+.caixa .campo{margin-bottom:14px}
+.caixa .btn{width:100%;padding:12px}
+.erro{color:#B32D1F;font-size:.84rem;margin-top:12px;font-weight:650}
+.app{display:none}
+.app.ativa{display:block}
+@media print{ .entrada{display:none!important} }
+</style>
+</head>
+<body>
+
+<div class="entrada" id="entrada">
+  <form class="caixa" id="formEntrada">
+    <div class="marca">doutor <em>sofá</em></div>
+    <p class="sub">Gerador de orçamentos — acesso reservado à equipa.</p>
+    <div class="campo">
+      <label for="utilizador">Utilizador</label>
+      <input id="utilizador" autocomplete="username" required>
+    </div>
+    <div class="campo">
+      <label for="palavra">Palavra-passe</label>
+      <input type="password" id="palavra" autocomplete="current-password" required>
+    </div>
+    <button class="btn" type="submit">Entrar</button>
+    <p class="erro" id="erroEntrada" role="alert" hidden>Utilizador ou palavra-passe incorretos.</p>
+  </form>
+</div>
+
+<div class="app" id="app">
+<div class="barra">
+  <h1>Orçamentos <span>Doutor Sofá</span></h1>
+  <button class="btn" id="btnPdf">Guardar PDF</button>
+  <button class="btn sec" id="btnPng">Guardar imagem</button>
+  <button class="btn zap" id="btnZap">Enviar por WhatsApp</button>
+  <button class="btn sec" id="btnNovo">Novo</button>
+  <button class="btn sec" id="btnSair">Sair</button>
+</div>
+
+<div class="area">
+
+  <!-- ================= PAINEL ================= -->
+  <div class="painel">
+    <h2>Cliente</h2>
+    <div class="campo">
+      <label for="cliente">Nome</label>
+      <input id="cliente" placeholder="Pedro Roberto">
+    </div>
+    <div class="campo">
+      <label for="morada">Morada</label>
+      <input id="morada" placeholder="Arroios">
+    </div>
+    <div class="campo">
+      <label for="telefone">Telemóvel <span style="font-weight:400;color:var(--tinta-suave)">(para o WhatsApp)</span></label>
+      <input id="telefone" placeholder="912 345 678" inputmode="tel">
+    </div>
+    <div class="dupla">
+      <div class="campo">
+        <label for="data">Data</label>
+        <input type="date" id="data">
+      </div>
+      <div class="campo">
+        <label for="validade">Validade (dias)</label>
+        <input type="number" id="validade" value="15" min="1" max="90">
+      </div>
+    </div>
+
+    <h2>Serviços</h2>
+    <div id="itens"></div>
+    <button class="add" id="btnAdd">+ Adicionar linha</button>
+    <p class="ajuda">Escolha um serviço para preencher o preço automaticamente, ou escreva por cima.</p>
+
+    <h2>Tabela de preços</h2>
+    <div class="campo">
+      <label for="precos">Um serviço por linha, no formato <code>nome | preço</code></label>
+      <textarea id="precos" spellcheck="false"></textarea>
+    </div>
+    <p class="ajuda">Fica guardada neste computador. Alterar aqui atualiza as opções acima.</p>
+
+    <h2>Texto do processo</h2>
+    <div class="campo">
+      <label for="processo">Aparece em todos os orçamentos</label>
+      <textarea id="processo" spellcheck="false"></textarea>
+    </div>
+
+    <h2>Identidade</h2>
+    <div class="campo">
+      <label for="unidade">Unidade</label>
+      <input id="unidade" value="Doutor Sofá Lisboa">
+    </div>
+    <div class="campo">
+      <label for="ficheiroLogo">Logótipo</label>
+      <div class="logo-zona">
+        <input type="file" id="ficheiroLogo" accept="image/*" style="font-size:.8rem">
+      </div>
+      <p class="ajuda">O logótipo da marca já vem posto. Só carregue aqui se quiser outro.</p>
+    </div>
+
+    <h2>Acessos</h2>
+    <div class="campo">
+      <label for="novaPalavra">Gerar código para uma palavra-passe nova</label>
+      <input id="novaPalavra" placeholder="escreva a palavra-passe">
+    </div>
+    <div class="campo">
+      <label for="codigoGerado">Código a colar no ficheiro</label>
+      <input id="codigoGerado" readonly placeholder="aparece aqui">
+    </div>
+    <p class="ajuda">Abra o <code>index.html</code> num editor de texto, procure por <code>CONTAS</code> no início do script e substitua o código da conta.</p>
+  </div>
+
+  <!-- ================= FOLHA ================= -->
+  <div class="palco">
+    <div class="folha" id="folha">
+      <div class="faixa"></div>
+      <div class="faixa-base"></div>
+
+      <div class="cabecalho">
+        <img id="vLogo" alt="Doutor Sofá" hidden>
+        <div class="marca-texto" id="vMarca">doutor sofá<small>limpeza especializada</small></div>
+      </div>
+
+      <div class="titulo">
+        <b>Orçamento</b>
+        <span id="vData"></span>
+      </div>
+
+      <div class="dados">
+        <div><b>Cliente:</b> <span id="vCliente"></span></div>
+        <div><b>Morada:</b> <span id="vMorada"></span></div>
+        <div><b>Serviço pretendido:</b> <span id="vServicos"></span></div>
+      </div>
+
+      <div class="bloco-titulo">Informações do processo de limpeza</div>
+      <div class="processo" id="vProcesso"></div>
+
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Serviço</th><th>Valor</th></tr>
+        </thead>
+        <tbody id="vTabela"></tbody>
+      </table>
+
+      <div class="rodape-folha">
+        <p class="nota" id="vNota"></p>
+        <b id="vUnidade">Doutor Sofá Lisboa</b>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+/* =========================================================
+   CONTAS — utilizador e código da palavra-passe.
+   Para mudar uma palavra-passe: entre na aplicação, use
+   "Gerar código" no fim do painel e cole o resultado aqui.
+   Para acrescentar alguém, copie uma linha.
+
+   ATENÇÃO: isto trava quem tropeça no endereço, não é
+   segurança. O código está aqui à vista de quem abrir o
+   código-fonte da página. Nada de confidencial deve depender
+   desta porta.
+   ========================================================= */
+var CONTAS = {
+  "stefany":  "c29mYS1seC0yMDI2",
+  "vendedor": "dmVuZGFzLWx4LTIwMjY="
+};
+
+/* O logótipo da marca vai embutido no próprio ficheiro, e não como imagem
+   ao lado. Assim aparece em todo o lado sem ninguém ter de o carregar: no
+   site, no ficheiro aberto por duplo clique, e dentro do PNG exportado — o
+   html2canvas não consegue desenhar imagens de outra origem, e uma imagem
+   embutida não tem origem nenhuma. */
+var LOGO_PADRAO = "data:image/png;base64,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";
+
+/* ---------------- Valores por defeito ---------------- */
+var PRECOS_BASE = [
+  "Sofá 2 lugares — Limpeza | ",
+  "Sofá 3 lugares — Limpeza | 95",
+  "Sofá 3 lugares — Limpeza + impermeabilização | 215",
+  "Chaise longue — Limpeza | ",
+  "Cadeirão — Limpeza | ",
+  "Colchão individual — Higienização | ",
+  "Colchão de casal — Higienização | ",
+  "Tapete — Limpeza | ",
+  "Cadeiras — Limpeza (por unidade) | "
+].join("\n");
+
+var PROCESSO_BASE =
+"A limpeza é feita na morada indicada 🏠, sem sujidades, sem inconvenientes, e dura em média 1h a 2h.\n\n" +
+"🧽 Utilizamos o método semi-seco de lavagem, que permite extrair sujidade até 5 centímetros abaixo da superfície dos tecidos.\n" +
+"💦 A aplicação dos produtos é feita com um pulverizador que dispersa gotículas de água, produtos de limpeza e higienizantes.\n" +
+"🚀 Efetuamos uma higienização de alta qualidade, por extração industrial de todos os resíduos de lavagem.\n" +
+"✅ Eliminamos o mau odor de todos os tipos — suor, bolor, vómito ou semelhantes. Alguns, como urina animal, podem ser mais difíceis de remover por completo, mas tentamos igualmente.\n" +
+"🎯 Nódoas: a remoção total depende do tipo de nódoa, do tipo de tecido e do tempo que está no tecido, pelo que não podemos garantir que saiam todas por completo.\n" +
+"💨 A secagem é rápida: em ambiente ventilado demora até 24h.";
+
+/* ---------------- Armazenamento ---------------- */
+function ler(chave, alternativa){
+  try{ var v = localStorage.getItem(chave); return v === null ? alternativa : v; }
+  catch(e){ return alternativa; }
+}
+function guardar(chave, valor){
+  try{ localStorage.setItem(chave, valor); }catch(e){}
+}
+
+/* ---------------- Elementos ---------------- */
+var el = function(id){ return document.getElementById(id); };
+var campos = ["cliente","morada","telefone","data","validade","unidade"];
+
+/* ---------------- Preços ---------------- */
+function listaPrecos(){
+  return el("precos").value.split("\n").map(function(l){
+    var p = l.split("|");
+    if(!p[0] || !p[0].trim()) return null;
+    return { nome: p[0].trim(), valor: (p[1] || "").trim() };
+  }).filter(Boolean);
+}
+
+function criarLinha(nome, valor){
+  var div = document.createElement("div");
+  div.className = "linha-item";
+
+  var sel = document.createElement("select");
+  sel.innerHTML = '<option value="">— escolher serviço —</option>';
+  listaPrecos().forEach(function(p){
+    var o = document.createElement("option");
+    o.value = p.nome; o.textContent = p.nome; o.dataset.valor = p.valor;
+    sel.appendChild(o);
+  });
+  if(nome) sel.value = nome;
+  sel.setAttribute("aria-label", "Serviço");
+
+  var val = document.createElement("input");
+  val.type = "text"; val.inputMode = "decimal"; val.placeholder = "€";
+  val.value = valor || "";
+  val.setAttribute("aria-label", "Valor em euros");
+
+  var del = document.createElement("button");
+  del.className = "apagar"; del.type = "button";
+  del.textContent = "×"; del.title = "Remover linha";
+  /* O "×" sozinho é lido como "vezes" por um leitor de ecrã. */
+  del.setAttribute("aria-label", "Remover esta linha");
+
+  sel.addEventListener("change", function(){
+    var o = sel.options[sel.selectedIndex];
+    if(o && o.dataset.valor) val.value = o.dataset.valor;
+    desenhar();
+  });
+  val.addEventListener("input", desenhar);
+  del.addEventListener("click", function(){ div.remove(); desenhar(); });
+
+  div.appendChild(sel); div.appendChild(val); div.appendChild(del);
+  el("itens").appendChild(div);
+}
+
+function recarregarOpcoes(){
+  var atuais = [];
+  document.querySelectorAll(".linha-item").forEach(function(d){
+    atuais.push({ nome: d.querySelector("select").value, valor: d.querySelector("input").value });
+  });
+  el("itens").innerHTML = "";
+  if(!atuais.length) atuais = [{nome:"",valor:""}];
+  atuais.forEach(function(i){ criarLinha(i.nome, i.valor); });
+  desenhar();
+}
+
+/* ---------------- Desenhar a folha ---------------- */
+function euro(n){
+  return n.toLocaleString("pt-PT",{minimumFractionDigits:2,maximumFractionDigits:2}) + " €";
+}
+
+function dadosItens(){
+  var out = [];
+  document.querySelectorAll(".linha-item").forEach(function(d){
+    var nome = d.querySelector("select").value;
+    var bruto = d.querySelector("input").value.replace(",",".").replace(/[^0-9.]/g,"");
+    if(!nome) return;
+    out.push({ nome: nome, valor: bruto === "" ? null : parseFloat(bruto) });
+  });
+  return out;
+}
+
+function desenhar(){
+  var d = el("data").value ? new Date(el("data").value + "T12:00:00") : new Date();
+  el("vData").textContent = d.toLocaleDateString("pt-PT");
+  el("vCliente").textContent = el("cliente").value || "—";
+  el("vMorada").textContent = el("morada").value || "—";
+  el("vUnidade").textContent = el("unidade").value || "Doutor Sofá";
+  el("vProcesso").textContent = el("processo").value;
+
+  var itens = dadosItens();
+
+  el("vServicos").textContent = itens.length
+    ? itens.map(function(i){ return i.nome; }).join(" + ")
+    : "—";
+
+  var corpo = el("vTabela");
+  corpo.innerHTML = "";
+  var total = 0, temValores = false;
+
+  itens.forEach(function(i){
+    var partes = i.nome.split("—");
+    var item = partes[0].trim();
+    var servico = partes.length > 1 ? partes.slice(1).join("—").trim() : "Limpeza";
+    var tr = document.createElement("tr");
+    var tdI = document.createElement("td"); tdI.textContent = item;
+    var tdS = document.createElement("td"); tdS.className = "serv"; tdS.textContent = servico;
+    var tdV = document.createElement("td"); tdV.className = "val";
+    if(i.valor !== null && !isNaN(i.valor)){ tdV.textContent = euro(i.valor); total += i.valor; temValores = true; }
+    else { tdV.textContent = "sob consulta"; }
+    tr.appendChild(tdI); tr.appendChild(tdS); tr.appendChild(tdV);
+    corpo.appendChild(tr);
+  });
+
+  if(itens.length > 1 && temValores){
+    var tr = document.createElement("tr");
+    tr.className = "total";
+    tr.innerHTML = '<td></td><td class="serv">Total</td><td class="val">' + euro(total) + '</td>';
+    corpo.appendChild(tr);
+  }
+
+  var dias = parseInt(el("validade").value, 10) || 15;
+  el("vNota").textContent =
+    "Orçamento válido por " + dias + " dias. Valores com IVA incluído. " +
+    "Pagamento no final do serviço, por MB Way, Multibanco, transferência ou numerário.";
+
+  campos.forEach(function(c){ guardar("ds_" + c, el(c).value); });
+  guardar("ds_precos", el("precos").value);
+  guardar("ds_processo", el("processo").value);
+  ajustarEscala();
+}
+
+/* ---------------- Escala do pré-visualizador ---------------- */
+function ajustarEscala(){
+  var palco = document.querySelector(".palco");
+  var folha = el("folha");
+  folha.style.transform = "none";
+  var largura = palco.clientWidth;
+  var precisa = folha.offsetWidth;
+  if(precisa > largura){
+    var f = largura / precisa;
+    folha.style.transform = "scale(" + f + ")";
+    palco.style.height = (folha.offsetHeight * f) + "px";
+  } else {
+    palco.style.height = "auto";
+  }
+}
+window.addEventListener("resize", ajustarEscala);
+
+/* ---------------- Ações ---------------- */
+el("btnPdf").addEventListener("click", function(){ window.print(); });
+
+el("btnPng").addEventListener("click", function(){
+  if(typeof html2canvas !== "function"){
+    alert("A biblioteca que desenha a imagem não carregou. Verifique a ligação à Internet, ou use «Guardar PDF».");
+    return;
+  }
+  var folha = el("folha");
+  var anterior = folha.style.transform;
+  folha.style.transform = "none";
+  html2canvas(folha, { scale: 2, backgroundColor: "#ffffff", useCORS: true }).then(function(canvas){
+    folha.style.transform = anterior;
+    var a = document.createElement("a");
+    var nome = (el("cliente").value || "orcamento").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    a.download = "orcamento-" + nome + ".png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
+  }).catch(function(){ folha.style.transform = anterior; });
+});
+
+el("btnZap").addEventListener("click", function(){
+  var tel = el("telefone").value.replace(/\D/g,"");
+  if(tel.length === 9) tel = "351" + tel;
+  var itens = dadosItens();
+  var linhas = itens.map(function(i){
+    return "• " + i.nome + (i.valor !== null && !isNaN(i.valor) ? " — " + euro(i.valor) : " — sob consulta");
+  });
+  var texto = "Olá " + (el("cliente").value || "") + ", aqui está o seu orçamento:\n\n"
+    + linhas.join("\n")
+    + "\n\nValores com IVA incluído, válidos por " + (el("validade").value || 15) + " dias."
+    + "\nPagamento só no final do serviço.\n\nQuando lhe dá jeito marcarmos?";
+  window.open("https://wa.me/" + tel + "?text=" + encodeURIComponent(texto), "_blank");
+});
+
+el("btnNovo").addEventListener("click", function(){
+  ["cliente","morada","telefone"].forEach(function(c){ el(c).value = ""; });
+  el("itens").innerHTML = "";
+  criarLinha("","");
+  el("data").valueAsDate = new Date();
+  desenhar();
+  el("cliente").focus();
+});
+
+el("btnAdd").addEventListener("click", function(){ criarLinha("",""); });
+
+el("ficheiroLogo").addEventListener("change", function(e){
+  var f = e.target.files[0];
+  if(!f) return;
+  var r = new FileReader();
+  r.onload = function(ev){ guardar("ds_logo", ev.target.result); mostrarLogo(ev.target.result); };
+  r.readAsDataURL(f);
+});
+
+function mostrarLogo(src){
+  if(!src) return;
+  el("vLogo").src = src;
+  el("vLogo").hidden = false;
+  el("vMarca").hidden = true;
+}
+
+/* ---------------- Entrada ---------------- */
+function abrirApp(){
+  document.getElementById("entrada").hidden = true;
+  document.getElementById("entrada").style.display = "none";
+  document.getElementById("app").classList.add("ativa");
+  ajustarEscala();
+}
+
+document.getElementById("formEntrada").addEventListener("submit", function(e){
+  e.preventDefault();
+  var u = el("utilizador").value.trim().toLowerCase();
+  var p = el("palavra").value;
+  var esperado = CONTAS[u];
+  var ok = false;
+  try{ ok = esperado && atob(esperado) === p; }catch(err){ ok = false; }
+  if(ok){
+    try{ sessionStorage.setItem("ds_sessao", u); }catch(err){}
+    el("erroEntrada").hidden = true;
+    abrirApp();
+  } else {
+    el("erroEntrada").hidden = false;
+    el("palavra").value = "";
+    el("palavra").focus();
+  }
+});
+
+el("btnSair").addEventListener("click", function(){
+  try{ sessionStorage.removeItem("ds_sessao"); }catch(err){}
+  location.reload();
+});
+
+el("novaPalavra").addEventListener("input", function(){
+  var v = el("novaPalavra").value;
+  var saida = "";
+  if(v){ try{ saida = btoa(v); }catch(err){ saida = "caracteres não suportados"; } }
+  el("codigoGerado").value = saida;
+});
+
+try{
+  if(sessionStorage.getItem("ds_sessao")) abrirApp();
+}catch(err){}
+
+/* ---------------- Arranque ---------------- */
+campos.forEach(function(c){
+  var guardado = ler("ds_" + c, null);
+  if(guardado !== null && c !== "data") el(c).value = guardado;
+  el(c).addEventListener("input", desenhar);
+});
+el("data").valueAsDate = new Date();
+
+el("precos").value = ler("ds_precos", PRECOS_BASE);
+el("processo").value = ler("ds_processo", PROCESSO_BASE);
+el("precos").addEventListener("input", function(){ guardar("ds_precos", el("precos").value); recarregarOpcoes(); });
+el("processo").addEventListener("input", desenhar);
+
+mostrarLogo(ler("ds_logo", LOGO_PADRAO));
+criarLinha("Sofá 3 lugares — Limpeza", "95");
+desenhar();
+</script>
+
+</body>
+</html>
