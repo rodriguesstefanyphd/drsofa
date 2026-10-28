@@ -1,7 +1,7 @@
 # drsofa
 
 Landing page da unidade de Lisboa do Doutor Sofá — limpeza e higienização de
-sofás, colchões e estofos ao domicílio.
+sofás, colchões e tapetes ao domicílio.
 
 Site estático, sem build: `index.html`, `privacidade.html` e a pasta `images/`.
 Publica-se como está em qualquer alojamento estático.
